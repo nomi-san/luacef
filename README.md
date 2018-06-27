@@ -6,30 +6,44 @@ Chromium Embedded Framework for Lua
 #### Example
 
 ```lua
-cef = require("luacef")
+local cef = require("luacef") -- require library
 
-args = cef.newMainArgs() -- new main args
-app = cef.newApp() -- new app handler
+local args, app = cef.newMainArgs(), cef.newApp() -- new main args, app
 
-code = cef.ExecuteProcess(args, app)
-if (code >= 0) then os.exit() end -- check for execute
+local code = cef.ExecuteProcess(args, app) -- check execute, not necessary
+if (code >= 0) then os.exit() end
 
-settings = cef.newSettings() -- new settings
+local settings = cef.newSettings {
+	single_process = 1; -- in Lua command line, cannot run multiple process
+}						-- should set to 0 for self-running (independent executable program)
 
-cef.Initialize(args, settings, app) -- initialize
+code = cef.Initialize(args, settings, app) -- initialize
+if (code == 0) then os.exit() end
 
-wininfo = cef.newWindowInfo { -- new window info
-	window_name = "Hello World!";
+local window_info = cef.newWindowInfo {
+	window_name = "Hello World!"; -- set window name
 }
 
-bs = cef.newBrowserSettings() -- new browser settings
+local browser_settings = cef.newBrowserSettings()
+local life_span = cef.newLifeSpanHandler { -- create life span handler
+	OnAfterCreated = function(browser) -- event
+		print("-- on after created --")
+	end;
+	OnBeforeClose = function(browser)
+		print("-- on before close --")
+		cef.QuitMessageLoop()
+	end;
+}
 
-client = cef.newClient() -- new client handler
+local client = cef.newClient { -- new client
+	LifeSpanHandler = life_span; -- add life span handler to client
+}
 
-url = "https://google.com.vn" -- url
+local url = "https://www.google.com" -- url
+cef.CreateBrowser(window_info, client, url, browser_settings) -- create browser
 
-cef.CreateBrowser(wininfo, client, url, bs) -- create browser
+cef.RunMessageLoop()
+cef.Shutdown()
 
-cef.RunMessageLoop() -- run message loop
-cef.Shutdown() -- shutdown
+cef.delete(client) -- clean
 ```
