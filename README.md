@@ -3,7 +3,8 @@ Chromium Embedded Framework for Lua
 
 -- __todo__
 
-#### Sample
+#### Example
+
 ```lua
 cef = require("luacef")
 
