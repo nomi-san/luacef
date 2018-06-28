@@ -6,6 +6,7 @@ Chromium Embedded Framework for Lua
 #### Example
 
 ```lua
+
 local cef = require("luacef") -- require library
 
 local args, app = cef.newMainArgs(), cef.newApp() -- new main args, app
@@ -26,12 +27,13 @@ local window_info = cef.newWindowInfo {
 
 local browser_settings = cef.newBrowserSettings()
 local life_span = cef.newLifeSpanHandler { -- create life span handler
-	OnAfterCreated = function(browser) -- event
+	OnAfterCreated = function(self, browser) -- event
 		print("-- on after created --")
+		cef.ShowBrowser(browser) -- show window
 	end;
-	OnBeforeClose = function(browser)
+	OnBeforeClose = function(self, browser)
 		print("-- on before close --")
-		cef.QuitMessageLoop()
+		cef.QuitMessageLoop() -- quit cef messgae loop
 	end;
 }
 
@@ -39,12 +41,13 @@ local client = cef.newClient { -- new client
 	LifeSpanHandler = life_span; -- add life span handler to client
 }
 
-local url = "https://www.google.com" -- url
+local url = 'https://www.google.com/' -- url
 cef.CreateBrowser(window_info, client, url, browser_settings) -- create browser
 
 cef.RunMessageLoop()
 cef.Shutdown()
 
 cef.delete(client) -- clean
+
 ```
 
