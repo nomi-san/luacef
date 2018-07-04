@@ -1,5 +1,5 @@
 <p align="center">
-	<a href="https://github.com/wy3">
+	<a href="https://github.com/wy3/luacef">
 		<img src="https://github.com/wy3/luacef/raw/master/lcf.png" alt="" width="215px">
 	</a>
 	<h1 align="center"> LuaCEF </h1>
