@@ -1,5 +1,10 @@
-# luacef
-Chromium Embedded Framework for Lua
+<p align="center">
+	<img src="https://github.com/wy3/luacef/raw/master/lcf.png" width="215px">
+	<h1 align="center"> LuaCEF </h1>
+	<p align="center">
+    	<strong> Chromium Embedded Framework for Lua. </strong>
+ 	</p>
+</p>
 
 -- __todo__
 
