@@ -1,5 +1,7 @@
 <p align="center">
-	<img src="https://github.com/wy3/luacef/raw/master/lcf.png" width="215px">
+	<a href="https://github.com/wy3">
+		<img src="https://github.com/wy3/luacef/raw/master/lcf.png" alt="" width="215px">
+	</a>
 	<h1 align="center"> LuaCEF </h1>
 	<p align="center">
     	<strong> Chromium Embedded Framework for Lua. </strong>
