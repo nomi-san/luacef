@@ -13,48 +13,83 @@
 #### Example
 
 ```lua
+-- require library
+cef = require("luacef")
 
-local cef = require("luacef") -- require library
+-- new main args, app
+local args, app = cef.newMainArgs(), cef.newApp()
 
-local args, app = cef.newMainArgs(), cef.newApp() -- new main args, app
-
-local code = cef.ExecuteProcess(args, app) -- check execute, not necessary
+-- execute process and check, not necessary
+local code = cef.ExecuteProcess(args, app)
 if (code >= 0) then os.exit() end
 
+-- new cef settings
 local settings = cef.newSettings {
-	single_process = 1; -- in Lua command line, cannot run multiple process
-}						-- should set to 0 for self-running (independent executable program)
+	single_process = 1; -- Lua interpreter cannot run multipl-process
+						-- must set to 0 for self-running (independent executable program)
+	log_severity = 99;	-- disable debug log file				
+}
 
-code = cef.Initialize(args, settings, app) -- initialize
+-- initialize application
+code = cef.Initialize(args, settings, app)
 if (code == 0) then os.exit() end
 
+-- create window info
 local window_info = cef.newWindowInfo {
-	window_name = "Hello World!"; -- set window name
+	-- set window name
+	window_name = "Hello World!"; -- Lua string convert to utf8 cef string, it accept unicode
 }
 
+-- create browser settings for create browser
 local browser_settings = cef.newBrowserSettings()
-local life_span = cef.newLifeSpanHandler { -- create life span handler
+
+-- create life span handler
+local life_span = cef.newLifeSpanHandler {
+
+	-- implement OnAfterCreated callback function
 	OnAfterCreated = function(self, browser) -- event
 		print("-- on after created --")
-		cef.ShowBrowser(browser) -- show window
-	end;
-	OnBeforeClose = function(self, browser)
-		print("-- on before close --")
-		cef.QuitMessageLoop() -- quit cef messgae loop
+		print(self, browser) --> LifeSpanHandler: <address>, Browser: <address>
+
+		-- show browser window
+		cef.ShowBrowser(browser, 10)
 	end;
 }
 
-local client = cef.newClient { -- new client
-	LifeSpanHandler = life_span; -- add life span handler to client
+-- implement OnBeforeClose with other way
+function life_span:OnBeforeClose(browser)
+	print("-- on before close --")
+
+	-- test browser's method
+	print('can go back:', browser:CanGoBack())
+	print('can go forward:', browser:CanGoForward())
+
+	-- quit cef messgae loop
+	cef.QuitMessageLoop()
+end;
+
+-- new client, with life span handler
+local client = cef.newClient {
+	LifeSpanHandler = life_span;
 }
 
-local url = 'https://www.google.com/' -- url
-cef.CreateBrowser(window_info, client, url, browser_settings) -- create browser
+-- url string
+local url = 'https://www.google.com/'
 
+-- create browser window
+cef.CreateBrowser(window_info, client, url, browser_settings) 
+
+-- run message loop
+-- in cef settings, if multi_threaded_message_loop = 1, must use window message loop
 cef.RunMessageLoop()
+
+-- shutdown
 cef.Shutdown()
 
-cef.delete(client) -- clean
-
+-- release object
+-- not necessary, it has __gc method
+client:release()
+app:release()
+life_span:release()
 ```
 
