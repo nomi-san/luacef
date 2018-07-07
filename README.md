@@ -38,7 +38,7 @@ if (code == 0) then os.exit() end
 -- create window info
 local window_info = cef.newWindowInfo {
 	-- set window name
-	window_name = "Hello World!"; -- Lua string convert to utf8 cef string, it accept unicode
+	window_name = "Hello World!"; -- Lua string be convert to cef string, accept unicode
 }
 
 -- create browser settings for create browser
