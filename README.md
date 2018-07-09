@@ -13,24 +13,23 @@
 ### How to store pointer?
 
 ```erlang
-	lua:newuuserdata <- alloc [4-byte]
-	~~~~~~~~~~~~~~~~
-	       |
-	       v
-	    <ptr**> -> <ptr*> = <udata*> <- alloc [n-byte]
-	       |                   |---> ::free
-	       v                   |---> ::set, get
-	    <self**>  <------------|      ~~~~~~~~
-	    ~~~~~~~~                          ^
-	       |                               \
-	       v                             ~~~~~~~~~
-	[method, property] <- <metatable> -> reference
-	       |
-	       v
-	     return
+lua:newuuserdata <- alloc [4-byte]
+~~~~~~~~~~~~~~~~
+       |
+       v
+    <ptr**> -> <ptr*> = <udata*> <- alloc [n-byte]
+       |                   |---> ::free
+       v                   |---> ::set, get
+    <self**>  <------------|      ~~~~~~~~
+    ~~~~~~~~                          ^
+       |                               \
+       v                             ~~~~~~~~~
+[method, property] <- <metatable> -> reference
+       |
+       v
+     return
 
-	  __LUA_side__
-
+  __LUA_side__
 ```
 
 #### Example
