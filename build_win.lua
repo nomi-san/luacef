@@ -63,4 +63,4 @@ for m = 1, #c do
 end
 
 ec( a .. ' -L../lua -L../cef -llua53 -llibcef -lole32')
-ec('del *.o')
+--ec('del *.o')
