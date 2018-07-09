@@ -12,7 +12,7 @@
 
 ### How to store pointer?
 
-```js
+```erlang
 	lua:newuuserdata <- alloc [4-byte]
 	~~~~~~~~~~~~~~~~
 	       |
