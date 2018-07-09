@@ -125,3 +125,6 @@ life_span:release()
 --]]
 ```
 
+### License
+
+[Apache 2.0](https://github.com/wy3/luacef/blob/master/LICENSE)
