@@ -13,7 +13,7 @@
 ### How to store pointer?
 
 ```erlang
-lua:newuuserdata <- alloc [4-byte]
+ lua:newuserdata  <- alloc [4-byte]
 ~~~~~~~~~~~~~~~~
        |
        v
