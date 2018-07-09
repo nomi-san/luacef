@@ -83,8 +83,8 @@ static int luacef_frame_del(lua_State* L)
 static int luacef_frame_execute_java_script(lua_State* L)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
-	const cef_string_t code = luacef_string_from_cs(lua_tostring(L, 2));
-	const cef_string_t url = luacef_string_from_cs(lua_tostring(L, 3));
+	const cef_string_t code = luacef_tostring(L, 2);
+	const cef_string_t url = luacef_tostring(L, 3);
 	int start_line = lua_tointeger(L, 4);
 
 	f->execute_java_script(f, &code, &url, start_line);

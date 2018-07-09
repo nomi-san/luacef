@@ -99,7 +99,7 @@ static const char *_wi_windowless_rendering_enabled = "windowless_rendering_enab
 
 	} -> <WindowInfo>
 */
-static int luacef_window_info_new(PLS L)
+static int luacef_window_info_new(lua_State* L)
 {
 	size_t sz = sizeof(cef_window_info_t);
 	cef_window_info_t *wi = luacef_newuserdata(L, sz);
@@ -115,7 +115,7 @@ static int luacef_window_info_new(PLS L)
 	if (lua_istable(L, 1)) {
 
 		if (lua_getfield(L, 1, _wi_window_name))
-			wi->window_name = luacef_string_from_wcs(lua_towstring(L, -1));
+			wi->window_name = luacef_tostring(L, -1);
 
 		if (lua_getfield(L, 1, _wi_style))
 			wi->style = lua_tointeger(L, -1);
@@ -142,7 +142,7 @@ static int luacef_window_info_new(PLS L)
 			wi->menu = lua_touserdata(L, -1);
 
 		if (lua_getfield(L, 1, _wi_transparent_painting_enabled))
-			wi->transparent_painting_enabled = lua_tointeger(L, -1);
+			;//wi->transparent_painting_enabled = lua_tointeger(L, -1);
 
 		if (lua_getfield(L, 1, _wi_window))
 			wi->window = lua_touserdata(L, -1);
@@ -159,7 +159,7 @@ static int luacef_window_info_new(PLS L)
 
 static luacef_window_info_index(lua_State* L)
 {
-	cef_window_info_t* wi = luacef_checkudata(L, 1, __window_info__);
+	cef_window_info_t* wi = luacef_touserdata(L, 1);
 	if (!wi) return 0;
 
 	const char* index = lua_tostring(L, 2);
@@ -189,7 +189,7 @@ static luacef_window_info_index(lua_State* L)
 		lua_pushlightuserdata(L, wi->menu);
 
 	else if (!strcmp(index, _wi_transparent_painting_enabled))
-		lua_pushinteger(L, wi->transparent_painting_enabled);
+		;//lua_pushinteger(L, wi->transparent_painting_enabled);
 
 	else if (!strcmp(index, _wi_window))
 		lua_pushlightuserdata(L, wi->window);
@@ -198,7 +198,7 @@ static luacef_window_info_index(lua_State* L)
 		lua_pushinteger(L, wi->windowless_rendering_enabled);
 
 	else if (!strcmp(index, _wi_window_name))
-		lua_pushstring(L, luacef_string_to_cs(wi->window_name));
+		luacef_pushstring(L, &wi->window_name);
 
 	else
 		luacef_error_index(L, index);
@@ -238,7 +238,7 @@ static luacef_window_info_newindex(lua_State* L)
 		wi->menu = lua_touserdata(L, 3);
 
 	else if (!strcmp(index, _wi_transparent_painting_enabled))
-		wi->transparent_painting_enabled = lua_tointeger(L, 3);
+		;//wi->transparent_painting_enabled = lua_tointeger(L, 3);
 
 	else if (!strcmp(index, _wi_window))
 		wi->window = lua_touserdata(L, 3);
@@ -257,7 +257,7 @@ static luacef_window_info_newindex(lua_State* L)
 
 static const luaL_Reg luacef_window_info_m[] = {
 	{ "__gc" , luacef_release },
-	{ "__index" , luacef_main_args_index },
+	{ "__index" , luacef_window_info_index },
 	{ "__newindex" , luacef_window_info_newindex },
 	{ NULL, NULL }
 };
@@ -355,7 +355,7 @@ static int luacef_settings_new(lua_State* L)
 			s->command_line_args_disabled = lua_tointeger(L, -1);
 
 		if (lua_getfield(L, 1, _s_context_safety_implementation))
-			s->context_safety_implementation = lua_tointeger(L, -1);
+			;//s->context_safety_implementation = lua_tointeger(L, -1);
 
 		if (lua_getfield(L, 1, _s_external_message_pump))
 			s->external_message_pump = lua_tointeger(L, -1);
@@ -544,7 +544,7 @@ static const char *_bs_universal_access_from_file_urls	= "universal_access_from_
 int luacef_browser_settings_new(lua_State* L)
 {
 	size_t sz = sizeof(cef_browser_settings_t);
-	cef_browser_settings_t *bs = luacef_newuserdata(L, sz);
+	cef_browser_settings_t *bs = calloc(1, sz);
 	bs->size = sz;
 	
 	/*
@@ -595,7 +595,7 @@ int luacef_browser_settings_new(lua_State* L)
 			bs->background_color = lua_tointeger(L, -1); //int
 
 		if (lua_getfield(L, 1, _bs_caret_browsing))
-			bs->caret_browsing = lua_tointeger(L, -1); //state
+			;// bs->caret_browsing = lua_tointeger(L, -1); //state
 
 		if (lua_getfield(L, 1, _bs_cursive_font_family))
 			bs->cursive_font_family = luacef_to_cefstring_from_cs(L, -1); //str
@@ -640,7 +640,7 @@ int luacef_browser_settings_new(lua_State* L)
 			bs->javascript_dom_paste = lua_tointeger(L, -1); //state
 
 		if (lua_getfield(L, 1, _bs_javascript_open_windows))
-			bs->javascript_open_windows = lua_tointeger(L, -1); //state
+			;// bs->javascript_open_windows = lua_tointeger(L, -1); //state
 
 		if (lua_getfield(L, 1, _bs_local_storage))
 			bs->local_storage = lua_tointeger(L, -1); //state
@@ -683,11 +683,9 @@ int luacef_browser_settings_new(lua_State* L)
 
 		if (lua_getfield(L, 1, _bs_windowless_frame_rate))
 			bs->windowless_frame_rate = lua_tointeger(L, -1); //int
-
-		lua_pushvalue(L, -34);
 	}
 	
-	luaL_setmetatable(L, __browser_settings__);
+	luacef_pushuserdata(L, bs, __browser_settings__);
 	return 1;
 }
 
@@ -708,7 +706,7 @@ int luacef_browser_settings_index(lua_State* L)
 		lua_pushinteger(L, bs->background_color); //int
 
 	else if (!strcmp(index, _bs_caret_browsing))
-		lua_pushinteger(L, bs->caret_browsing); //state
+		;// lua_pushinteger(L, bs->caret_browsing); //state
 
 	else if (!strcmp(index, _bs_cursive_font_family))
 		luacef_pushstring(L, &bs->cursive_font_family); //str
@@ -753,7 +751,7 @@ int luacef_browser_settings_index(lua_State* L)
 		lua_pushinteger(L, bs->javascript_dom_paste); //state
 
 	else if (!strcmp(index, _bs_javascript_open_windows))
-		lua_pushinteger(L, bs->javascript_open_windows); //state
+		;// lua_pushinteger(L, bs->javascript_open_windows); //state
 
 	else if (!strcmp(index, _bs_local_storage))
 		lua_pushinteger(L, bs->local_storage); //state
@@ -820,7 +818,7 @@ int luacef_browser_settings_newindex(lua_State* L)
 		bs->background_color = lua_tointeger(L, 3); //int
 
 	else if (!strcmp(index, _bs_caret_browsing))
-		bs->caret_browsing = lua_tointeger(L, 3); //state
+		;// bs->caret_browsing = lua_tointeger(L, 3); //state
 
 	else if (!strcmp(index, _bs_cursive_font_family))
 		bs->cursive_font_family = luacef_to_cefstring_from_cs(L, 3); //str
@@ -865,7 +863,7 @@ int luacef_browser_settings_newindex(lua_State* L)
 		bs->javascript_dom_paste = lua_tointeger(L, 3); //state
 
 	else if (!strcmp(index, _bs_javascript_open_windows))
-		bs->javascript_open_windows = lua_tointeger(L, 3); //state
+		;// bs->javascript_open_windows = lua_tointeger(L, 3); //state
 
 	else if (!strcmp(index, _bs_local_storage))
 		bs->local_storage = lua_tointeger(L, 3); //state
@@ -922,6 +920,15 @@ static const luaL_Reg luacef_browser_settings_m[] = {
 	{ NULL, NULL}
 };
 
+
+
+
+
+
+
+
+
+//=========================================
 
 void luacef_types_reg(lua_State* L)
 {

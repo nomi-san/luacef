@@ -1,9 +1,75 @@
 #include "luacef_types.h"
 
 /*
-	cef.ShowBrowser(
-		<Browser> [, <int>]
-	) -> <nil>
+	<bool> IsCertStatusError(
+		<int>	status
+	)
+*/
+static int luacef_is_cert_status_error(lua_State* L)
+{
+	int stt = luaL_checkinteger(L, 1);
+
+	lua_pushboolean(L, cef_is_cert_status_error(stt));
+	return 1;
+}
+
+/*
+	<bool> IsCertStatusMinorError(
+		<int>	status
+	)
+*/
+static int luacef_is_cert_status_minor_error(lua_State* L)
+{
+	int stt = luaL_checkinteger(L, 1);
+
+	lua_pushboolean(L, cef_is_cert_status_minor_error(stt));
+	return 1;
+}
+
+/*
+	<void> IsWebPluginUnstable(
+		<str>						path,
+		<WebPluginUnstableCallback>	status
+	)
+*/
+static int luacef_is_web_plugin_unstable(lua_State* L)
+{
+	const char *cs = lua_tostring(L, 1);
+	cef_web_plugin_unstable_callback_t *cb = luacef_checkudata(L, 2, __web_plugin_unstable_callback__);
+
+	cef_string_t s = { 0 };
+	cef_string_from_utf8(cs, strlen(cs), &s);
+
+	cef_is_web_plugin_unstable(&s, cb);
+	return 0;
+}
+;
+
+/*
+	<int> VersionInfo(
+		<int>	entry
+	)
+	Entry list:
+	0 - CEF_VERSION_MAJOR
+	1 - CEF_COMMIT_NUMBER
+	2 - CHROME_VERSION_MAJOR
+	3 - CHROME_VERSION_MINOR
+	4 - CHROME_VERSION_BUILD
+	5 - CHROME_VERSION_PATCH
+*/
+static int luacef_version_info(lua_State* L)
+{
+	int entry = luaL_checkinteger(L, 1);
+	
+	lua_pushinteger(L, cef_version_info(entry));
+	return 1;
+}
+
+/*
+	<void> ShowBrowser(
+		<Browser>	browser
+		[, <int>	show_flag]
+	)
 */
 static int luacef_show_browser(lua_State* L)
 {
@@ -14,7 +80,7 @@ static int luacef_show_browser(lua_State* L)
 }
 
 /*
-	cef.Shutdown() -> <nil>
+	<void> Shutdown()
 */
 static int luacef_shutdown(lua_State* L)
 {
@@ -23,7 +89,7 @@ static int luacef_shutdown(lua_State* L)
 }
 
 /*
-	cef.RunMessageLoop() -> <nil>
+	<void> RunMessageLoop()
 */
 static int luacef_run_message_loop(lua_State* L)
 {
@@ -32,7 +98,7 @@ static int luacef_run_message_loop(lua_State* L)
 }
 
 /*
-	cef.DoMessageLoopWork() -> <nil>
+	<void> DoMessageLoopWork()
 */
 static int luacef_do_message_loop_work(lua_State* L)
 {
@@ -112,7 +178,7 @@ static int luacef_initialize(lua_State* L)
 		<Settings>
 	) -> <int>
 */
-static int luacef_create_browser(PLS L)
+static int luacef_create_browser(lua_State* L)
 {
 	cef_window_info_t *winfo = luacef_checkudata(L, 1, __window_info__);
 	if (!winfo) return 0;
@@ -120,7 +186,10 @@ static int luacef_create_browser(PLS L)
 	cef_client_t *client = luacef_checkudata(L, 2, __client__);
 	if (!client) return 0;
 
-	cef_string_t url = luacef_string_from_cs(luaL_checkstring(L, 3));
+	const char *cs_url = lua_tostring(L, 3);
+
+	cef_string_t url = { 0 };
+	cef_string_from_utf8(cs_url, strlen(cs_url), &url);
 
 	cef_browser_settings_t *bs = luacef_checkudata(L, 4, __browser_settings__);
 	if (!bs) return 0;
@@ -145,7 +214,7 @@ static int luacef_create_browser(PLS L)
 		<BrowserSettings>
 	) -> <Browser>
 */
-static int luacef_create_browser_sync(PLS L)
+static int luacef_create_browser_sync(lua_State* L)
 {
 	cef_window_info_t *winfo = luacef_checkudata(L, 1, __window_info__);
 	if (!winfo) return 0;
@@ -153,7 +222,7 @@ static int luacef_create_browser_sync(PLS L)
 	cef_client_t *client = luacef_checkudata(L, 2, __client__);
 	if (!client) return 0;
 
-	cef_string_t url = luacef_string_from_cs(luaL_checkstring(L, 3));
+	cef_string_t url = luacef_tostring(L, 3);
 
 	cef_browser_settings_t *bs = luacef_checkudata(L, 4, __browser_settings__);
 	if (!bs) return 0;

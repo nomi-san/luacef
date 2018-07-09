@@ -1,5 +1,23 @@
 #pragma once
 
+/*
+     _         
+    | |_ _ ___
+    | | | | _ |/
+    |_|___|_|_|/              _
+         ___| |_ __ ___ _____|_|_ _ _____
+        |  _|   | _| _ |     | | | |     ||
+        |___|_|_|_||___|_|_|_|_|___|_|_|_||     _
+                ___ _____| |_ ___ _| |_| |___ _| ||
+               | -_|     | _ | -_| _ | _ | -_| _ ||
+               |___|_|_|_|___|___|___|___|___|___||    _ 
+                      | _|_ ___ _____ ___ _ _ _ ___ __| |__
+                      | | _| _ |     | -_| | | | _ | _| _//
+                      |_|_||_|_|_|_|_|___|_____|___|_||_|\/
+
+		-- Chromium Embedded Framework for Lua --
+*/
+
 #ifdef BUILD_AS_DLL
 #define LUACEF_API __declspec(dllexport)
 #else
@@ -10,20 +28,21 @@
 extern "C" {
 #endif
 
+#include <math.h>
 #include "lua.h"
 #include "lapi.h"
 #include "lauxlib.h"
 
-/////////////////////////
+//////////////////////////////////////
+#include "include/cef_version.h"
 #include "include/capi/cef_app_capi.h"
 #include "include/capi/cef_base_capi.h"
 #include "include/capi/cef_client_capi.h"
+#include "include/internal/cef_types.h""
 
-#include "app/luacef_app.h"
-#include "base/luacef_base.h"
-#include "client/luacef_client.h"
+#include "luacef_string.h"
+#include "luacef_api.h"
 
-#include "string/luacef_string.h"
 #include "types/luacef_types.h"
 #include "handler/luacef_handler.h"
 
@@ -31,9 +50,11 @@ extern "C" {
 }
 #endif
 
-#define PLS lua_State*
+// from chromium 52 :))
+typedef cef_base_ref_counted_t cef_base_t;
+
 static lua_State* __mainState = NULL;
-static int __interpreter = 0;
+static int __interpreter = 0; // for fix visible window on windows
 
 static const char* __release__ = "release";
 static const char* __index__ = "__index";
@@ -56,3 +77,5 @@ static const luaL_Reg luacef_rl_gc[] = {
 	{NULL, NULL}
 };
 
+#define luacef_alloc(sz) (calloc(1, sz))
+#define luacef_free(p) (free(*(void**)p)

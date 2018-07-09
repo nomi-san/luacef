@@ -66,10 +66,40 @@ void luacef_error_index(lua_State* L, const char* index)
 	luaL_error(L, "cannot get member '%s'", index);
 }
 
-//==============================
+// ==============================
+/*
+	version() 
+		|-> cef version
+		|-> chromium version
+*/
+static int luacef_version(lua_State* L)
+{
+	lua_pushstring(L, CEF_VERSION);
+	lua_pushfstring(L, "%d.%d", CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR);
+
+	return 2;
+}
 
 /*
-	cef = require "luacef"
+	printversion()
+	-->	CEF: <version>
+	--> Chromium: <version>
+*/
+static int luacef_print_version(lua_State* L)
+{
+	lua_getglobal(L, "print");
+	lua_pushvalue(L, -1);
+
+	lua_pushstring(L, "CEF: " CEF_VERSION);
+	lua_pushfstring(L, "\nChromium: %d.%d\n", CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR);
+
+	lua_pcall(L, 2, 0, 8);
+	return 0;
+}
+// ==============================
+
+/*
+	<table> require "luacef"
 */
 int LUACEF_API luaopen_luacef(lua_State* L)
 {
@@ -81,7 +111,12 @@ int LUACEF_API luaopen_luacef(lua_State* L)
 	//__mainState = L;
 
 	lua_newtable(L);
+	lua_pushcfunction(L, luacef_version);
+	lua_setfield(L, -2, "version");
 
+	lua_pushcfunction(L, luacef_print_version);
+	lua_setfield(L, -2, "printversion");
+		
 	luacef_client_reg(L);
 	luacef_app_reg(L);
 	luacef_handler_reg(L);

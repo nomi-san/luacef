@@ -1,4 +1,4 @@
-#include "luacef_client.h"
+#include "../luacef.h"
 
 //////////////////////////////////
 
@@ -54,8 +54,9 @@ typedef struct luacef_client {
 		struct _cef_browser_t* browser, cef_process_id_t source_process,
 		struct _cef_process_message_t* message);
 
-	lua_State* L;
-	int ref; // add ref
+	lua_State *L;
+	void *self;
+	int	ref; // add ref
 
 } luacef_client;
 
@@ -67,7 +68,7 @@ struct _cef_context_menu_handler_t* CEF_CALLBACK c_get_context_menu_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_context_menu_handler)) {
+		if (lua_getfield(self->L, -1, get_context_menu_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -83,7 +84,7 @@ struct _cef_dialog_handler_t* CEF_CALLBACK c_get_dialog_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_dialog_handler)) {
+		if (lua_getfield(self->L, -1, get_dialog_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -99,7 +100,7 @@ struct _cef_display_handler_t* CEF_CALLBACK c_get_display_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_display_handler)) {
+		if (lua_getfield(self->L, -1, get_display_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -115,7 +116,7 @@ struct _cef_download_handler_t* CEF_CALLBACK c_get_download_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_download_handler)) {
+		if (lua_getfield(self->L, -1, get_download_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -131,7 +132,7 @@ struct _cef_drag_handler_t* CEF_CALLBACK c_get_drag_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_drag_handler)) {
+		if (lua_getfield(self->L, -1, get_drag_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -147,7 +148,7 @@ struct _cef_find_handler_t* CEF_CALLBACK c_get_find_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_find_handler)) {
+		if (lua_getfield(self->L, -1, get_find_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -163,7 +164,7 @@ struct _cef_focus_handler_t* CEF_CALLBACK c_get_focus_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_focus_handler)) {
+		if (lua_getfield(self->L, -1, get_focus_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -179,7 +180,7 @@ struct _cef_geolocation_handler_t* CEF_CALLBACK c_get_geolocation_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_geolocation_handler)) {
+		if (lua_getfield(self->L, -1, get_geolocation_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -195,7 +196,7 @@ struct _cef_jsdialog_handler_t* CEF_CALLBACK c_get_jsdialog_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_jsdialog_handler)) {
+		if (lua_getfield(self->L, -1, get_jsdialog_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -211,7 +212,7 @@ struct _cef_keyboard_handler_t* CEF_CALLBACK c_get_keyboard_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_keyboard_handler)) {
+		if (lua_getfield(self->L, -1, get_keyboard_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -226,7 +227,7 @@ struct _cef_life_span_handler_t* CEF_CALLBACK c_get_life_span_handler(
 	struct luacef_client* self)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, _c_get_life_span_handler)) {
+	if (lua_getfield(self->L, -1, get_life_span_handler)) {
 		return luacef_touserdata(self->L, -1);
 	}
 
@@ -241,7 +242,7 @@ struct _cef_load_handler_t* CEF_CALLBACK c_get_load_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_load_handler)) {
+		if (lua_getfield(self->L, -1, get_load_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -257,7 +258,7 @@ struct _cef_render_handler_t* CEF_CALLBACK c_get_render_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_render_handler)) {
+		if (lua_getfield(self->L, -1, get_render_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -273,7 +274,7 @@ struct _cef_request_handler_t* CEF_CALLBACK c_get_request_handler(
 {
 	if (self->L) {
 		lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-		if (lua_getfield(self->L, -1, _c_get_request_handler)) {
+		if (lua_getfield(self->L, -1, get_request_handler)) {
 			return (void*)lua_tointeger(self->L, -1);
 		}
 	}
@@ -327,50 +328,50 @@ int luacef_client_new(lua_State* L)
 		if (lua_getfield(L, 1, __life_span_handler__))
 			client->get_life_span_handler = c_get_life_span_handler;
 
-		if (lua_getfield(L, 1, _c_get_context_menu_handler))
+		if (lua_getfield(L, 1, get_context_menu_handler))
 			client->get_context_menu_handler = c_get_context_menu_handler;
 
-		if (lua_getfield(L, 1, _c_get_display_handler))
+		if (lua_getfield(L, 1, get_display_handler))
 			client->get_display_handler = c_get_display_handler;
 
-		if (lua_getfield(L, 1, _c_get_dialog_handler))
+		if (lua_getfield(L, 1, get_dialog_handler))
 			client->get_dialog_handler = c_get_dialog_handler;
 
-		if (lua_getfield(L, 1, _c_get_download_handler))
+		if (lua_getfield(L, 1, get_download_handler))
 			client->get_download_handler = c_get_download_handler;
 
-		if (lua_getfield(L, 1, _c_get_drag_handler))
+		if (lua_getfield(L, 1, get_drag_handler))
 			client->get_drag_handler = c_get_drag_handler;
 
-		if (lua_getfield(L, 1, _c_get_find_handler))
+		if (lua_getfield(L, 1, get_find_handler))
 			client->get_find_handler = c_get_find_handler;
 
-		if (lua_getfield(L, 1, _c_get_focus_handler))
+		if (lua_getfield(L, 1, get_focus_handler))
 			client->get_focus_handler = c_get_focus_handler;
 
-		if (lua_getfield(L, 1, _c_get_geolocation_handler))
+		if (lua_getfield(L, 1, get_geolocation_handler))
 			client->get_geolocation_handler = c_get_geolocation_handler;
 
-		if (lua_getfield(L, 1, _c_get_jsdialog_handler))
+		if (lua_getfield(L, 1, get_jsdialog_handler))
 			client->get_jsdialog_handler = c_get_jsdialog_handler;
 
-		if (lua_getfield(L, 1, _c_get_keyboard_handler))
+		if (lua_getfield(L, 1, get_keyboard_handler))
 			client->get_keyboard_handler = c_get_keyboard_handler;
 
-		if (lua_getfield(L, 1, _c_get_load_handler))
+		if (lua_getfield(L, 1, get_load_handler))
 			client->get_load_handler = c_get_load_handler;
 
-		if (lua_getfield(L, 1, _c_get_render_handler))
+		if (lua_getfield(L, 1, get_render_handler))
 			client->get_render_handler = c_get_render_handler;
 
-		if (lua_getfield(L, 1, _c_get_request_handler))
+		if (lua_getfield(L, 1, get_request_handler))
 			client->get_request_handler = c_get_request_handler;
 
-		if (lua_getfield(L, 1, _c_on_process_message_received))
+		if (lua_getfield(L, 1, on_process_message_received))
 			client->on_process_message_received = c_on_process_message_received;
 	}
 
-	luacef_pushuserdata(L, client, __client__);
+	client->self = luacef_pushuserdata(L, client, __client__);
 	return 1;
 }
 

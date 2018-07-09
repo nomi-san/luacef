@@ -21,14 +21,14 @@ static int luacef_browser_host_new(lua_State* L)
 	h->get_browser;
 	h->get_client;
 	h->get_navigation_entries;
-	h->get_nstext_input_context;
+	//h->get_nstext_input_context;
 	h->get_opener_window_handle;
 	h->get_request_context;
 	h->get_windowless_frame_rate;
 	h->get_window_handle;
 	h->get_zoom_level;
-	h->handle_key_event_after_text_input_client;
-	h->handle_key_event_before_text_input_client;
+	//h->handle_key_event_after_text_input_client;
+	//h->handle_key_event_before_text_input_client;
 	h->has_dev_tools;
 	h->has_view;
 	h->invalidate;
@@ -218,67 +218,95 @@ static int luacef_browser_host_get_client(lua_State* L)
 }
 
 /*
-	<> Browser:GetNavigationEntries()
+	<void> Browser:GetNavigationEntries()
 */
 static int luacef_browser_host_get_navigation_entries(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
+	// todo
+	//h->get_navigation_entries(j. )
+
 	return 0;
 }
 
 /*
-	<> Browser:GetNstextInputContext()
+	<void> Browser:GetNSTextInputContext()
 */
 static int luacef_browser_host_get_nstext_input_context(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	//h->get_nstext_input_context(h);
 
 	return 0;
 }
 
 /*
-	<> Browser:GetOpenerWindowHandle()
+	<udata> Browser:GetOpenerWindowHandle()
+	-> HWND
 */
 static int luacef_browser_host_get_opener_window_handle(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	HWND handle = h->get_opener_window_handle(h);
+
+	lua_pushlightuserdata(L, handle);
+	return 1;
 }
 
 /*
-	<> Browser:GetRequestContext()
+	<RequestContext> Browser:GetRequestContext()
 */
 static int luacef_browser_host_get_request_context(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	cef_request_context_t *rq = h->get_request_context(h);
+
+	luacef_pushuserdata(L, rq, __request_context__);
+	return 1;
 }
 
 /*
-	<> Browser:GetWindowlessFrameRate()
+	<int> Browser:GetWindowlessFrameRate()
 */
 static int luacef_browser_host_get_windowless_frame_rate(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	int frame_rate = h->get_windowless_frame_rate(h);
+
+	lua_pushinteger(L, frame_rate);
+	return 1;
 }
 
 /*
-	<> Browser:GetWindowHandle()
+	<udata> Browser:GetWindowHandle()
+	-> HWND
 */
 static int luacef_browser_host_get_window_handle(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	HWND handle = h->get_window_handle(h);
+
+	lua_pushlightuserdata(L, handle);
+	return 1;
 }
 
 /*
-	<> Browser:GetZoomLevel()
+	<num> Browser:GetZoomLevel()
 */
 static int luacef_browser_host_get_zoom_level(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	double zl = h->get_zoom_level(h);
+
+	lua_pushnumber(L, zl);
+	return 1;
 }
 
 /*
@@ -286,7 +314,7 @@ static int luacef_browser_host_get_zoom_level(lua_State* L)
 */
 static int luacef_browser_host_handle_key_event_after_text_input_client(lua_State* L)
 {
-
+	// todo
 	return 0;
 }
 
@@ -295,7 +323,13 @@ static int luacef_browser_host_handle_key_event_after_text_input_client(lua_Stat
 */
 static int luacef_browser_host_handle_key_event_before_text_input_client(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	//MSG *msg = 
+	// #ifdef WIN32 //
 
+
+	//h->handle_key_event_before_text_input_client(h, )
+	// todo
 	return 0;
 }
 
@@ -304,8 +338,10 @@ static int luacef_browser_host_handle_key_event_before_text_input_client(lua_Sta
 */
 static int luacef_browser_host_has_dev_tools(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	lua_pushboolean(L, h->has_dev_tools(h));
+	return 1;
 }
 
 /*
@@ -313,231 +349,385 @@ static int luacef_browser_host_has_dev_tools(lua_State* L)
 */
 static int luacef_browser_host_has_view(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	lua_pushboolean(L, h->has_view(h));
+	return 1;
 }
 
 /*
-	<> Browser:Invalidate()
+	<void> Browser:Invalidate(
+		<int>	paint_element_type
+	)
 */
 static int luacef_browser_host_invalidate(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int type = lua_tointeger(L, 2);
+
+	h->invalidate(h, type);
 
 	return 0;
 }
 
 /*
-	<> Browser:IsMouseCursorChangeDisabled()
+	<bool> Browser:IsMouseCursorChangeDisabled()
 */
 static int luacef_browser_host_is_mouse_cursor_change_disabled(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	lua_pushboolean(L, h->is_mouse_cursor_change_disabled(h));
+	return 1;
 }
 
 /*
-	<> Browser:IsWindowRenderingDisabled()
+	<bool> Browser:IsWindowRenderingDisabled()
 */
 static int luacef_browser_host_is_window_rendering_disabled(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	lua_pushboolean(L, h->is_window_rendering_disabled(h));
+	return 1;
 }
 
 /*
-	<> Browser:NotifyMoveOrResizeStarted()
+	<void> Browser:NotifyMoveOrResizeStarted()
 */
 static int luacef_browser_host_notify_move_or_resize_started(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	h->notify_move_or_resize_started(h);
 
 	return 0;
 }
 
 /*
-	<> Browser:NotifyScreenInfoChanged()
+	<void> Browser:NotifyScreenInfoChanged()
 */
 static int luacef_browser_host_notify_screen_info_changed(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	h->notify_screen_info_changed(h);
 
 	return 0;
 }
 
 /*
-	<> Browser:Print()
+	<void> Browser:Print()
 */
 static int luacef_browser_host_print(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	h->print(h);
 
 	return 0;
 }
 
 /*
-	<> Browser:PrintToPDF()
+	<void> Browser:PrintToPDF(
+		<str>				path,
+		<PDFPrintSettings>	settings,
+		<PDFPrintCallback>	callback
+	)
 */
 static int luacef_browser_host_print_to_pdf(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	const char *cs_path = lua_tostring(L, 2);
+	cef_pdf_print_settings_t *pdf_s = NULL;
+	cef_pdf_print_callback_t *pdf_cb = NULL;
+
+	cef_string_t path = { 0 };
+	cef_string_from_utf8(cs_path, strlen(cs_path), &path);
+
+	h->print_to_pdf(h, &path, pdf_s, pdf_cb);
 
 	return 0;
 }
 
 /*
-	<> Browser:ReplaceMisspelling()
+	<void> Browser:ReplaceMisspelling(
+		<str> word
+	)
 */
 static int luacef_browser_host_replace_misspelling(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	const char *cs = lua_tostring(L, 2);
+
+	cef_string_t word = { 0 };
+	cef_string_from_utf8(cs, strlen(cs), &word);
+	h->replace_misspelling(h, &word);
 
 	return 0;
 }
 
 /*
-	<> Browser:RunFileDialog()
+	<void> Browser:RunFileDialog()
 */
 static int luacef_browser_host_run_file_dialog(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	//h->run_file_dialog()
+	// todo
 
 	return 0;
 }
 
 /*
-	<> Browser:SendCaptureLostEvent()
+	<void> Browser:SendCaptureLostEvent()
 */
 static int luacef_browser_host_send_capture_lost_event(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	h->send_capture_lost_event(h);
 
 	return 0;
 }
 
 /*
-	<> Browser:SendFocusEvent()
+	<void> Browser:SendFocusEvent(
+		<int> set_foccus
+	)
 */
 static int luacef_browser_host_send_focus_event(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int setfocus = lua_tointeger(L, 2);
+
+	h->send_focus_event(h, setfocus);
 
 	return 0;
 }
 
 /*
-	<> Browser:SendKeyEvent()
+	<void> Browser:SendKeyEvent(
+		<KeyEvent>	event
+	)
 */
 static int luacef_browser_host_send_key_event(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	cef_key_event_t *ke = luacef_checkudata(L, 2, __key_event__);
+
+	h->send_key_event(h, ke);
 
 	return 0;
 }
 
 /*
-	<> Browser:SendMouseClickEvent()
+	<void> Browser:SendMouseClickEvent(
+		<MouseEvent>	event,
+		<int>			button_type,
+		<int>			mouse_up
+		<int>			click_count
+	)
 */
 static int luacef_browser_host_send_mouse_click_event(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	cef_mouse_event_t *me = luacef_checkudata(L, 2, __mouse_event__);
+	int type = lua_tointeger(L, 3);
+	int up = lua_tointeger(L, 4);
+	int count = lua_tointeger(L, 5);
+
+	h->send_mouse_click_event(h, me, type, up, count);
 
 	return 0;
 }
 
 /*
-	<> Browser:SendMouseMoveEvent()
+	<void> Browser:SendMouseMoveEvent(
+		<MouseEvent>	event,
+		<int>			mouse_leave,
+	)
 */
 static int luacef_browser_host_send_mouse_move_event(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	cef_mouse_event_t *me = luacef_checkudata(L, 2, __mouse_event__);
+	int leave = lua_tointeger(L, 3);
+
+	h->send_mouse_move_event(h, me, leave);
 
 	return 0;
 }
 
 /*
-	<> Browser:SendMouseWheelEvent()
+	<void> Browser:SendMouseWheelEvent(
+		<MouseEvent>	event,
+		<int>			deltaX,
+		<int>			deltaY
+	)
 */
 static int luacef_browser_host_send_mouse_wheel_event(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	cef_mouse_event_t *me = luacef_checkudata(L, 2, __mouse_event__);
+	int dx = lua_tointeger(L, 3);
+	int dy = lua_tointeger(L, 4);
+
+	h->send_mouse_wheel_event(h, me, dx, dy);
 
 	return 0;
 }
 
 /*
-	<> Browser:SetFocus()
+	<void> Browser:SetFocus(
+		<bool> focus
+	)
 */
 static int luacef_browser_host_set_focus(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int focus = lua_toboolean(L, 2);
+
+	h->set_focus(h, focus);
 
 	return 0;
 }
 
 /*
-	<> Browser:SetMouseCursorChangeDisabled()
+	<void> Browser:SetMouseCursorChangeDisabled(
+		<bool> disabled
+	)
 */
 static int luacef_browser_host_set_mouse_cursor_change_disabled(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int disabled = lua_toboolean(L, 2);
+
+	h->set_mouse_cursor_change_disabled(h, disabled);
 
 	return 0;
 }
 
 /*
-	<> Browser:SetWindowlessFrameRate()
+	<void> Browser:SetWindowlessFrameRate(
+		<int> frame_rate
+	)
 */
 static int luacef_browser_host_set_windowless_frame_rate(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int frame_rate = lua_tointeger(L, 2);
+
+	h->set_windowless_frame_rate(h, frame_rate);
 
 	return 0;
 }
 
 /*
-	<> Browser:SetZoomLevel()
+	<void> Browser:SetZoomLevel(
+		<num>	zoom_level
+	)
 */
 static int luacef_browser_host_set_zoom_level(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	double zl = lua_tonumber(L, 2);
+
+	h->set_zoom_level(h, zl);
 
 	return 0;
 }
 
 /*
-	<> Browser:ShowDevTools()
+	<void> Browser:ShowDevTools(
+		<WindowInfo>		window_info,
+		<Client>			client,
+		<BrowserSettings>	settings,
+		<Point>				inspect_element_at	
+	)
 */
 static int luacef_browser_host_show_dev_tools(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	cef_window_info_t *wi = luacef_checkudata(L, 2, __window_info__);
+	cef_client_t *c = luacef_checkudata(L, 3, __client__);
+	cef_browser_settings_t *bs = luacef_checkudata(L, 4, __browser_settings__);
+	cef_point_t *pt = luacef_checkudata(L, 5, __point__);
+
+	h->show_dev_tools(h, wi, c, bs, pt);
 
 	return 0;
 }
 
 /*
-	<> Browser:StartDownload()
+	<void> Browser:StartDownload(
+		<str> url
+	)
 */
 static int luacef_browser_host_start_download(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	const char* cs = lua_tostring(L, 2);
+
+	cef_string_t url = { 0 };
+	cef_string_from_utf8(cs, strlen(cs), &url);
+	h->start_download(h, &url);
 
 	return 0;
 }
 
 /*
-	<> Browser:StopFinding()
+	<void> Browser:StopFinding(
+		<int> clearSelection
+	)
 */
 static int luacef_browser_host_stop_finding(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int clr_slt = lua_tointeger(L, 2);
+
+	h->stop_finding(h, clr_slt);
 
 	return 0;
 }
 
 /*
-	<> Browser:TryCloseBrowser()
+	<int> Browser:TryCloseBrowser()
 */
 static int luacef_browser_host_try_close_browser(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
-	return 0;
+	int ret = h->try_close_browser(h);
+
+	lua_pushinteger(L, ret);
+	return 1;
 }
 
 /*
-	<> Browser:WasHidden()
+	<void> Browser:WasHidden(
+		<int> hidden
+	)
 */
 static int luacef_browser_host_was_hidden(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+	int hidden = lua_tointeger(L, 2);
+
+	h->was_hidden(h, hidden);
 
 	return 0;
 }
 
 /*
-	<> Browser:WasResized()
+	<void> Browser:WasResized()
 */
 static int luacef_browser_host_was_resized(lua_State* L)
 {
+	cef_browser_host_t *h = luacef_touserdata(L, 1);
+
+	h->was_resized(h);
 
 	return 0;
 }
@@ -557,7 +747,7 @@ static const luaL_Reg luacef_browser_host_m[] = {
 	{ "GetBrowser", luacef_browser_host_get_browser },
 	{ "GetClient", luacef_browser_host_get_client },
 	{ "GetNavigationEntries", luacef_browser_host_get_navigation_entries },
-	{ "GetNstextInputContext", luacef_browser_host_get_nstext_input_context },
+	{ "GetNSTextInputContext", luacef_browser_host_get_nstext_input_context },
 	{ "GetOpenerWindowHandle", luacef_browser_host_get_opener_window_handle },
 	{ "GetRequestContext", luacef_browser_host_get_request_context },
 	{ "GetWindowlessFrameRate", luacef_browser_host_get_windowless_frame_rate },
