@@ -44,23 +44,9 @@ for i=1, #c do
 	print(c[i])
 end
 
---[[
-a = cc .. '-shared -I../lua/src -I../cef -o luacef.dll '
-
-for m = 1, #c do
-	if l[m] == 'luacef' then 
-		ec(cc .. ' -shared -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -I../lua/src -I../cef -c -o ' .. l[m] .. '.o '.. c[m])
-	else
-		ec(cc .. ' -D_WIN32 -D_NDEBUG -I../lua/src -I../cef -c -o ' .. l[m] .. '.o '.. c[m])
-	end
-	a = a .. l[m] .. '.o '
-end
---]]
-
 a = cc .. ' -shared -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -I../lua/src -I../cef -o luacef.dll '
 for m = 1, #c do
 	a = a .. c[m] .. ' '
 end
 
 ec( a .. ' -L../lua -L../cef -llua53 -llibcef -lole32')
---ec('del *.o')
