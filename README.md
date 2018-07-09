@@ -22,10 +22,10 @@
 	    <self**>  <------------|      ~~~~~~~~
 		~~~~~~~~                          ^
 		   |                               \
-		   v                             ~~~~~~~~~
+		   v                         ~~~~~~~~~
 	[method, property] <- <metatable> -> reference
 	       |
-		   v
+	       v
 	     return
 
 	  __LUA_side__
