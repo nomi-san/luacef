@@ -15,20 +15,22 @@
 ```js
 	lua:newuuserdata <- alloc [4-byte]
 	~~~~~~~~~~~~~~~~
+	       |
 	       v
-		<ptr**> -> <ptr*> = <udata*> <- alloc [n-byte]
+	    <ptr**> -> <ptr*> = <udata*> <- alloc [n-byte]
 	       |                   |---> ::free
 	       v                   |---> ::set, get
 	    <self**>  <------------|      ~~~~~~~~
-		~~~~~~~~                          ^
-		   |                               \
-		   v                         ~~~~~~~~~
+	    ~~~~~~~~                          ^
+	       |                               \
+	       v                             ~~~~~~~~~
 	[method, property] <- <metatable> -> reference
 	       |
 	       v
 	     return
 
 	  __LUA_side__
+
 ```
 
 #### Example
