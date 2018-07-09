@@ -38,8 +38,11 @@ lua:newuuserdata <- alloc [4-byte]
 -- require library
 cef = require("luacef")
 
+-- print version
+cef.printversion()
+
 -- new main args, app
-local args, app = cef.newMainArgs(), cef.newApp()
+local args, app = cef.newMainArgs(), cef.newApp() 
 
 -- execute process and check, not necessary
 local code = cef.ExecuteProcess(args, app)
@@ -47,9 +50,10 @@ if (code >= 0) then os.exit() end
 
 -- new cef settings
 local settings = cef.newSettings {
+
+	log_severity = 99;	-- disable debug log and log file		
 	single_process = 1; -- Lua interpreter cannot run multipl-process
-						-- must set to 0 for self-running (independent executable program)
-	log_severity = 99;	-- disable debug log file				
+						-- should set to 0 for self-running (independent executable program)		
 }
 
 -- initialize application
@@ -58,6 +62,7 @@ if (code == 0) then os.exit() end
 
 -- create window info
 local window_info = cef.newWindowInfo {
+
 	-- set window name
 	window_name = "Hello World!"; -- Lua string be convert to cef string, accept unicode
 }
@@ -90,16 +95,20 @@ function life_span:OnBeforeClose(browser)
 	cef.QuitMessageLoop()
 end;
 
--- new client, with life span handler
+-- new client
 local client = cef.newClient {
-	LifeSpanHandler = life_span;
+
+	-- set life span handler by return it
+	GetLifeSpanHandler = function(self) 
+		return life_span
+	end;
 }
 
 -- url string
 local url = 'https://www.google.com/'
 
 -- create browser window
-cef.CreateBrowser(window_info, client, url, browser_settings) 
+cef.CreateBrowserSync(window_info, client, url, browser_settings) 
 
 -- run message loop
 -- in cef settings, if multi_threaded_message_loop = 1, must use window message loop
@@ -113,5 +122,6 @@ cef.Shutdown()
 client:release()
 app:release()
 life_span:release()
+--]]
 ```
 
