@@ -56,6 +56,9 @@ local settings = cef.newSettings {
 						-- should set to 0 for self-running (independent executable program)		
 }
 
+-- enable high DPI support for windows 7 or newer
+cef.EnableHighDPISupport()
+
 -- initialize application
 code = cef.Initialize(args, settings, app)
 if (code == 0) then os.exit() end
@@ -77,6 +80,7 @@ local life_span = cef.newLifeSpanHandler {
 	OnAfterCreated = function(self, browser) -- event
 		print("-- on after created --")
 		print(self, browser) --> LifeSpanHandler: <address>, Browser: <address>
+		print('Window handle: ', browser:GetHost():GetWindowHandle())
 
 		-- show browser window
 		cef.ShowBrowser(browser, 10)
@@ -108,7 +112,7 @@ local client = cef.newClient {
 local url = 'https://www.google.com/'
 
 -- create browser window
-cef.CreateBrowserSync(window_info, client, url, browser_settings) 
+cef.CreateBrowser(window_info, client, url, browser_settings)
 
 -- run message loop
 -- in cef settings, if multi_threaded_message_loop = 1, must use window message loop
@@ -117,12 +121,10 @@ cef.RunMessageLoop()
 -- shutdown
 cef.Shutdown()
 
--- release object
--- not necessary, it has __gc method
+-- release callback/handler object, it has no __gc
 client:release()
 app:release()
 life_span:release()
---]]
 ```
 
 ### License
