@@ -1,4 +1,4 @@
-#include "luacef_handler.h"
+#include "../luacef.h"
 
 static const char	*_rph_on_render_thread_created = "OnRenderThreadCreated";
 static const char	*_rph_on_web_kit_initialized = "OnWebKitInitialized";

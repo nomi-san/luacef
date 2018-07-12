@@ -1,21 +1,14 @@
+#ifndef LUACEF_INCLUDE_H_
+#define LUACEF_INCLUDE_H_
 #pragma once
 
 /*
-     _         
-    | |_ _ ___
-    | | | | _ |/
-    |_|___|_|_|/              _
-         ___| |_ __ ___ _____|_|_ _ _____
-        |  _|   | _| _ |     | | | |     ||
-        |___|_|_|_||___|_|_|_|_|___|_|_|_||     _
-                ___ _____| |_ ___ _| |_| |___ _| ||
-               | -_|     | _ | -_| _ | _ | -_| _ ||
-               |___|_|_|_|___|___|___|___|___|___||    _ 
-                      | _|_ ___ _____ ___ _ _ _ ___ __| |__
-                      | | _| _ |     | -_| | | | _ | _| _//
-                      |_|_||_|_|_|_|_|___|_____|___|_||_|\/
+	 __            _____ _____ _____ 
+	|  |   _ _ ___|   __|   __|   __|
+	|  |__| | | .'|  |__|   __|   __|
+	|_____|___|__,|_____|_____|__|  
+	< Chromium Embedded Framework for Lua >
 
-		-- Chromium Embedded Framework for Lua --
 */
 
 #ifdef BUILD_AS_DLL
@@ -38,13 +31,10 @@ extern "C" {
 #include "include/capi/cef_app_capi.h"
 #include "include/capi/cef_base_capi.h"
 #include "include/capi/cef_client_capi.h"
-#include "include/internal/cef_types.h""
+#include "include/internal/cef_types.h"
 
 #include "luacef_string.h"
 #include "luacef_api.h"
-
-#include "types/luacef_types.h"
-#include "handler/luacef_handler.h"
 
 #ifdef __cplusplus
 }
@@ -62,12 +52,14 @@ static const char* __index__ = "__index";
 void* luacef_checkudata(lua_State* L, int i, const char* s);
 void* luacef_touserdata(lua_State* L, int i);
 void* luacef_newuserdata(lua_State* L, size_t sz);
-void* luacef_pushuserdata(lua_State* L, void* udata, const char* meta);
+void luacef_pushuserdata(lua_State* L, void* udata, const char* meta);
 
 int luacef_release(lua_State* L);
 int luacef_index(lua_State* L);
 int luacef_newindex(lua_State* L);
 void luacef_error_index(lua_State* L, const char* index);
+
+#define luacef_alloc(sz) (calloc(1, sz))
 
 static const luaL_Reg luacef_rl_gc[] = {
 	//{ "__index",	luacef_index },
@@ -77,5 +69,4 @@ static const luaL_Reg luacef_rl_gc[] = {
 	{NULL, NULL}
 };
 
-#define luacef_alloc(sz) (calloc(1, sz))
-#define luacef_free(p) (free(*(void**)p)
+#endif

@@ -21,14 +21,12 @@ void* luacef_touserdata(lua_State* L, int i)
 	return *ud;
 }
 
-void* luacef_pushuserdata(lua_State* L, void* udata, const char* meta)
+void luacef_pushuserdata(lua_State* L, void* udata, const char* meta)
 {
-	if (!udata) return NULL;
+	if (!udata) return;
 	void** ud = (void**)lua_newuserdata(L, 4u);
 	*ud = udata;
 	luaL_setmetatable(L, meta);
-
-	return ud;
 }
 
 // luacef metatable //===========================
@@ -68,9 +66,9 @@ void luacef_error_index(lua_State* L, const char* index)
 
 // ==============================
 /*
-	version() 
-		|-> cef version
-		|-> chromium version
+	<str>, <str> version() 
+					|-> <CEF version>
+					|-> <Chromium version>
 */
 static int luacef_version(lua_State* L)
 {
@@ -81,7 +79,7 @@ static int luacef_version(lua_State* L)
 }
 
 /*
-	printversion()
+	<void> printversion()
 	-->	CEF: <version>
 	--> Chromium: <version>
 */
@@ -89,14 +87,28 @@ static int luacef_print_version(lua_State* L)
 {
 	lua_getglobal(L, "print");
 	lua_pushvalue(L, -1);
+	if (lua_isnil(L, -1)) return 0; // for not print
 
 	lua_pushstring(L, "CEF: " CEF_VERSION);
 	lua_pushfstring(L, "\nChromium: %d.%d\n", CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR);
-
+	
 	lua_pcall(L, 2, 0, 8);
 	return 0;
 }
 // ==============================
+
+
+static void luacef_handler_reg(lua_State* L)
+{
+	luacef_life_span_handler_reg(L);
+}
+
+static void luacef_api_reg(lua_State *L)
+{
+	luacef_v8_reg(L);
+}
+
+//====================
 
 /*
 	<table> require "luacef"
@@ -124,6 +136,8 @@ int LUACEF_API luaopen_luacef(lua_State* L)
 	luacef_funcs_reg(L);
 
 	luacef_browser_reg(L);
+
+	luacef_api_reg(L);
 
 	return 1;
 }

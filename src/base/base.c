@@ -1,12 +1,8 @@
-#pragma once
-
 #include "../luacef.h"
 #include "include/capi/cef_app_capi.h"
 #include "include/capi/cef_base_capi.h"
 
-
 #define DEBUG_REFERENCE_COUNTING 0
-
 // Print only the first execution of the callback,
 // ignore the subsequent.
 #define DEBUG_CALLBACK(x) { \
@@ -17,13 +13,11 @@
     } \
 }
 
-
 void CEF_CALLBACK add_ref(cef_base_t* self) {
 	DEBUG_CALLBACK("cef_base_ref_counted_t.add_ref\n");
 	if (DEBUG_REFERENCE_COUNTING)
 		printf("+");
 }
-
 
 int CEF_CALLBACK release(cef_base_t* self) {
 	DEBUG_CALLBACK("cef_base_ref_counted_t.release\n");
