@@ -210,6 +210,19 @@ static const char *__time__ = "Time";
 
 
 
+static const char *__event_handle__ = "EventHandle";
+
+
+
+
+// ptr
+static const char *__int_ptr__ = "IntPtr";
+static const char *__bool_ptr__ = "BoolPtr";
+//static const char *__ptr_ptr__ = "PtrPtr";
+
+
+
+
 
 
 

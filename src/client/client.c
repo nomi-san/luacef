@@ -520,7 +520,6 @@ static int luacef_client_newindex(lua_State* L)
 	const char* i = lua_tostring(L, 2);
 
 	lua_rawgeti(L, LUA_REGISTRYINDEX, c->ref);
-	lua_pushvalue(L, -1);
 
 	if (!strcmp(i, __get_context_menu_handler)) {
 		lua_pushvalue(L, 3);

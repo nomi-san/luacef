@@ -101,6 +101,7 @@ static int luacef_print_version(lua_State* L)
 static void luacef_handler_reg(lua_State* L)
 {
 	luacef_life_span_handler_reg(L);
+	luacef_keyboard_handler_reg(L);
 }
 
 static void luacef_api_reg(lua_State *L)
@@ -138,6 +139,9 @@ int LUACEF_API luaopen_luacef(lua_State* L)
 	luacef_browser_reg(L);
 
 	luacef_api_reg(L);
+
+	// ptr
+	luacef_ptr_reg(L);
 
 	return 1;
 }
