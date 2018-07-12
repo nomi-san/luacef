@@ -12,9 +12,9 @@
 - context_menu_handler
 - dialog_handler
 - display_handler
-- download_handler
+✔ download_handler
 - drag_handler
-- find_handler
+✔ find_handler
 - focus_handler
 - geolocation_handler
 - jsdialog_handler
