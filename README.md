@@ -14,7 +14,7 @@
 - [Lua 5.3.4](https://www.lua.org/ftp/)
 - [CEF 3.3112 - Chromium 60](http://opensource.spotify.com/cefbuilds/index.html)
 
-### OS Supported
+### OS supported
 - [x] Windows
 - [ ] Linux (todo)
 - [ ] ~~Mac OSX~~
@@ -47,7 +47,7 @@
   __LUA_side__
 ```
 
-#### Example
+#### Simple example
 
 ```lua
 -- require library
@@ -164,6 +164,10 @@ app:release()
 life_span:release()
 keyboard:release()
 ```
+
+<p align="center">
+<img src="https://i.imgur.com/8mmTqjW.png" width="600">
+</p>
 
 ### License
 
