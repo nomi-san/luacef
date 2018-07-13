@@ -22,6 +22,7 @@
 ### Build
 #### For Windows:
 - Run __build_win.lua__
+- Add all resources files in Release and Resources folder (from CEF distribution you can [download here](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) for current version).
 
 ....
 
