@@ -35,18 +35,26 @@ for n = 1, #d do
 	end
 end
 
-
 ec = os.execute
 cc = 'gcc -std=gnu99 '
 ec('del luacef.dll')
 
-for i=1, #c do
-	print(c[i])
-end
+a = ''
 
-a = cc .. ' -shared -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -I../lua/src -I../cef -o luacef.dll '
+print("# Generate object...")
+
 for m = 1, #c do
-	a = a .. c[m] .. ' '
+	print('    ' .. l[m] .. '.c -> ' .. l[m] .. '.o' )
+	ec(cc .. ' -shared -w -D_MSC_VER -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ilua/src -Icef -c -o ' .. l[m] .. '.o '.. c[m])
+	a = a .. l[m] .. '.o '
 end
 
-ec( a .. ' -L../lua -L../cef -llua53 -llibcef -lole32')
+print("# Linking library...")
+
+ec(cc .. ' -shared -o luacef.dll ' .. a .. ' -Llua -Lcef -llua53 -llibcef -lole32')
+--ec(cc .. ' -shared -o luacef.dll ' .. a .. ' lua53.def libcef.def -lole32')
+print("    -> luacef.dll")
+
+ec('del *.o')
+
+print("# Done.\n")

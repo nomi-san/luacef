@@ -5,7 +5,7 @@
 #main
 ✔ app
 ✔ client
-- base
+✔ base
 
 #handler
 ✔ browser_process_handler
@@ -18,7 +18,7 @@
 - focus_handler
 - geolocation_handler
 - jsdialog_handler
-- keyboard_handler
+✔ keyboard_handler
 ✔ life_span_handler
 ✔ load_handler
 - print_handler
@@ -29,13 +29,8 @@
 ✔ resource_bundle_handler
 - resource_handler
 
-#type
-✔ browser
-✔ browser_host
-✔ frame
-....
+#other
+✔ types (95%)
+✔ funcs (56%)
 
-✔ funcs (14%)
-✔ types (23%)
-
-... todo
+-- todo

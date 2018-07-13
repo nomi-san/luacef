@@ -193,82 +193,6 @@ static const luaL_Reg luacef_keyboard_handler_m[] = {
 
 // ===========================================
 
-static int luacef_key_event_index(lua_State *L)
-{
-	cef_key_event_t *p = luacef_touserdata(L, 1);
-	if (!p) return 0;
-
-	const char *i = lua_tostring(L, 2);
-
-	if (!strcmp(i, "type"))
-		lua_pushinteger(L, p->type);
-
-	else if (!strcmp(i, "modifiers"))
-		lua_pushinteger(L, p->modifiers);
-
-	else if (!strcmp(i, "windows_key_code"))
-		lua_pushinteger(L, p->windows_key_code);
-
-	else if (!strcmp(i, "native_key_code"))
-		lua_pushinteger(L, p->native_key_code);
-
-	else if (!strcmp(i, "is_system_key"))
-		lua_pushboolean(L, p->type);
-
-	else if (!strcmp(i, "character"))
-		lua_pushwstring(L, &p->character);
-
-	else if (!strcmp(i, "unmodified_character"))
-		lua_pushwstring(L, &p->unmodified_character);
-
-	else if (!strcmp(i, "focus_on_editable_field"))
-		lua_pushboolean(L, p->focus_on_editable_field);
-
-	else return 0;
-
-	return 1;
-}
-
-static int luacef_key_event_newindex(lua_State *L)
-{
-	cef_key_event_t *p = luacef_touserdata(L, 1);
-	if (!p) return 0;
-
-	const char *i = lua_tostring(L, 2);
-
-	if (!strcmp(i, "type"))
-		p->type = lua_tointeger(L, 3);
-
-	else if (!strcmp(i, "modifiers"))
-		p->modifiers = lua_tointeger(L, 3);
-
-	else if (!strcmp(i, "windows_key_code"))
-		p->windows_key_code = lua_tointeger(L, 3);
-
-	else if (!strcmp(i, "native_key_code"))
-		p->native_key_code = lua_tointeger(L, 3);
-
-	else if (!strcmp(i, "is_system_key"))
-		p->type = lua_tointeger(L, 3);
-
-	else if (!strcmp(i, "character"))
-		p->character = lua_towstring(L, 3);
-
-	else if (!strcmp(i, "unmodified_character"))
-		p->unmodified_character = lua_towstring(L, 3);
-
-	else if (!strcmp(i, "focus_on_editable_field"))
-		p->focus_on_editable_field = lua_tointeger(L, 3);
-
-	return 0;
-}
-
-static const luaL_Reg luacef_key_event_m[] = {
-	{ "__index", luacef_key_event_index },
-	{ "__newindex", luacef_key_event_newindex },
-	{ NULL, NULL }
-};
-
 void luacef_keyboard_handler_reg(lua_State *L)
 {
 	luaL_newmetatable(L, __keyboard_handler__);
@@ -277,9 +201,4 @@ void luacef_keyboard_handler_reg(lua_State *L)
 
 	lua_pushcfunction(L, luacef_keyboard_handler_new);
 	lua_setfield(L, -2, "newKeyboardHandler");
-
-	luaL_newmetatable(L, __key_event__);
-	luaL_setfuncs(L, luacef_key_event_m, 0);
-	lua_pop(L, 1);
-
 }

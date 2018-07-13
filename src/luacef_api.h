@@ -66,7 +66,7 @@ static const char *__on_after_created = "OnAfterCreated";
 static const char *__on_before_close = "OnBeforeClose";
 
 // rect
-static const char *__rect__ = "Rect";
+
 
 // download_handler
 static const char *__download_handler__ = "DownloadHandler";
@@ -114,21 +114,17 @@ static const char *__completion_callback__ = "CompletionCallback";
 // 
 static const char *__scheme_registrar__ = "SchemeRegistrar";
 
-
 //
 static const char *__frame__ = "Frame";
 static const char *__browser__ = "Browser";
-static const char *__settings__ = "Settings";
 static const char *__main_args__ = "MainArgs";
 static const char *__window_info__ = "WindowInfo";
-static const char *__browser_settings__ = "BrowserSettings";
 static const char *__request__ = "Request";
 static const char *__string_visitor__ = "StringVisitor";
 static const char *__process_message__ = "ProcessMessage";
 static const char *__browser_host__ = "BrowserHost";
-static const char *__point__ = "Point";
-static const char *__mouse_event__ = "MouseEvent";
-static const char *__key_event__ = "KeyEvent";
+
+
 static const char *__request_context__ = "RequestContext";
 static const char *__command_line__ = "CommandLine";
 
@@ -152,7 +148,7 @@ static const char *__v8interceptor__ = "V8Interceptor";
 static const char *__task_runner__ = "TaskRunner";
 
 static const char *__list_value__ = "ListValue";
-static const char *__popup_features__ = "PopupFeatures";
+
 
 static const char *__web_plugin_unstable_callback__ = "WebPluginUnstableCallback";
 static const char *__web_plugin_info__ = "WebPluginInfo";
@@ -227,13 +223,27 @@ static const char *__bool_ptr__ = "BoolPtr";
 
 
 
-
-
-
-
-
-
-
+// types
+static const char *__settings__ = "Settings";
+static const char *__request_context_settings__ = "RequestContextSettings";
+static const char *__browser_settings__ = "BrowserSettings";
+static const char *__urlparts__ = "URLParts";
+static const char *__cookie__ = "Cookie";
+static const char *__point__ = "Point";
+static const char *__rect__ = "Rect";
+static const char *__size__ = "Size";
+static const char *__range__ = "Range";
+static const char *__insets__ = "Insets";
+static const char *__draggable_region__ = "DraggableRegion";
+static const char *__screen_info__ = "ScreenInfo";
+static const char *__mouse_event__ = "MouseEvent";
+static const char *__key_event__ = "KeyEvent";
+static const char *__popup_features__ = "PopupFeatures";
+static const char *__geoposition__ = "Geoposition";
+static const char *__cursor_info__ = "CursorInfo";
+static const char *__pdf_print_settings__ = "PDFPrintSettings";
+static const char *__box_layout_settings__ = "BoxLayoutSettings";
+static const char *__composition_underline__ = "CompositionUnderline";
 
 
 
