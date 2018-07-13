@@ -8,7 +8,22 @@
  	</p>
 </p>
 
--- __todo__
+### --- __todo__ [70%]
+
+### Source:
+- [Lua 5.3.4](https://www.lua.org/ftp/)
+- [CEF 3.3112 - Chromium 60](http://opensource.spotify.com/cefbuilds/index.html)
+
+### OS Supported
+- [x] Windows
+- [ ] Linux (todo)
+- [ ] ~~Mac OSX~~
+
+### Build
+#### For Windows:
+- Run __build_win.lua__
+
+....
 
 ### How to store pointer?
 
@@ -43,6 +58,7 @@ cef.printversion()
 
 -- new main args, app
 local args, app = cef.newMainArgs(), cef.newApp() 
+print(args.instance)
 
 -- execute process and check, not necessary
 local code = cef.ExecuteProcess(args, app)
@@ -99,12 +115,33 @@ function life_span:OnBeforeClose(browser)
 	cef.QuitMessageLoop()
 end;
 
+-- keyboard handler
+keyboard = cef.newKeyboardHandler {
+	-- pre-key event
+	OnPreKeyEvent = function(self, browser, event, os_event, is_keyboard_shortcut)
+
+		if event.type == 2 then -- check for release key
+			if event.windows_key_code == 0xd then
+				print('Enter key released')
+			elseif event.windows_key_code == 0x1b then
+				print('ESC key released')
+			end
+		end
+		
+		return 0
+	end;
+}
+
 -- new client
 local client = cef.newClient {
 
 	-- set life span handler by return it
 	GetLifeSpanHandler = function(self) 
 		return life_span
+	end,
+	-- set keyboard handler
+	GetKeyboardHandler = function(self)
+		return keyboard
 	end;
 }
 
@@ -125,6 +162,7 @@ cef.Shutdown()
 client:release()
 app:release()
 life_span:release()
+keyboard:release()
 ```
 
 ### License
