@@ -59,7 +59,6 @@ cef.printversion()
 
 -- new main args, app
 local args, app = cef.newMainArgs(), cef.newApp() 
-print(args.instance)
 
 -- execute process and check, not necessary
 local code = cef.ExecuteProcess(args, app)
