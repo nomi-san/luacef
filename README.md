@@ -68,7 +68,7 @@ if (code >= 0) then os.exit() end
 local settings = cef.newSettings {
 
 	log_severity = 99;	-- disable debug log and log file		
-	single_process = 1; -- Lua interpreter cannot run multipl-process
+	single_process = 1; -- Lua interpreter cannot run multi-process
 						-- should set to 0 for self-running (independent executable program)		
 }
 
