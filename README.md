@@ -54,11 +54,11 @@
 -- require library
 cef = require("luacef")
 
--- print version
-cef.printversion()
-
 -- new main args, app
 local args, app = cef.newMainArgs(), cef.newApp() 
+
+-- print version
+cef.printversion()
 
 -- execute process and check, not necessary
 local code = cef.ExecuteProcess(args, app)
