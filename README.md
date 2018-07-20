@@ -67,9 +67,8 @@ if (code >= 0) then os.exit() end
 -- new cef settings
 local settings = cef.newSettings {
 
-	log_severity = 99;	-- disable debug log and log file		
-	single_process = 1; -- Lua interpreter cannot run multi-process
-						-- should set to 0 for self-running (independent executable program)		
+	log_severity = 99   -- disable debug log and log file		
+	single_process = 1; -- must set single-process for Lua command line		
 }
 
 -- enable high DPI support for windows 7 or newer
