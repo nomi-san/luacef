@@ -51,27 +51,26 @@
 #### Simple example
 
 ```lua
--- require library
 cef = require("luacef")
 
 -- new main args, app
 local args, app = cef.newMainArgs(), cef.newApp() 
 
--- print version
-cef.printversion()
-
 -- execute process and check, not necessary
 local code = cef.ExecuteProcess(args, app)
 if (code >= 0) then os.exit() end
 
+-- print version
+cef.printversion()
+
 -- new cef settings
 local settings = cef.newSettings {
 
-	log_severity = 99   -- disable debug log and log file		
-	single_process = 1; -- must set single-process for Lua command line		
+	log_severity = 99;	-- disable debug log and log file		
+	single_process = 1; -- must set single-process for Lua command line	
 }
 
--- enable high DPI support for windows 7 or newer
+-- enable high DPI support, for windows 7 or newer
 cef.EnableHighDPISupport()
 
 -- initialize application
@@ -119,25 +118,23 @@ keyboard = cef.newKeyboardHandler {
 	-- pre-key event
 	OnPreKeyEvent = function(self, browser, event, os_event, is_keyboard_shortcut)
 
-		if event.type == 2 then -- check for release key
+		if event.type == 2 then -- test release key
 			if event.windows_key_code == 0xd then
 				print('Enter key released')
 			elseif event.windows_key_code == 0x1b then
 				print('ESC key released')
 			end
 		end
-		
 		return 0
 	end;
 }
 
 -- new client
 local client = cef.newClient {
-
 	-- set life span handler by return it
 	GetLifeSpanHandler = function(self) 
 		return life_span
-	end,
+	end;
 	-- set keyboard handler
 	GetKeyboardHandler = function(self)
 		return keyboard
@@ -148,10 +145,10 @@ local client = cef.newClient {
 local url = 'https://www.google.com/'
 
 -- create browser window
-cef.CreateBrowser(window_info, client, url, browser_settings)
+cef.CreateBrowser(window_info, client, url, browser_settings, nil)
 
 -- run message loop
--- in cef settings, if multi_threaded_message_loop = 1, must use window message loop
+-- in cef settings, if multi_threaded_message_loop is true (1), must use window message loop
 cef.RunMessageLoop()
 
 -- shutdown
