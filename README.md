@@ -165,6 +165,8 @@ keyboard:release()
 <img src="https://i.imgur.com/8mmTqjW.png" width="600">
 </p>
 
+<br>
+
 ### License [Apache 2.0](https://github.com/wy3/luacef/blob/master/LICENSE)
 
 Copyright © 2018 by [__me__](https://github.com/wy3).
