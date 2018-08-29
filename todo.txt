@@ -1,6 +1,6 @@
 ﻿#source version: 
 ✔ lua5.3.4
-✔ cef 3.2743, chromium 52
+✔ cef 3.3112, chromium 60
 
 #main
 ✔ app
