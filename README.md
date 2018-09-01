@@ -8,7 +8,7 @@
  	</p>
 </p>
 
-## --- __todo__ [60%]
+## --- __todo__ [25%]
 
 ### Base on:
 - [Lua 5.3.4](https://www.lua.org/ftp/)
