@@ -68,4 +68,10 @@ typedef struct luacef_cef_command_line {
 
 
 //CEF_EXPORT cef_command_line_t* cef_command_line_create();
+int luacef_command_line_create(luaState *L)
+{
+	
+	return 1;
+}
+
 //CEF_EXPORT cef_command_line_t* cef_command_line_get_global();
