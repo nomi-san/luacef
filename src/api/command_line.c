@@ -75,3 +75,7 @@ int luacef_command_line_create(luaState *L)
 }
 
 //CEF_EXPORT cef_command_line_t* cef_command_line_get_global();
+int luacef_command_line_get_global(luaState *L)
+{
+	return 1;
+}
