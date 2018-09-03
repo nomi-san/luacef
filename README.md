@@ -10,7 +10,7 @@
 
 ## --- __todo__ [25%]
 
-### Base on:
+### Base
 - [Lua 5.3.4](https://www.lua.org/ftp/)
 - [CEF 3.3112 - Chromium 60](http://opensource.spotify.com/cefbuilds/index.html)
 
@@ -20,7 +20,7 @@
 - [ ] ~~Mac OSX~~
 
 ### Build
-#### For Windows:
+#### For Windows
 - Run `$ lua build_win.lua`
 - Add all resources files in __Release__ and __Resources__ folder (from __CEF__ distribution you can [download here](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) for current version).
 
