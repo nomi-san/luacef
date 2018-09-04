@@ -26,7 +26,7 @@
 
 ....
 
-### My technology with pointer :)
+### My technology for pointer :)
 
 ```
  lua:newuserdata  <- alloc [4-byte]
