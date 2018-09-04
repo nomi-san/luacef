@@ -33,19 +33,19 @@
 ~~~~~~~~~~~~~~~~
        |
        v
-    <ptr**> -> <ptr*> = <udata*> <- alloc [n-byte]
+    <ptr**> -> <ptr*> := <udata*> <- alloc [n-byte]
        |                   |---> ::free
        v                   |---> ::set, get
-    <self**>  <------------|      ~~~~~~~~
-    ~~~~~~~~                          ^
-       |                               \
-       v                             ~~~~~~~~~
+    <self**>  <------------|       ~~~~~~~~
+    ~~~~~~~~               v          ^^^
+       |           <type properties>    \
+       v                   v         ~~~~~~~~~
 [method, property] <- <metatable> -> reference
        |
        v
      return
 
-  __LUA_side__
+ <____LUA____>
 ```
 
 #### Simple example
