@@ -26,9 +26,9 @@
 
 ....
 
-### How to store pointer?
+### My technical with pointer :)
 
-```erlang
+```
  lua:newuserdata  <- alloc [4-byte]
 ~~~~~~~~~~~~~~~~
        |
