@@ -48,7 +48,7 @@
  <____LUA____>
 ```
 
-#### Simple example
+#### Simple Google example
 
 ```lua
 cef = require("luacef")
