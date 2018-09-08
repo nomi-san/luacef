@@ -22,7 +22,7 @@
 ### Build
 #### For Windows
 - Run `$ lua build_win.lua`
-- Add all resources files in __Release__ and __Resources__ folder (from __CEF__ distribution you can [download here](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) for current version).
+- Add all resources files in __Release__ and __Resources__ folder (from __CEF__ distribution, you can [download here](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) for current version).
 
 ....
 
