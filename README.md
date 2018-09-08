@@ -29,8 +29,8 @@
 ### My technology for pointer :)
 
 ```
- lua:newuserdata  <- alloc [4-byte]
-~~~~~~~~~~~~~~~~
+lua:newuserdata  <- alloc [4-byte]
+~~~~~~~~~~~~~~~
        |
        v
     <ptr**> -> <ptr*> := <udata*> <- alloc [n-byte]
