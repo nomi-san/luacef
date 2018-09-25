@@ -48,7 +48,7 @@ lua:newuserdata  <- alloc [4-byte]
  <____LUA____>
 ```
 
-#### Simple Google example
+### Simple Google example
 
 ```lua
 cef = require("luacef")
