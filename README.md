@@ -8,16 +8,22 @@
  	</p>
 </p>
 
-## --- __todo__ [25%]
+## >> __todo__ [25%]
 
-### Base
-- [Lua 5.3.4](https://www.lua.org/ftp/)
-- [CEF 3.3112 - Chromium 60](http://opensource.spotify.com/cefbuilds/index.html)
+### Features
+- Use native code like C
+- Support object oriented like C++
+- Easy to use
+- High performance
 
-### OS supported
+### Based on
+- [![image](https://img.shields.io/badge/lua-5.3.4-brightgreen.svg)](https://www.lua.org/ftp/)
+- [![image](https://img.shields.io/badge/cef/chromium-3.3112/60-blue.svg)](http://opensource.spotify.com/cefbuilds/index.html)
+
+### Platforms
 - [x] Windows
-- [ ] Linux (todo)
-- [ ] ~~Mac OSX~~
+- [ ] Linux
+- [ ] Mac OS
 
 ### Build
 #### For Windows
