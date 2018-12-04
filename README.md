@@ -8,16 +8,22 @@
  	</p>
 </p>
 
-## --- __todo__ [25%]
+## >> __todo__ [25%]
 
-### Base
-- [Lua 5.3.4](https://www.lua.org/ftp/)
-- [CEF 3.3112 - Chromium 60](http://opensource.spotify.com/cefbuilds/index.html)
+### Based on
+- [![image](https://img.shields.io/badge/lua-5.3.4-brightgreen.svg)](https://www.lua.org/ftp/)
+- [![image](https://img.shields.io/badge/cef/chromium-3.3112/60-blue.svg)](http://opensource.spotify.com/cefbuilds/index.html)
 
-### OS supported
+### Platforms
 - [x] Windows
-- [ ] Linux (todo)
-- [ ] ~~Mac OSX~~
+- [ ] Linux
+- [ ] Mac OS
+
+### Features
+- Use native code like C
+- Support object oriented like C++
+- Easy to use
+- High performance
 
 ### Build
 #### For Windows
@@ -66,8 +72,8 @@ cef.printversion()
 -- new cef settings
 local settings = cef.newSettings {
 
-	log_severity = 99;	-- disable debug log and log file		
-	single_process = 1; -- must set single-process for Lua command line	
+    log_severity = 99;  -- disable debug log and log file       
+    single_process = 1; -- must set single-process for Lua command line 
 }
 
 -- enable high DPI support, for windows 7 or newer
@@ -80,8 +86,8 @@ if (code == 0) then os.exit() end
 -- create window info
 local window_info = cef.newWindowInfo {
 
-	-- set window name
-	window_name = "Hello World!"; -- Lua string be convert to cef string, accept unicode
+    -- set window name
+    window_name = "Hello World!"; -- Lua string be convert to cef string, accept unicode
 }
 
 -- create browser settings for create browser
@@ -90,55 +96,55 @@ local browser_settings = cef.newBrowserSettings()
 -- create life span handler
 local life_span = cef.newLifeSpanHandler {
 
-	-- implement OnAfterCreated callback function
-	OnAfterCreated = function(self, browser) -- event
-		print("-- on after created --")
-		print(self, browser) --> LifeSpanHandler: <address>, Browser: <address>
-		print('Window handle: ', browser:GetHost():GetWindowHandle())
+    -- implement OnAfterCreated callback function
+    OnAfterCreated = function(self, browser) -- event
+        print("-- on after created --")
+        print(self, browser) --> LifeSpanHandler: <address>, Browser: <address>
+        print('Window handle: ', browser:GetHost():GetWindowHandle())
 
-		-- show browser window
-		cef.ShowBrowser(browser, 10)
-	end;
+        -- show browser window
+        cef.ShowBrowser(browser, 10)
+    end;
 }
 
 -- implement OnBeforeClose with other way
 function life_span:OnBeforeClose(browser)
-	print("-- on before close --")
+    print("-- on before close --")
 
-	-- test browser's method
-	print('can go back:', browser:CanGoBack())
-	print('can go forward:', browser:CanGoForward())
+    -- test browser's method
+    print('can go back:', browser:CanGoBack())
+    print('can go forward:', browser:CanGoForward())
 
-	-- quit cef messgae loop
-	cef.QuitMessageLoop()
+    -- quit cef messgae loop
+    cef.QuitMessageLoop()
 end;
 
 -- keyboard handler
 keyboard = cef.newKeyboardHandler {
-	-- pre-key event
-	OnPreKeyEvent = function(self, browser, event, os_event, is_keyboard_shortcut)
+    -- pre-key event
+    OnPreKeyEvent = function(self, browser, event, os_event, is_keyboard_shortcut)
 
-		if event.type == 2 then -- test release key
-			if event.windows_key_code == 0xd then
-				print('Enter key released')
-			elseif event.windows_key_code == 0x1b then
-				print('ESC key released')
-			end
-		end
-		return 0
-	end;
+        if event.type == 2 then -- test release key
+            if event.windows_key_code == 0xd then
+                print('Enter key released')
+            elseif event.windows_key_code == 0x1b then
+                print('ESC key released')
+            end
+        end
+        return 0
+    end;
 }
 
 -- new client
 local client = cef.newClient {
-	-- set life span handler by return it
-	GetLifeSpanHandler = function(self) 
-		return life_span
-	end;
-	-- set keyboard handler
-	GetKeyboardHandler = function(self)
-		return keyboard
-	end;
+    -- set life span handler by return it
+    GetLifeSpanHandler = function(self) 
+        return life_span
+    end;
+    -- set keyboard handler
+    GetKeyboardHandler = function(self)
+        return keyboard
+    end;
 }
 
 -- url string
