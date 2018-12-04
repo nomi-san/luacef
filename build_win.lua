@@ -56,13 +56,13 @@ exec('del luacef.dll')
 
 print("# Generating object...")
 for m = 1, #c do
-    exec(cc .. ' -shared -w -D_MSC_VER -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ilua/src -Icef -c -o ' .. l[m] .. '.o '.. c[m])
+    exec(cc .. ' -shared -w -D_MSC_VER -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ideps/lua/src -Ideps/cef -c -o ' .. l[m] .. '.o '.. c[m])
     print('    ' .. l[m] .. '.c -> ' .. l[m] .. '.o' )
     a = a .. l[m] .. '.o '
 end
 
 print("# Linking library...")
-exec(cc .. ' -shared -o luacef.dll ' .. a .. ' -Llua -Lcef -llua53 -llibcef -lole32')
+exec(cc .. ' -shared -o luacef.dll ' .. a .. ' -Ldeps/lua -Ldeps/cef -llua53 -llibcef -lole32')
 print("    -> luacef.dll")
 
 exec('del *.o')
