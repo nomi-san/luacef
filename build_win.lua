@@ -12,6 +12,20 @@ function findLast(s, p)
     return f and #s - #p - f + 2 or f
 end
 
+function exists(file)
+   local ok, err, code = os.rename(file, file)
+   if not ok then
+      if code == 13 then
+         return true
+      end
+   end
+   return ok, err
+end
+
+function isdir(path)
+   return exists(path.."/")
+end
+
 --------------------------------------------------------------
 --    src/
 --     |--*.c
@@ -52,6 +66,7 @@ end
 
 cc = 'gcc -std=gnu99 '
 a = ''
+
 exec('del luacef.dll')
 
 print("# Generating object...")
