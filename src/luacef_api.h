@@ -24,32 +24,32 @@
 
 // app
 static const char *__app__ = "App";
-static const char *__on_before_command_line_processing = "OnBeforeCommandLineProcessing";
-static const char *__on_register_custom_schemes = "OnRegisterCustomSchemes";
-static const char *__get_resource_bundle_handler = "GetResourceBundleHandler";
-static const char *__get_browser_process_handler = "GetBrowserProcessHandler";
-static const char *__get_render_process_handler = "GetRenderProcessHandler";
+static const char *__OnBeforeCommandLineProcessing = "OnBeforeCommandLineProcessing";
+static const char *__OnRegisterCustomSchemes = "OnRegisterCustomSchemes";
+static const char *__GetResourceBundleHandler = "GetResourceBundleHandler";
+static const char *__GetBrowserProcessHandler = "GetBrowserProcessHandler";
+static const char *__GetRenderProcessHandler = "GetRenderProcessHandler";
 
 // base
 static const char *__base__ = "Base";
 
 // client
 static const char *__client__ = "Client";
-static const char *__get_context_menu_handler = "GetContextMenuHandler";
-static const char *__get_dialog_handler = "GetDialogHandler";
-static const char *__get_display_handler = "GetDisplayHandler";
-static const char *__get_download_handler = "GetDownloadHandler";
-static const char *__get_drag_handler = "GetDragHandler";
-static const char *__get_find_handler = "GetFindHandler";
-static const char *__get_focus_handler = "GetFocusHandler";
-static const char *__get_geolocation_handler = "GetGeolocationHandler";
-static const char *__get_jsdialog_handler = "GetJSDialogHandler";
-static const char *__get_keyboard_handler = "GetKeyboardHandler";
-static const char *__get_life_span_handler = "GetLifeSpanHandler";
-static const char *__get_load_handler = "GetLoadHandler";
-static const char *__get_render_handler = "GetRenderHandler";
-static const char *__get_request_handler = "GetRequestHandler";
-static const char *__on_process_message_received = "OnProcessMessageReceived";
+static const char *__GetContextMenuHandler = "GetContextMenuHandler";
+static const char *__GetDialogHandler = "GetDialogHandler";
+static const char *__GetDisplayHandler = "GetDisplayHandler";
+static const char *__GetDownloadHandler = "GetDownloadHandler";
+static const char *__GetDragHandler = "GetDragHandler";
+static const char *__GetFindHandler = "GetFindHandler";
+static const char *__GetFocusHandler = "GetFocusHandler";
+static const char *__GetGeolocationHandler = "GetGeolocationHandler";
+static const char *__GetJSDialogHandler = "GetJSDialogHandler";
+static const char *__GetKeyboardHandler = "GetKeyboardHandler";
+static const char *__GetLifeSpanHandler = "GetLifeSpanHandler";
+static const char *__GetLoadHandler = "GetLoadHandler";
+static const char *__GetRenderHandler = "GetRenderHandler";
+static const char *__GetRequestHandler = "GetRequestHandler";
+static const char *__OnProcessMessageReceived = "OnProcessMessageReceived";
 
 // find_handler
 static const char *__find_handler__ = "FindHandler";
@@ -106,10 +106,14 @@ static const char *__domnode__ = "DOMMode";
 
 // cookie
 static const char *__cookie_manager__ = "CookieManager";
+static const char *__cookie_visitor__ = "CookieVisitor";
 static const char *__delete_cookies_callback__ = "DeleteCookiesCallback";
+static const char *__set_cookies_callback__ = "SerCookieCallback";
 
 // callback
 static const char *__completion_callback__ = "CompletionCallback";
+static const char *__OnComplete = "OnComplete";
+static const char *__callback__ = "Callback";
 
 // 
 static const char *__scheme_registrar__ = "SchemeRegistrar";
@@ -144,15 +148,15 @@ static const char *__v8value__ = "V8Value";
 static const char *__v8interceptor__ = "V8Interceptor";
 
 
-
+static const char *__task__ = "Task";
 static const char *__task_runner__ = "TaskRunner";
 
-static const char *__list_value__ = "ListValue";
 
 
 static const char *__web_plugin_unstable_callback__ = "WebPluginUnstableCallback";
 static const char *__web_plugin_info__ = "WebPluginInfo";
 static const char *__register_cdm_callback__ = "RegisterCDMCallback";
+static const char *__web_plugin_info_visitor__ = "WebPluginInfoVisitor";
 
 
 
@@ -179,15 +183,49 @@ static const char *__reload_ignore_cache = "ReloadIgnoreCache";
 static const char *__send_process_message = "SendProcessMessage";
 static const char *__stop_load = "StopLoad";
 
+// browser_process_handler
 static const char *__browser_process_handler__ = "BrowserProcessHandler";
+static const char *__on_context_initialized = "OnContextInitialized";
+static const char *__on_before_child_process_launch = "OnBeforeChildProcessLaunch";
+static const char *__on_render_process_thread_created = "OnRenderProcessThreadCreated";
+static const char *__on_schedule_message_pump_work = "OnScheduleMessagePumpWork";
+static const char *__get_print_handler = "GetPrintHandler";
+
+// context_menu_handler
 static const char *__context_menu_handler__ = "ContextMenuHandler";
+static const char *__context_menu_params__ = "ContextMenuParams";
+static const char *__run_context_menu_callback__ = "RunContextMenuCallback";
+static const char *__OnBeforeContextMenu = "OnBeforeContextMenu";
+static const char *__RunContextMenu = "RunContextMenu";
+static const char *__OnContextMenuCommand = "OnContextMenuCommand";
+static const char *__OnContextMenuDismissed = "OnContextMenuDismissed";
+
+// menu_model
+static const char *__menu_model__ = "MenuModel";
+
+// menu_model_delegate
+static const char *__menu_model_delegate__ = "MenuModelDelegate";
+
+
 static const char *__dialog_handler__ = "DialogHandler";
 static const char *__display_handler__ = "DisplayHandler";
 
+// drag_handler
 static const char *__drag_handler__ = "DragHandler";
+static const char *__OnDragEnter = "OnDragEnter";
+static const char *__OnDraggableRegionsChanged = "OnDraggableRegionsChanged";
+
+// drag_data
+static const char *__drag_data__ = "DragData";
+
 static const char *__focus_handler__ = "FocusHandler";
 static const char *__geolocation_handler__ = "GeolocationHandler";
-static const char *__jsdialog_handler__ = "JsDialogHandler";
+
+// jsdialog_handler
+static const char *__jsdialog_handler__ = "JSDialogHandler";
+static const char *__jsdialog_callback__ = "JSDialogCallback";
+
+
 static const char *__keyboard_handler__ = "KeyboardHandler";
 static const char *__life_span_handler__ = "LifeSpanHandler";
 static const char *__load_handler__ = "LoadHandler";
@@ -200,8 +238,6 @@ static const char *__resource_bundle_handler__ = "ResourceBundleHandler";
 static const char *__resource_handler__ = "ResourceHandler";
 
 
-
-
 static const char *__time__ = "Time";
 
 
@@ -209,18 +245,10 @@ static const char *__time__ = "Time";
 static const char *__event_handle__ = "EventHandle";
 
 
-
-
 // ptr
-static const char *__int_ptr__ = "IntPtr";
-static const char *__bool_ptr__ = "BoolPtr";
-//static const char *__ptr_ptr__ = "PtrPtr";
-
-
-
-
-
-
+static const char *__int_ptr__ = "int*";
+static const char *__double_ptr__ = "double*";
+static const char *__ptr_ptr__ = "ptr*";
 
 
 // types
@@ -245,6 +273,11 @@ static const char *__pdf_print_settings__ = "PDFPrintSettings";
 static const char *__box_layout_settings__ = "BoxLayoutSettings";
 static const char *__composition_underline__ = "CompositionUnderline";
 
+
+// value
+static const char *__value__ = "Value";
+static const char *__list_value__ = "ListValue";
+static const char *__dictionary_value__ = "DictionaryValue__";
 
 
 #endif

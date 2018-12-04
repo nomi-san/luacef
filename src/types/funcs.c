@@ -3,34 +3,7 @@
 // app =======================
 
 
-
 // ssl_info =============================
-
-/*
-	<bool> IsCertStatusError(
-		<int>	status
-	)
-*/
-static int luacef_is_cert_status_error(lua_State* L)
-{
-	int stt = luaL_checkinteger(L, 1);
-
-	lua_pushboolean(L, cef_is_cert_status_error(stt));
-	return 1;
-}
-
-/*
-	<bool> IsCertStatusMinorError(
-		<int>	status
-	)
-*/
-static int luacef_is_cert_status_minor_error(lua_State* L)
-{
-	int stt = luaL_checkinteger(L, 1);
-
-	lua_pushboolean(L, cef_is_cert_status_minor_error(stt));
-	return 1;
-}
 
 // ==============================
 

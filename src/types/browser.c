@@ -1,5 +1,11 @@
 #include "../luacef.h"
 
+//  _                             
+// | |_ ___ ___ _ _ _ ___ ___ ___ 
+// | . |  _| . | | | |_ -| -_|  _|
+// |___|_| |___|_____|___|___|_|  
+//=================================                               
+
 /*
 	Browser {
 		<bool>		CanGoBack();
@@ -25,8 +31,6 @@
 		<int>		SendProcessMessage(<int>, <ProcessMessage>);
 		<void>		StopLoad();
 */
-
-
 
 static int luaecf_browser_new(lua_State* L)
 {
@@ -61,9 +65,9 @@ static int luaecf_browser_new(lua_State* L)
 }
 
 /*
-	<Browser> Browser:GetHost()
+	<BrowserHost> Browser:GetHost()
 */
-static int 	luacef_browser_get_host(lua_State* L)
+static int 	luacef_Browser_GetHost(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -76,7 +80,7 @@ static int 	luacef_browser_get_host(lua_State* L)
 /*
 	<bool> Browser:CanGoBack()
 */
-static int 	luacef_browser_can_go_back(lua_State* L)
+static int 	luacef_Browser_CanGoBack(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -88,7 +92,7 @@ static int 	luacef_browser_can_go_back(lua_State* L)
 /*
 	<void> Browser:GoBack()
 */
-static int 	luacef_browser_go_back(lua_State* L)
+static int 	luacef_Browser_GoBack(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -100,7 +104,7 @@ static int 	luacef_browser_go_back(lua_State* L)
 /*
 	<bool> Browser:CanGoForward()
 */
-static int 	luacef_browser_can_go_forward(lua_State* L)
+static int 	luacef_Browser_CanGoForward(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	lua_pushboolean(L, b->can_go_forward(b));
@@ -111,7 +115,7 @@ static int 	luacef_browser_can_go_forward(lua_State* L)
 /*
 	<void> Browser:GoForward()
 */
-static int 	luacef_browser_go_forward(lua_State* L)
+static int 	luacef_Browser_GoForward(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -123,7 +127,7 @@ static int 	luacef_browser_go_forward(lua_State* L)
 /*
 	<bool> Browser:IsLoading()
 */
-static int 	luacef_browser_is_loading(lua_State* L)
+static int 	luacef_Browser_IsLoading(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	lua_pushboolean(L, b->is_loading(b));
@@ -134,7 +138,7 @@ static int 	luacef_browser_is_loading(lua_State* L)
 /*
 	<void> Browser:Reload()
 */
-static int 	luacef_browser_reload(lua_State* L)
+static int 	luacef_Browser_Reload(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -146,7 +150,7 @@ static int 	luacef_browser_reload(lua_State* L)
 /*
 	<void> Browser:ReloadIgnoreCache()
 */
-static int 	luacef_browser_reload_ignore_cache(lua_State* L)
+static int 	luacef_Browser_ReloadIgnoreCache(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -158,7 +162,7 @@ static int 	luacef_browser_reload_ignore_cache(lua_State* L)
 /*
 	<void> Browser:StopLoad()
 */
-static int 	luacef_browser_stop_load(lua_State* L)
+static int 	luacef_Browser_StopLoad(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -170,7 +174,7 @@ static int 	luacef_browser_stop_load(lua_State* L)
 /*
 	<int> Browser:GetIdentifier()
 */
-static int 	luacef_browser_get_identifier(lua_State* L)
+static int 	luacef_Browser_GetIdentifier(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -185,7 +189,7 @@ static int 	luacef_browser_get_identifier(lua_State* L)
 		<Browser> that
 	)
 */
-static int 	luacef_browser_is_same(lua_State* L)
+static int 	luacef_Browser_IsSame(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	cef_browser_t *b2 = luacef_checkudata(L, 2, __browser__);
@@ -198,7 +202,7 @@ static int 	luacef_browser_is_same(lua_State* L)
 /*
 	<bool> Browser:IsPopup()
 */
-static int 	luacef_browser_is_popup(lua_State* L)
+static int 	luacef_Browser_IsPopup(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	lua_pushboolean(L, b->is_popup(b));
@@ -209,7 +213,7 @@ static int 	luacef_browser_is_popup(lua_State* L)
 /*
 	<bool> Browser:HasDocument()
 */
-static int 	luacef_browser_has_document(lua_State* L)
+static int 	luacef_Browser_HasDocument(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -221,7 +225,7 @@ static int 	luacef_browser_has_document(lua_State* L)
 /*
 	<Frame> Browser:GetMainFrame()
 */
-static int 	luacef_browser_get_main_frame(lua_State* L)
+static int 	luacef_Browser_GetMainFrame(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -234,7 +238,7 @@ static int 	luacef_browser_get_main_frame(lua_State* L)
 /*
 	<Frame> Browser:GetFocusedFrame()
 */
-static int 	luacef_browser_get_focused_frame(lua_State* L)
+static int 	luacef_Browser_GetFocusedFrame(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -245,43 +249,39 @@ static int 	luacef_browser_get_focused_frame(lua_State* L)
 }
 
 /*
-	<Frame> Browser:GetFrameByIdentifier(
-		<int> id
-	)
-*/
-static int 	luacef_browser_get_frame_byident(lua_State* L)
-{
-	cef_browser_t *b = luacef_touserdata(L, 1);
-	int id = lua_tointeger(L, 2);
-
-	cef_frame_t *f = b->get_frame_byident(b, id);
-
-	luacef_pushuserdata(L, f, __frame__);
-	return 1;
-}
-
-/*
 	<Frame> Browser:GetFrame(
 		<str> name
 	)
+
+	<Frame> Browser:GetFrame(
+		<int> identifier
+	)
 */
-static int 	luacef_browser_get_frame(lua_State* L)
+static int 	luacef_Browser_GetFrame(lua_State* L)
 {
-	cef_browser_t *b = luacef_touserdata(L, 1);
-	const char* cs_name = lua_tostring(L, 2);
+	cef_browser_t *p = luacef_touserdata(L, 1);
 
-	cef_string_t name = { 0 };
-	cef_string_from_utf8(cs_name, strlen(cs_name), &name);
-	cef_frame_t *f = b->get_frame(b, &name);
+	cef_frame_t *r = NULL;
 
-	luacef_pushuserdata(L, f, __frame__);
+	if (lua_isstring(L, 1)) {
+		const cef_string_t name = luacef_tostring(L, 1);
+
+		r = p->get_frame(p, &name);
+	}
+	else if (lua_isinteger(L, 1)) {
+		int id = lua_tointeger(L, 1);
+
+		r = p->get_frame_byident(p, id);
+	}
+
+	luacef_pushuserdata(L, r, __frame__);
 	return 1;
 }
 
 /*
 	<int> Browser:GetFrameCount()
 */
-static int 	luacef_browser_get_frame_count(lua_State* L)
+static int 	luacef_Browser_GetFrameCount(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 
@@ -291,15 +291,24 @@ static int 	luacef_browser_get_frame_count(lua_State* L)
 	return 1;
 }
 
-///////////////////////////
-static int 	luacef_browser_get_frame_identifiers(lua_State* L)
+/*
+	<void> Browser:GetFrameIdentifiers(
+		<int*> identifiers
+	)
+*/
+static int 	luacef_Browser_GetFrameIdentifiers(lua_State* L)
 {
-	cef_browser_t *b = luacef_touserdata(L, 1);
+	cef_browser_t *p = luacef_touserdata(L, 1);
+	luacef_int *id = luacef_checkudata(L, 2, __int_ptr__);
 
-	//b->get_frame_identifiers(b, )
-	// todo
+	size_t c = p->get_frame_count(p);
+	p->get_frame_identifiers(
+		p,
+		&c,
+		&id
+	);
 
-	return 1;
+	return 0;
 }
 
 /*
@@ -307,9 +316,11 @@ static int 	luacef_browser_get_frame_identifiers(lua_State* L)
 		<udata> name
 	)
 */
-static int 	luacef_browser_get_frame_names(lua_State* L)
+static int 	luacef_Browser_GetFrameNames(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
+
+	
 
 	//b->get_frame_names(b, )
 	// todo
@@ -323,7 +334,7 @@ static int 	luacef_browser_get_frame_names(lua_State* L)
 		<ProcessMessage>	message
 	)
 */
-static int 	luacef_browser_send_process_message(lua_State* L)
+static int 	luacef_Browser_SendProcessMessage(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	int p_id = lua_tointeger(L, 2);
@@ -335,33 +346,32 @@ static int 	luacef_browser_send_process_message(lua_State* L)
 	return 1;
 }
 
-static const luaL_Reg luacef_browser_m[] = {
+static const luaL_Reg luacef_Browser_m[] = {
 	{ "release", luacef_release },
-	{ "CanGoBack", luacef_browser_can_go_back },
-	{ "CanGoForward", luacef_browser_can_go_forward },
-	{ "GetFocusedFrame", luacef_browser_get_focused_frame },
-	{ "GetFrame", luacef_browser_get_frame },
-	{ "GetFrameByIdentifier", luacef_browser_get_frame_byident },
-	{ "GetFrameCount", luacef_browser_get_frame_count },
-	{ "GetFrameIdentifiers", luacef_browser_get_frame_identifiers },
-	{ "GetFrameNames", luacef_browser_get_frame_names },
-	{ "GetHost", luacef_browser_get_host },
-	{ "GetIdentifier", luacef_browser_get_identifier },
-	{ "GetMainFrame", luacef_browser_get_main_frame },
-	{ "GoBack", luacef_browser_go_back },
-	{ "GoForward", luacef_browser_go_forward },
-	{ "HasDocument", luacef_browser_has_document },
-	{ "IsLoading", luacef_browser_is_loading },
-	{ "IsPopup", luacef_browser_is_popup },
-	{ "IsSame", luacef_browser_is_same },
-	{ "Reload", luacef_browser_reload },
-	{ "ReloadIgnoreCache", luacef_browser_reload_ignore_cache },
-	{ "SendProcessMessage", luacef_browser_send_process_message },
-	{ "StopLoad", luacef_browser_stop_load },
+	{ "CanGoBack", luacef_Browser_CanGoBack },
+	{ "CanGoForward", luacef_Browser_CanGoForward },
+	{ "GetFocusedFrame", luacef_Browser_GetFocusedFrame },
+	{ "GetFrame", luacef_Browser_GetFrame },
+	{ "GetFrameCount", luacef_Browser_GetFrameCount },
+	{ "GetFrameIdentifiers", luacef_Browser_GetFrameIdentifiers },
+	{ "GetFrameNames", luacef_Browser_GetFrameNames },
+	{ "GetHost", luacef_Browser_GetHost },
+	{ "GetIdentifier", luacef_Browser_GetIdentifier },
+	{ "GetMainFrame", luacef_Browser_GetMainFrame },
+	{ "GoBack", luacef_Browser_GoBack },
+	{ "GoForward", luacef_Browser_GoForward },
+	{ "HasDocument", luacef_Browser_HasDocument },
+	{ "IsLoading", luacef_Browser_IsLoading },
+	{ "IsPopup", luacef_Browser_IsPopup },
+	{ "IsSame", luacef_Browser_IsSame },
+	{ "Reload", luacef_Browser_Reload },
+	{ "ReloadIgnoreCache", luacef_Browser_ReloadIgnoreCache },
+	{ "SendProcessMessage", luacef_Browser_SendProcessMessage },
+	{ "StopLoad", luacef_Browser_StopLoad },
 	{ NULL, NULL }
 };
 
-static int luacef_browser_host_new(lua_State* L)
+static int luacef_Browser_Host_new(lua_State* L)
 {
 	size_t sz = sizeof(cef_browser_host_t);
 	cef_browser_host_t *h = calloc(1, sz);
@@ -427,7 +437,7 @@ static int luacef_browser_host_new(lua_State* L)
 		<str> word
 	)
 */
-static int luacef_browser_host_add_word_to_dictionary(lua_State* L)
+static int luacef_Browser_Host_add_word_to_dictionary(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	const char* cs = lua_tostring(L, 2);
@@ -444,7 +454,7 @@ static int luacef_browser_host_add_word_to_dictionary(lua_State* L)
 		<int> force_close
 	)
 */
-static int luacef_browser_host_close_browser(lua_State* L)
+static int luacef_Browser_Host_close_browser(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int force_close = lua_tointeger(L, 2);
@@ -457,7 +467,7 @@ static int luacef_browser_host_close_browser(lua_State* L)
 /*
 	<void> BrowserHost:CloseDevTools()
 */
-static int luacef_browser_host_close_dev_tools(lua_State* L)
+static int luacef_Browser_Host_close_dev_tools(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -469,7 +479,7 @@ static int luacef_browser_host_close_dev_tools(lua_State* L)
 /*
 	<> BrowserHost:DownloadImage()
 */
-static int luacef_browser_host_download_image(lua_State* L)
+static int luacef_Browser_Host_download_image(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -483,7 +493,7 @@ static int luacef_browser_host_download_image(lua_State* L)
 /*
 	<> BrowserHost:DragSourceEndedAt()
 */
-static int luacef_browser_host_drag_source_ended_at(lua_State* L)
+static int luacef_Browser_Host_drag_source_ended_at(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -496,7 +506,7 @@ static int luacef_browser_host_drag_source_ended_at(lua_State* L)
 /*
 	<> BrowserHost:DragSourceSystemDragEnded()
 */
-static int luacef_browser_host_drag_source_system_drag_ended(lua_State* L)
+static int luacef_Browser_Host_drag_source_system_drag_ended(lua_State* L)
 {
 
 	// todo
@@ -506,7 +516,7 @@ static int luacef_browser_host_drag_source_system_drag_ended(lua_State* L)
 /*
 	<> BrowserHost:DragTargetDragEnter()
 */
-static int luacef_browser_host_drag_target_drag_enter(lua_State* L)
+static int luacef_Browser_Host_drag_target_drag_enter(lua_State* L)
 {
 	// todo
 	return 0;
@@ -515,7 +525,7 @@ static int luacef_browser_host_drag_target_drag_enter(lua_State* L)
 /*
 	<> BrowserHost:DragTargetDragLeave()
 */
-static int luacef_browser_host_drag_target_drag_leave(lua_State* L)
+static int luacef_Browser_Host_drag_target_drag_leave(lua_State* L)
 {
 	// todo
 	return 0;
@@ -524,7 +534,7 @@ static int luacef_browser_host_drag_target_drag_leave(lua_State* L)
 /*
 	<> BrowserHost:DragTargetDragOver()
 */
-static int luacef_browser_host_drag_target_drag_over(lua_State* L)
+static int luacef_Browser_Host_drag_target_drag_over(lua_State* L)
 {
 	// todo
 	return 0;
@@ -533,7 +543,7 @@ static int luacef_browser_host_drag_target_drag_over(lua_State* L)
 /*
 	<> BrowserHost:DragTargetDrop()
 */
-static int luacef_browser_host_drag_target_drop(lua_State* L)
+static int luacef_Browser_Host_drag_target_drop(lua_State* L)
 {
 	// todo
 	return 0;
@@ -542,7 +552,7 @@ static int luacef_browser_host_drag_target_drop(lua_State* L)
 /*
 	<> BrowserHost:Find()
 */
-static int luacef_browser_host_find(lua_State* L)
+static int luacef_Browser_Host_find(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -555,7 +565,7 @@ static int luacef_browser_host_find(lua_State* L)
 /*
 	<Browser> BrowserHost:GetBrowser()
 */
-static int luacef_browser_host_get_browser(lua_State* L)
+static int luacef_Browser_Host_get_browser(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -568,7 +578,7 @@ static int luacef_browser_host_get_browser(lua_State* L)
 /*
 	<Client> BrowserHost:GetClient()
 */
-static int luacef_browser_host_get_client(lua_State* L)
+static int luacef_Browser_Host_get_client(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -581,7 +591,7 @@ static int luacef_browser_host_get_client(lua_State* L)
 /*
 	<void> Browser:GetNavigationEntries()
 */
-static int luacef_browser_host_get_navigation_entries(lua_State* L)
+static int luacef_Browser_Host_get_navigation_entries(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -594,7 +604,7 @@ static int luacef_browser_host_get_navigation_entries(lua_State* L)
 /*
 	<void> Browser:GetNSTextInputContext()
 */
-static int luacef_browser_host_get_nstext_input_context(lua_State* L)
+static int luacef_Browser_Host_get_nstext_input_context(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -607,7 +617,7 @@ static int luacef_browser_host_get_nstext_input_context(lua_State* L)
 	<udata> Browser:GetOpenerWindowHandle()
 	-> HWND
 */
-static int luacef_browser_host_get_opener_window_handle(lua_State* L)
+static int luacef_Browser_Host_get_opener_window_handle(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -620,7 +630,7 @@ static int luacef_browser_host_get_opener_window_handle(lua_State* L)
 /*
 	<RequestContext> Browser:GetRequestContext()
 */
-static int luacef_browser_host_get_request_context(lua_State* L)
+static int luacef_Browser_Host_get_request_context(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -633,7 +643,7 @@ static int luacef_browser_host_get_request_context(lua_State* L)
 /*
 	<int> Browser:GetWindowlessFrameRate()
 */
-static int luacef_browser_host_get_windowless_frame_rate(lua_State* L)
+static int luacef_Browser_Host_get_windowless_frame_rate(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -647,7 +657,7 @@ static int luacef_browser_host_get_windowless_frame_rate(lua_State* L)
 	<udata> BrowserHost:GetWindowHandle()
 	-> HWND
 */
-static int luacef_browser_host_get_window_handle(lua_State* L)
+static int luacef_Browser_Host_get_window_handle(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -660,7 +670,7 @@ static int luacef_browser_host_get_window_handle(lua_State* L)
 /*
 	<num> BrowserHost:GetZoomLevel()
 */
-static int luacef_browser_host_get_zoom_level(lua_State* L)
+static int luacef_Browser_Host_get_zoom_level(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -673,7 +683,7 @@ static int luacef_browser_host_get_zoom_level(lua_State* L)
 /*
 	<> BrowserHost:HandleKeyEventAfterTextInputClient()
 */
-static int luacef_browser_host_handle_key_event_after_text_input_client(lua_State* L)
+static int luacef_Browser_Host_handle_key_event_after_text_input_client(lua_State* L)
 {
 	// todo
 	return 0;
@@ -682,7 +692,7 @@ static int luacef_browser_host_handle_key_event_after_text_input_client(lua_Stat
 /*
 	<> BrowserHost:HandleKeyEventBeforeTextInputClient()
 */
-static int luacef_browser_host_handle_key_event_before_text_input_client(lua_State* L)
+static int luacef_Browser_Host_handle_key_event_before_text_input_client(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	//MSG *msg = 
@@ -697,7 +707,7 @@ static int luacef_browser_host_handle_key_event_before_text_input_client(lua_Sta
 /*
 	<bool> BrowserHost:HasDevTools()
 */
-static int luacef_browser_host_has_dev_tools(lua_State* L)
+static int luacef_Browser_Host_has_dev_tools(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -708,7 +718,7 @@ static int luacef_browser_host_has_dev_tools(lua_State* L)
 /*
 	<bool> BrowserHost:HasView()
 */
-static int luacef_browser_host_has_view(lua_State* L)
+static int luacef_Browser_Host_has_view(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -721,7 +731,7 @@ static int luacef_browser_host_has_view(lua_State* L)
 		<int>	paint_element_type
 	)
 */
-static int luacef_browser_host_invalidate(lua_State* L)
+static int luacef_Browser_Host_invalidate(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int type = lua_tointeger(L, 2);
@@ -734,7 +744,7 @@ static int luacef_browser_host_invalidate(lua_State* L)
 /*
 	<bool> BrowserHost:IsMouseCursorChangeDisabled()
 */
-static int luacef_browser_host_is_mouse_cursor_change_disabled(lua_State* L)
+static int luacef_Browser_Host_is_mouse_cursor_change_disabled(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -745,7 +755,7 @@ static int luacef_browser_host_is_mouse_cursor_change_disabled(lua_State* L)
 /*
 	<bool> BrowserHost:IsWindowRenderingDisabled()
 */
-static int luacef_browser_host_is_window_rendering_disabled(lua_State* L)
+static int luacef_Browser_Host_is_window_rendering_disabled(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -756,7 +766,7 @@ static int luacef_browser_host_is_window_rendering_disabled(lua_State* L)
 /*
 	<void> BrowserHost:NotifyMoveOrResizeStarted()
 */
-static int luacef_browser_host_notify_move_or_resize_started(lua_State* L)
+static int luacef_Browser_Host_notify_move_or_resize_started(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -768,7 +778,7 @@ static int luacef_browser_host_notify_move_or_resize_started(lua_State* L)
 /*
 	<void> BrowserHost:NotifyScreenInfoChanged()
 */
-static int luacef_browser_host_notify_screen_info_changed(lua_State* L)
+static int luacef_Browser_Host_notify_screen_info_changed(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -780,7 +790,7 @@ static int luacef_browser_host_notify_screen_info_changed(lua_State* L)
 /*
 	<void> BrowserHost:Print()
 */
-static int luacef_browser_host_print(lua_State* L)
+static int luacef_Browser_Host_print(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -796,7 +806,7 @@ static int luacef_browser_host_print(lua_State* L)
 		<PDFPrintCallback>	callback
 	)
 */
-static int luacef_browser_host_print_to_pdf(lua_State* L)
+static int luacef_Browser_Host_print_to_pdf(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	const char *cs_path = lua_tostring(L, 2);
@@ -816,7 +826,7 @@ static int luacef_browser_host_print_to_pdf(lua_State* L)
 		<str> word
 	)
 */
-static int luacef_browser_host_replace_misspelling(lua_State* L)
+static int luacef_Browser_Host_replace_misspelling(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	const char *cs = lua_tostring(L, 2);
@@ -831,7 +841,7 @@ static int luacef_browser_host_replace_misspelling(lua_State* L)
 /*
 	<void> BrowserHost:RunFileDialog()
 */
-static int luacef_browser_host_run_file_dialog(lua_State* L)
+static int luacef_Browser_Host_run_file_dialog(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -844,7 +854,7 @@ static int luacef_browser_host_run_file_dialog(lua_State* L)
 /*
 	<void> BrowserHost:SendCaptureLostEvent()
 */
-static int luacef_browser_host_send_capture_lost_event(lua_State* L)
+static int luacef_Browser_Host_send_capture_lost_event(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -858,7 +868,7 @@ static int luacef_browser_host_send_capture_lost_event(lua_State* L)
 		<int> set_foccus
 	)
 */
-static int luacef_browser_host_send_focus_event(lua_State* L)
+static int luacef_Browser_Host_send_focus_event(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int setfocus = lua_tointeger(L, 2);
@@ -873,7 +883,7 @@ static int luacef_browser_host_send_focus_event(lua_State* L)
 		<KeyEvent>	event
 	)
 */
-static int luacef_browser_host_send_key_event(lua_State* L)
+static int luacef_Browser_Host_send_key_event(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	cef_key_event_t *ke = luacef_checkudata(L, 2, __key_event__);
@@ -891,7 +901,7 @@ static int luacef_browser_host_send_key_event(lua_State* L)
 		<int>			click_count
 	)
 */
-static int luacef_browser_host_send_mouse_click_event(lua_State* L)
+static int luacef_Browser_Host_send_mouse_click_event(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	cef_mouse_event_t *me = luacef_checkudata(L, 2, __mouse_event__);
@@ -910,7 +920,7 @@ static int luacef_browser_host_send_mouse_click_event(lua_State* L)
 		<int>			mouse_leave,
 	)
 */
-static int luacef_browser_host_send_mouse_move_event(lua_State* L)
+static int luacef_Browser_Host_send_mouse_move_event(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	cef_mouse_event_t *me = luacef_checkudata(L, 2, __mouse_event__);
@@ -928,7 +938,7 @@ static int luacef_browser_host_send_mouse_move_event(lua_State* L)
 		<int>			deltaY
 	)
 */
-static int luacef_browser_host_send_mouse_wheel_event(lua_State* L)
+static int luacef_Browser_Host_send_mouse_wheel_event(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	cef_mouse_event_t *me = luacef_checkudata(L, 2, __mouse_event__);
@@ -945,7 +955,7 @@ static int luacef_browser_host_send_mouse_wheel_event(lua_State* L)
 		<bool> focus
 	)
 */
-static int luacef_browser_host_set_focus(lua_State* L)
+static int luacef_Browser_Host_set_focus(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int focus = lua_toboolean(L, 2);
@@ -960,7 +970,7 @@ static int luacef_browser_host_set_focus(lua_State* L)
 		<bool> disabled
 	)
 */
-static int luacef_browser_host_set_mouse_cursor_change_disabled(lua_State* L)
+static int luacef_Browser_Host_set_mouse_cursor_change_disabled(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int disabled = lua_toboolean(L, 2);
@@ -975,7 +985,7 @@ static int luacef_browser_host_set_mouse_cursor_change_disabled(lua_State* L)
 		<int> frame_rate
 	)
 */
-static int luacef_browser_host_set_windowless_frame_rate(lua_State* L)
+static int luacef_Browser_Host_set_windowless_frame_rate(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int frame_rate = lua_tointeger(L, 2);
@@ -990,7 +1000,7 @@ static int luacef_browser_host_set_windowless_frame_rate(lua_State* L)
 		<num>	zoom_level
 	)
 */
-static int luacef_browser_host_set_zoom_level(lua_State* L)
+static int luacef_Browser_Host_set_zoom_level(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	double zl = lua_tonumber(L, 2);
@@ -1008,7 +1018,7 @@ static int luacef_browser_host_set_zoom_level(lua_State* L)
 		<Point>				inspect_element_at	
 	)
 */
-static int luacef_browser_host_show_dev_tools(lua_State* L)
+static int luacef_Browser_Host_show_dev_tools(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	cef_window_info_t *wi = luacef_checkudata(L, 2, __window_info__);
@@ -1026,7 +1036,7 @@ static int luacef_browser_host_show_dev_tools(lua_State* L)
 		<str> url
 	)
 */
-static int luacef_browser_host_start_download(lua_State* L)
+static int luacef_Browser_Host_start_download(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	const char* cs = lua_tostring(L, 2);
@@ -1043,7 +1053,7 @@ static int luacef_browser_host_start_download(lua_State* L)
 		<int> clearSelection
 	)
 */
-static int luacef_browser_host_stop_finding(lua_State* L)
+static int luacef_Browser_Host_stop_finding(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int clr_slt = lua_tointeger(L, 2);
@@ -1056,7 +1066,7 @@ static int luacef_browser_host_stop_finding(lua_State* L)
 /*
 	<int> BrowserHost:TryCloseBrowser()
 */
-static int luacef_browser_host_try_close_browser(lua_State* L)
+static int luacef_Browser_Host_try_close_browser(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -1071,7 +1081,7 @@ static int luacef_browser_host_try_close_browser(lua_State* L)
 		<int> hidden
 	)
 */
-static int luacef_browser_host_was_hidden(lua_State* L)
+static int luacef_Browser_Host_was_hidden(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 	int hidden = lua_tointeger(L, 2);
@@ -1084,7 +1094,7 @@ static int luacef_browser_host_was_hidden(lua_State* L)
 /*
 	<void> BrowserHost:WasResized()
 */
-static int luacef_browser_host_was_resized(lua_State* L)
+static int luacef_Browser_Host_was_resized(lua_State* L)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
 
@@ -1093,149 +1103,138 @@ static int luacef_browser_host_was_resized(lua_State* L)
 	return 0;
 }
 
-static const luaL_Reg luacef_browser_host_m[] = {
-	{ "AddWordToDictionary", luacef_browser_host_add_word_to_dictionary },
-	{ "CloseBrowser", luacef_browser_host_close_browser },
-	{ "CloseDevTools", luacef_browser_host_close_dev_tools },
-	{ "DownloadImage", luacef_browser_host_download_image },
-	{ "DragSourceEndedAt", luacef_browser_host_drag_source_ended_at },
-	{ "DragSourceSystemDragEnded", luacef_browser_host_drag_source_system_drag_ended },
-	{ "DragTargetDragEnter", luacef_browser_host_drag_target_drag_enter },
-	{ "DragTargetDragLeave", luacef_browser_host_drag_target_drag_leave },
-	{ "DragTargetDragOver", luacef_browser_host_drag_target_drag_over },
-	{ "DragTargetDrop", luacef_browser_host_drag_target_drop },
-	{ "Find", luacef_browser_host_find },
-	{ "GetBrowser", luacef_browser_host_get_browser },
-	{ "GetClient", luacef_browser_host_get_client },
-	{ "GetNavigationEntries", luacef_browser_host_get_navigation_entries },
-	{ "GetNSTextInputContext", luacef_browser_host_get_nstext_input_context },
-	{ "GetOpenerWindowHandle", luacef_browser_host_get_opener_window_handle },
-	{ "GetRequestContext", luacef_browser_host_get_request_context },
-	{ "GetWindowlessFrameRate", luacef_browser_host_get_windowless_frame_rate },
-	{ "GetWindowHandle", luacef_browser_host_get_window_handle },
-	{ "GetZoomLevel", luacef_browser_host_get_zoom_level },
-	{ "HandleKeyEventAfterTextInputClient", luacef_browser_host_handle_key_event_after_text_input_client },
-	{ "HandleKeyEventBeforeTextInputClient", luacef_browser_host_handle_key_event_before_text_input_client },
-	{ "HasDevTools", luacef_browser_host_has_dev_tools },
-	{ "HasView", luacef_browser_host_has_view },
-	{ "Invalidate", luacef_browser_host_invalidate },
-	{ "IsMouseCursorChangeDisabled", luacef_browser_host_is_mouse_cursor_change_disabled },
-	{ "IsWindowRenderingDisabled", luacef_browser_host_is_window_rendering_disabled },
-	{ "NotifyMoveOrResizeStarted", luacef_browser_host_notify_move_or_resize_started },
-	{ "NotifyScreenInfoChanged", luacef_browser_host_notify_screen_info_changed },
-	{ "Print", luacef_browser_host_print },
-	{ "PrintToPDF", luacef_browser_host_print_to_pdf },
-	{ "ReplaceMisspelling", luacef_browser_host_replace_misspelling },
-	{ "RunFileDialog", luacef_browser_host_run_file_dialog },
-	{ "SendCaptureLostEvent", luacef_browser_host_send_capture_lost_event },
-	{ "SendFocusEvent", luacef_browser_host_send_focus_event },
-	{ "SendKeyEvent", luacef_browser_host_send_key_event },
-	{ "SendMouseClickEvent", luacef_browser_host_send_mouse_click_event },
-	{ "SendMouseMoveEvent", luacef_browser_host_send_mouse_move_event },
-	{ "SendMouseWheelEvent", luacef_browser_host_send_mouse_wheel_event },
-	{ "SetFocus", luacef_browser_host_set_focus },
-	{ "SetMouseCursorChangeDisabled", luacef_browser_host_set_mouse_cursor_change_disabled },
-	{ "SetWindowlessFrameRate", luacef_browser_host_set_windowless_frame_rate },
-	{ "SetZoomLevel", luacef_browser_host_set_zoom_level },
-	{ "ShowDevTools", luacef_browser_host_show_dev_tools },
-	{ "StartDownload", luacef_browser_host_start_download },
-	{ "StopFinding", luacef_browser_host_stop_finding },
-	{ "TryCloseBrowser", luacef_browser_host_try_close_browser },
-	{ "WasHidden", luacef_browser_host_was_hidden },
-	{ "WasResized", luacef_browser_host_was_resized },
+static const luaL_Reg luacef_Browser_Host_m[] = {
+	{ "AddWordToDictionary", luacef_Browser_Host_add_word_to_dictionary },
+	{ "CloseBrowser", luacef_Browser_Host_close_browser },
+	{ "CloseDevTools", luacef_Browser_Host_close_dev_tools },
+	{ "DownloadImage", luacef_Browser_Host_download_image },
+	{ "DragSourceEndedAt", luacef_Browser_Host_drag_source_ended_at },
+	{ "DragSourceSystemDragEnded", luacef_Browser_Host_drag_source_system_drag_ended },
+	{ "DragTargetDragEnter", luacef_Browser_Host_drag_target_drag_enter },
+	{ "DragTargetDragLeave", luacef_Browser_Host_drag_target_drag_leave },
+	{ "DragTargetDragOver", luacef_Browser_Host_drag_target_drag_over },
+	{ "DragTargetDrop", luacef_Browser_Host_drag_target_drop },
+	{ "Find", luacef_Browser_Host_find },
+	{ "GetBrowser", luacef_Browser_Host_get_browser },
+	{ "GetClient", luacef_Browser_Host_get_client },
+	{ "GetNavigationEntries", luacef_Browser_Host_get_navigation_entries },
+	{ "GetNSTextInputContext", luacef_Browser_Host_get_nstext_input_context },
+	{ "GetOpenerWindowHandle", luacef_Browser_Host_get_opener_window_handle },
+	{ "GetRequestContext", luacef_Browser_Host_get_request_context },
+	{ "GetWindowlessFrameRate", luacef_Browser_Host_get_windowless_frame_rate },
+	{ "GetWindowHandle", luacef_Browser_Host_get_window_handle },
+	{ "GetZoomLevel", luacef_Browser_Host_get_zoom_level },
+	{ "HandleKeyEventAfterTextInputClient", luacef_Browser_Host_handle_key_event_after_text_input_client },
+	{ "HandleKeyEventBeforeTextInputClient", luacef_Browser_Host_handle_key_event_before_text_input_client },
+	{ "HasDevTools", luacef_Browser_Host_has_dev_tools },
+	{ "HasView", luacef_Browser_Host_has_view },
+	{ "Invalidate", luacef_Browser_Host_invalidate },
+	{ "IsMouseCursorChangeDisabled", luacef_Browser_Host_is_mouse_cursor_change_disabled },
+	{ "IsWindowRenderingDisabled", luacef_Browser_Host_is_window_rendering_disabled },
+	{ "NotifyMoveOrResizeStarted", luacef_Browser_Host_notify_move_or_resize_started },
+	{ "NotifyScreenInfoChanged", luacef_Browser_Host_notify_screen_info_changed },
+	{ "Print", luacef_Browser_Host_print },
+	{ "PrintToPDF", luacef_Browser_Host_print_to_pdf },
+	{ "ReplaceMisspelling", luacef_Browser_Host_replace_misspelling },
+	{ "RunFileDialog", luacef_Browser_Host_run_file_dialog },
+	{ "SendCaptureLostEvent", luacef_Browser_Host_send_capture_lost_event },
+	{ "SendFocusEvent", luacef_Browser_Host_send_focus_event },
+	{ "SendKeyEvent", luacef_Browser_Host_send_key_event },
+	{ "SendMouseClickEvent", luacef_Browser_Host_send_mouse_click_event },
+	{ "SendMouseMoveEvent", luacef_Browser_Host_send_mouse_move_event },
+	{ "SendMouseWheelEvent", luacef_Browser_Host_send_mouse_wheel_event },
+	{ "SetFocus", luacef_Browser_Host_set_focus },
+	{ "SetMouseCursorChangeDisabled", luacef_Browser_Host_set_mouse_cursor_change_disabled },
+	{ "SetWindowlessFrameRate", luacef_Browser_Host_set_windowless_frame_rate },
+	{ "SetZoomLevel", luacef_Browser_Host_set_zoom_level },
+	{ "ShowDevTools", luacef_Browser_Host_show_dev_tools },
+	{ "StartDownload", luacef_Browser_Host_start_download },
+	{ "StopFinding", luacef_Browser_Host_stop_finding },
+	{ "TryCloseBrowser", luacef_Browser_Host_try_close_browser },
+	{ "WasHidden", luacef_Browser_Host_was_hidden },
+	{ "WasResized", luacef_Browser_Host_was_resized },
 	{ NULL, NULL }
 };
 
-// functions
+// static vfunctions ================================================
 
 /*
-	<int> CreateBrowser(
-		<WindowInfo>		info,
-		<Client>			client,
-		<str>				url,
-		<BrowserSettings>	settings
+	<bool> CreateBrowser(
+		<WindowInfo> info,
+		<Client> client,
+		<str> url,
+		<BrowserSettings> settings,
+		<RequestContext> request_context
 	)
 */
-static int luacef_create_browser(lua_State* L)
+static int luacef_CreateBrowser(lua_State* L)
 {
-	cef_window_info_t *winfo = luacef_checkudata(L, 1, __window_info__);
-	if (!winfo) return 0;
-
+	cef_window_info_t *info = luacef_checkudata(L, 1, __window_info__);
 	cef_client_t *client = luacef_checkudata(L, 2, __client__);
-	if (!client) return 0;
+	cef_string_t url = luacef_tostring(L, 3);
+	cef_browser_settings_t *settings = luacef_checkudata(L, 4, __browser_settings__);
+	cef_request_context_t *request_context = luacef_checkudata(L, 5, __request_context__);
 
-	const char *cs_url = lua_tostring(L, 3);
-
-	cef_string_t url = { 0 };
-	cef_string_from_utf8(cs_url, strlen(cs_url), &url);
-
-	cef_browser_settings_t *bs = luacef_checkudata(L, 4, __browser_settings__);
-	if (!bs) return 0;
-
-	int ret = cef_browser_host_create_browser(
-		winfo,
+	int r = cef_browser_host_create_browser(
+		info,
 		client,
 		&url,
-		bs,
-		NULL
+		settings,
+		request_context
 	);
 
-	lua_pushinteger(L, ret);
+	lua_pushboolean(L, r);
 	return 1;
 }
 
 /*
 	<Browser> CreateBrowserSync(
-		<WindowInfo>		info,
-		<Client>			client,
-		<str>				url,
-		<BrowserSettings>	settings
+		<WindowInfo> info,
+		<Client> client,
+		<str> url,
+		<BrowserSettings> settings,
+		<RequestContext> request_context
 	)
 */
-static int luacef_create_browser_sync(lua_State* L)
+static int luacef_CreateBrowserSync(lua_State* L)
 {
-	cef_window_info_t *winfo = luacef_checkudata(L, 1, __window_info__);
-	if (!winfo) return 0;
-
+	cef_window_info_t *info = luacef_checkudata(L, 1, __window_info__);
 	cef_client_t *client = luacef_checkudata(L, 2, __client__);
-	if (!client) return 0;
-
 	cef_string_t url = luacef_tostring(L, 3);
-
-	cef_browser_settings_t *bs = luacef_checkudata(L, 4, __browser_settings__);
-	if (!bs) return 0;
+	cef_browser_settings_t *settings = luacef_checkudata(L, 4, __browser_settings__);
+	cef_request_context_t *request_context = luacef_checkudata(L, 5, __request_context__);
 
 	cef_browser_t *browser = cef_browser_host_create_browser_sync(
-		winfo,
+		info,
 		client,
 		&url,
-		bs,
-		NULL
+		settings,
+		request_context
 	);
 	
 	luacef_pushuserdata(L, browser, __browser__);
 	return 1;
 }
 
-// register
+// =====================================
 
-void luacef_browser_reg(lua_State* L)
+void luacef_Browser_reg(lua_State* L)
 {
 	luaL_newmetatable(L, __browser__);
-	luaL_setfuncs(L, luacef_browser_m, 0);
+	luaL_setfuncs(L, luacef_Browser_m, 0);
 	lua_setfield(L, -1, __index__);
 
 	//
 
 	luaL_newmetatable(L, __browser_host__);
-	luaL_setfuncs(L, luacef_browser_host_m, 0);
+	luaL_setfuncs(L, luacef_Browser_Host_m, 0);
 	lua_setfield(L, -1, __index__);
 
 	//
 
-	lua_pushcfunction(L, luacef_create_browser);
+	lua_pushcfunction(L, luacef_CreateBrowser);
 	lua_setfield(L, -2, "CreateBrowser");
 
-	lua_pushcfunction(L, luacef_create_browser_sync);
+	lua_pushcfunction(L, luacef_CreateBrowserSync);
 	lua_setfield(L, -2, "CreateBrowserSync");
 }

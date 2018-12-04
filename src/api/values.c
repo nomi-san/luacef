@@ -1,65 +1,145 @@
 #include "../luacef.h"
+
 #include "include/capi/cef_base_capi.h"
 
-typedef struct luacef_value {
+/*
+	<bool> Value:IsValid()
+*/
+static int luacef_Value_IsValid(lua_State *L)
+{
+	cef_value_t *p = luacef_touserdata(L, 1);
 
-	cef_base_ref_counted_t base;
+	lua_pushboolean(L, p->is_valid(p));
+	return 1;
+}
 
-	int(CEF_CALLBACK* is_valid)(struct _cef_value_t* self);
+/*
+	<bool> Value:IsOwned()
+*/
+static int luacef_Value_IsOwned(lua_State *L)
+{
+	cef_value_t *p = luacef_touserdata(L, 1);
 
-	int(CEF_CALLBACK* is_owned)(struct _cef_value_t* self);
+	lua_pushboolean(L, p->is_owned(p));
+	return 1;
+}
 
-	int(CEF_CALLBACK* is_read_only)(struct _cef_value_t* self);
+/*
+	<bool> Value:IsReadOnly()
+*/
+static int luacef_Value_IsReadOnly(lua_State *L)
+{
+	cef_value_t *p = luacef_touserdata(L, 1);
 
-	int(CEF_CALLBACK* is_same)(struct _cef_value_t* self,
-		struct _cef_value_t* that);
+	lua_pushboolean(L, p->is_read_only(p));
+	return 1;
+}
 
-	int(CEF_CALLBACK* is_equal)(struct _cef_value_t* self,
-		struct _cef_value_t* that);
+/*
+	<bool> Value:IsSame(
+		<Value> that
+	)
+*/
+static int luacef_Value_IsSame(lua_State *L)
+{
+	cef_value_t *p = luacef_touserdata(L, 1);
+	cef_value_t *that = luacef_checkudata(L, 2, __value__);
 
-	struct _cef_value_t*(CEF_CALLBACK* copy)(struct _cef_value_t* self);
+	lua_pushboolean(L, p->is_same(p, that));
+	return 1;
+}
 
-	cef_value_type_t(CEF_CALLBACK* get_type)(struct _cef_value_t* self);
+/*
+	<bool> Value:IsEqual(
+		<Value> that
+	)
+*/
+static int luacef_Value_IsEqual(lua_State *L)
+{
+	cef_value_t *p = luacef_touserdata(L, 1);
+	cef_value_t *that = luacef_checkudata(L, 2, __value__);
 
-	int(CEF_CALLBACK* get_bool)(struct _cef_value_t* self);
+	lua_pushboolean(L, p->is_equal(p, that));
+	return 1;
+}
 
-	int(CEF_CALLBACK* get_int)(struct _cef_value_t* self);
+/*
+	<Value> Value:Copy()
+*/
+static int luacef_Value_Copy(lua_State *L)
+{
+	cef_value_t *p = luacef_touserdata(L, 1);
 
-	double(CEF_CALLBACK* get_double)(struct _cef_value_t* self);
+	cef_value_t *cop = p->copy(p);
 
-	cef_string_userfree_t(CEF_CALLBACK* get_string)(struct _cef_value_t* self);
-
-	struct _cef_binary_value_t*(CEF_CALLBACK* get_binary)(
-		struct _cef_value_t* self);
-
-	struct _cef_dictionary_value_t*(CEF_CALLBACK* get_dictionary)(
-		struct _cef_value_t* self);
-
-	struct _cef_list_value_t*(CEF_CALLBACK* get_list)(struct _cef_value_t* self);
-
-	int(CEF_CALLBACK* set_null)(struct _cef_value_t* self);
-
-	int(CEF_CALLBACK* set_bool)(struct _cef_value_t* self, int value);
-
-	int(CEF_CALLBACK* set_int)(struct _cef_value_t* self, int value);
-
-	int(CEF_CALLBACK* set_double)(struct _cef_value_t* self, double value);
-
-	int(CEF_CALLBACK* set_string)(struct _cef_value_t* self,
-		const cef_string_t* value);
-
-	int(CEF_CALLBACK* set_binary)(struct _cef_value_t* self,
-		struct _cef_binary_value_t* value);
-
-	int(CEF_CALLBACK* set_dictionary)(struct _cef_value_t* self,
-		struct _cef_dictionary_value_t* value);
-
-	int(CEF_CALLBACK* set_list)(struct _cef_value_t* self,
-		struct _cef_list_value_t* value);
-} luacef_value;
+	luacef_pushuserdata(L, cop, __value__);
+	return 1;
+}
 
 
-//CEF_EXPORT cef_value_t* cef_value_create();
+
+
+
+cef_value_type_t(CEF_CALLBACK* get_type)(struct _cef_value_t* self);
+
+int(CEF_CALLBACK* get_bool)(struct _cef_value_t* self);
+
+int(CEF_CALLBACK* get_int)(struct _cef_value_t* self);
+
+double(CEF_CALLBACK* get_double)(struct _cef_value_t* self);
+
+cef_string_userfree_t(CEF_CALLBACK* get_string)(struct _cef_value_t* self);
+
+struct _cef_binary_value_t*(CEF_CALLBACK* get_binary)(
+	struct _cef_value_t* self);
+
+struct _cef_dictionary_value_t*(CEF_CALLBACK* get_dictionary)(
+	struct _cef_value_t* self);
+
+struct _cef_list_value_t*(CEF_CALLBACK* get_list)(struct _cef_value_t* self);
+
+int(CEF_CALLBACK* set_null)(struct _cef_value_t* self);
+
+int(CEF_CALLBACK* set_bool)(struct _cef_value_t* self, int value);
+
+int(CEF_CALLBACK* set_int)(struct _cef_value_t* self, int value);
+
+int(CEF_CALLBACK* set_double)(struct _cef_value_t* self, double value);
+
+int(CEF_CALLBACK* set_string)(struct _cef_value_t* self,
+	const cef_string_t* value);
+
+int(CEF_CALLBACK* set_binary)(struct _cef_value_t* self,
+	struct _cef_binary_value_t* value);
+
+int(CEF_CALLBACK* set_dictionary)(struct _cef_value_t* self,
+	struct _cef_dictionary_value_t* value);
+
+int(CEF_CALLBACK* set_list)(struct _cef_value_t* self,
+	struct _cef_list_value_t* value);
+
+/*
+	<bool> Value:SetList(
+		<ListValue> value
+	)
+*/
+static int luacef_Value_SetList(lua_State *L)
+{
+
+}
+
+// static member =============================
+
+static int luacef_Value_Create(lua_State *L)
+{
+	cef_value_t *r = cef_value_create();
+
+	luacef_pushuserdata(L, r, __value__);
+	return 1;
+}
+
+
+// binary_value ==============================
 
 	typedef struct luacef_binary_value {
 		///
@@ -115,7 +195,11 @@ typedef struct luacef_value {
 			size_t data_offset);
 	} luacef_binary_value;
 
+
+// static members ============================================
+
 //CEF_EXPORT cef_binary_value_t* cef_binary_value_create(const void* data, size_t data_size);
+
 
 	typedef struct luacef_dictionary_value {
 		///
@@ -348,8 +432,17 @@ typedef struct luacef_value {
 			struct _cef_list_value_t* value);
 	} luacef_dictionary_value;
 
+/*
+	<DictionaryValue> DictionaryValue.Create()
+*/
+static int luacef_DictionaryValue_Create(lua_State *L)
+{
+	cef_dictionary_value_t *r = cef_dictionary_value_create();
 
-//CEF_EXPORT cef_dictionary_value_t* cef_dictionary_value_create();
+	luacef_pushuserdata(L, r, __dictionary_value__);
+	return 1;
+}
+
 
 	typedef struct luacef_list_value {
 		///
@@ -564,7 +657,16 @@ typedef struct luacef_value {
 			struct _cef_list_value_t* value);
 	} luacef_list_value;
 
-	///
-	// Creates a new object that is not owned by any other object.
-	///
-//	CEF_EXPORT cef_list_value_t* cef_list_value_create();
+
+// static members ===================================
+
+/*
+	<ListValue> ListValue.Create()
+*/
+static int luacef_ListValue_Create(lua_State *L)
+{
+	cef_list_value_t *r = cef_list_value_create();
+
+	luacef_pushuserdata(L, r, __list_value__);
+	return 1;
+}

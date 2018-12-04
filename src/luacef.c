@@ -1,5 +1,12 @@
 #include "luacef.h"
 
+typedef struct luacef_base {
+
+	cef_base_ref_counted_t base;
+	void *p;
+
+} luacef_base;
+
 void* luacef_newuserdata(lua_State* L, size_t sz)
 {
 	void **ud = (void**)lua_newuserdata(L, 4u);
@@ -9,6 +16,7 @@ void* luacef_newuserdata(lua_State* L, size_t sz)
 
 void* luacef_checkudata(lua_State* L, int i, const char* s)
 {
+	if (lua_isnoneornil(L, i)) return NULL;
 	void **ud = (void**)luaL_checkudata(L, i, s);
 	if (!ud || !*ud) return NULL;
 	return *ud;
@@ -16,6 +24,7 @@ void* luacef_checkudata(lua_State* L, int i, const char* s)
 
 void* luacef_touserdata(lua_State* L, int i)
 {
+	if (lua_isnoneornil(L, i)) return NULL;
 	void **ud = (void**)lua_touserdata(L, i);
 	if (!ud || !*ud) return NULL;
 	return *ud;
@@ -59,6 +68,27 @@ int luacef_newindex(lua_State *L)
 	return 0;
 }
 
+// __eq
+int luacef_eq(lua_State *L)
+{
+	void *p1 = luacef_touserdata(L, 1);
+	void *p2 = luacef_touserdata(L, 2);
+
+	lua_pushboolean(L, p1 == p2);
+	return 1;
+}
+
+// __len, for some struct has base member
+int luacef_len(lua_State *L)
+{
+	luacef_base *p = luacef_touserdata(L, 1);
+	if (p->base.size) 
+		lua_pushinteger(L, p->base.size);
+	else
+		lua_pushinteger(L, 0);
+	return 1;
+}
+
 void luacef_error_index(lua_State* L, const char* index)
 {
 	luaL_error(L, "cannot get member '%s'", index);
@@ -66,47 +96,60 @@ void luacef_error_index(lua_State* L, const char* index)
 
 // ==============================
 /*
-	<str>, <str> version() 
-					|-> <CEF version>
-					|-> <Chromium version>
+	<str>, <str> getv()
+	-> value 1: CEF version
+	-> value 2: Chromium version
 */
-static int luacef_version(lua_State* L)
+static int luacef_getv(lua_State* L)
 {
-	lua_pushstring(L, CEF_VERSION);
-	lua_pushfstring(L, "%d.%d", CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR);
+	lua_pushstring(
+		L, 
+		CEF_VERSION
+	);
+
+	lua_pushfstring(
+		L, "%d.%d.%d", 
+		CHROME_VERSION_MAJOR, 
+		CHROME_VERSION_MINOR, 
+		CHROME_VERSION_BUILD
+	);
 
 	return 2;
 }
 
 /*
-	<void> printversion()
-	-->	CEF: <version>
-	--> Chromium: <version>
+	<void> printv()
+	// CEF: <version>
+	// Chromium: <version>
 */
-static int luacef_print_version(lua_State* L)
+static int luacef_printv(lua_State* L)
 {
-	lua_getglobal(L, "print");
-	lua_pushvalue(L, -1);
-	if (lua_isnil(L, -1)) return 0; // for not print
-
-	lua_pushstring(L, "CEF: " CEF_VERSION);
-	lua_pushfstring(L, "\nChromium: %d.%d\n", CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR);
-	
-	lua_pcall(L, 2, 0, 8);
+	printf("CEF: %d.%d.%d\nChromium: %d.%d.%d\n", 
+		CEF_VERSION_MAJOR, CHROME_VERSION_BUILD, CEF_COMMIT_NUMBER,
+		CHROME_VERSION_MAJOR, CHROME_VERSION_MINOR, CHROME_VERSION_BUILD
+	);
+	fflush(stdout);
 	return 0;
 }
 // ==============================
-
 
 static void luacef_handler_reg(lua_State* L)
 {
 	luacef_life_span_handler_reg(L);
 	luacef_keyboard_handler_reg(L);
+	luacef_LoadHandler_reg(L);
+	luacef_ContextMenuHandler_reg(L);
+	luacef_JSDialogHandler_reg(L);
+	luacef_DragHandler_reg(L);
 }
 
 static void luacef_api_reg(lua_State *L)
 {
+	luacef_MenuModel_reg(L);
+	luacef_CompletionCallback_reg(L);
+
 	luacef_v8_reg(L);
+	luacef_Time_reg(L);
 }
 
 //====================
@@ -114,29 +157,25 @@ static void luacef_api_reg(lua_State *L)
 /*
 	<table> require "luacef"
 */
-int LUACEF_API luaopen_luacef(lua_State* L)
+EXPORT(int) luaopen_luacef(lua_State* L)
 {
-	HINSTANCE ins = GetModuleHandleA(NULL);
-	if (ins == GetModuleHandleA("lua.exe") || 
-		ins == GetModuleHandleA("luajit.exe"))
-		__interpreter = 1;
-
 	//__mainState = L;
 
-	lua_newtable(L);
-	lua_pushcfunction(L, luacef_version);
-	lua_setfield(L, -2, "version");
+	lua_newtable(L); // return of require('luacef');
 
-	lua_pushcfunction(L, luacef_print_version);
-	lua_setfield(L, -2, "printversion");
+	lua_pushcfunction(L, luacef_getv);
+	lua_setfield(L, -2, "getv");
+
+	lua_pushcfunction(L, luacef_printv);
+	lua_setfield(L, -2, "printv");
 		
-	luacef_client_reg(L);
+	luacef_Client_reg(L);
 	luacef_app_reg(L);
 	luacef_handler_reg(L);
 	luacef_types_reg(L);
 	luacef_funcs_reg(L);
 
-	luacef_browser_reg(L);
+	luacef_Browser_reg(L);
 
 	luacef_api_reg(L);
 

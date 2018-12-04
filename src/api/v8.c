@@ -10,6 +10,12 @@ struct _cef_v8handler_t;
 struct _cef_v8stack_frame_t;
 struct _cef_v8value_t;
 
+//      ___ 
+//  _ _| . |
+// | | | . |
+//  \_/|___|
+//===========
+
 /*
 	<TaskRunner> V8Context:GetTaskRunner()
 */
@@ -208,7 +214,7 @@ int CEF_CALLBACK v8h_execute(
 	cef_string_t*				exception)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, __get_render_process_handler)) {
+	if (lua_getfield(self->L, -1, __execute)) {
 
 		luacef_pushuserdata(self->L, self, __v8handler__); // self, 1
 

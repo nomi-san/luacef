@@ -3,6 +3,38 @@
 #include "include/capi/cef_base_capi.h"
 #include "include/capi/cef_browser_capi.h"
 
+//  _           _                 _    _             _ _         
+// | |_ ___ _ _| |_ ___ ___ ___ _| |  | |_ ___ ___ _| | |___ ___ 
+// | '_| -_| | | . | . | .'|  _| . |  |   | .'|   | . | | -_|  _|
+// |_,_|___|_  |___|___|__,|_| |___|  |_|_|__,|_|_|___|_|___|_|  
+//=========|___|==================================================
+/*
+	<KeyboardHandler> {
+		<int> OnPreKeyEvent(
+			<KeyboardHandler> self,
+			<Browser> browser,
+			<KeyEvent> event,
+			<EventHandle> os_event,
+			<int*> is_keyboard_shortcut);
+
+		<int> KeyboardHandler:OnKeyEvent(
+			<KeyboardHandler> self,
+			<Browser> browser,
+			<KeyEvent> event,
+			<EventHandle> os_event);
+	}
+
+	Addon:
+		<void> release();
+
+	Meta:
+		__index;
+		__newindex;
+		__len;
+		__eq;
+
+*/
+
 static const char *__on_pre_key_event = "OnPreKeyEvent";
 static const char *__on_key_event = "OnKeyEvent";
 
@@ -26,14 +58,6 @@ typedef struct luacef_keyboard_handler {
 
 } luacef_keyboard_handler;
 
-/*
-	<bool> KeyboardHandler:OnPreKeyEvent(
-		<Browser>	browser,
-		<KeyEvent>	event,
-		<EventHandle>	os_event,
-		<BoolPtr>	is_keyboard_shortcut
-	)
-*/
 int CEF_CALLBACK kh_on_pre_key_event(struct luacef_keyboard_handler* self,
 	struct _cef_browser_t* browser,
 	const struct _cef_key_event_t* event,
@@ -41,63 +65,45 @@ int CEF_CALLBACK kh_on_pre_key_event(struct luacef_keyboard_handler* self,
 	int* is_keyboard_shortcut)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+
 	if (lua_getfield(self->L, -1, __on_pre_key_event)) {
 
 		luacef_pushuserdata(self->L, self, __keyboard_handler__); // self, 1
-
 		luacef_pushuserdata(self->L, browser, __browser__); // 2
-
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
-
 		luacef_pushuserdata(self->L, os_event, __event_handle__); // 4
-
-		luacef_pushuserdata(self->L, is_keyboard_shortcut, __bool_ptr__); // 5
+		luacef_pushuserdata(self->L, is_keyboard_shortcut, __int_ptr__); // 5
 		
-		lua_pcall(self->L, 5, 1, 8);
+		lua_pcall(self->L, 5, 1, 0);
+		lua_pop(self->L, 1);
 		return lua_tointeger(self->L, -1);
 	}
-
+	
 	return 0;
 }
 
-/*
-	<bool> KeyboardHandler:OnKeyEvent(
-		<Browser>	browser,
-		<KeyEvent>	event,
-		<EventHandle>	os_event,
-	)
-*/
 int CEF_CALLBACK kh_on_key_event(struct luacef_keyboard_handler* self,
 	struct _cef_browser_t* browser,
 	const struct _cef_key_event_t* event,
 	cef_event_handle_t os_event)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+
 	if (lua_getfield(self->L, -1, __on_pre_key_event)) {
 
 		luacef_pushuserdata(self->L, self, __keyboard_handler__); // self, 1
-
 		luacef_pushuserdata(self->L, browser, __browser__); // 2
-
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
-
 		luacef_pushuserdata(self->L, os_event, __event_handle__); // 4
 
-		lua_pcall(self->L, 4, 1, 8);
+		lua_pcall(self->L, 4, 1, 0);
+		lua_pop(self->L, 1);
 		return lua_tointeger(self->L, -1);
 	}
 
 	return 0;
 }
 
-/*
-	<KeyboardHandler> newKeyboardHandler {
-		<bool>
-			OnPreKeyEvent(<Browser>, <KeyEvent>, <EventHandle>, <BoolPtr>);
-		<bool>
-			OnKeyEvent(<Browser>, <KeyEvent>, <EventHandle>);
-	}
-*/
 static int luacef_keyboard_handler_new(lua_State *L)
 {
 	size_t sz = sizeof(luacef_keyboard_handler);
@@ -185,13 +191,21 @@ static int luacef_keyboard_handler_newindex(lua_State *L)
 	return 0;
 }
 
+static int luacef_KeyboardHandler_len(lua_State *L)
+{
+	lua_pushinteger(L, sizeof(luacef_keyboard_handler));
+	return 1;
+}
+
 static const luaL_Reg luacef_keyboard_handler_m[] = {
 	{ "__index", luacef_keyboard_handler_index },
 	{ "__newindex", luacef_keyboard_handler_newindex },
+	{ "__len", luacef_KeyboardHandler_len },
+	{ "__eq", luacef_eq },
 	{ NULL, NULL }
 };
 
-// ===========================================
+// register ===========================================
 
 void luacef_keyboard_handler_reg(lua_State *L)
 {

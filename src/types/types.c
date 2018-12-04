@@ -4,10 +4,39 @@
 //  ___ ___| |_| |_|_|___ ___ ___ 
 // |_ -| -_|  _|  _| |   | . |_ -|
 // |___|___|_| |_| |_|_|_|_  |___|
-//                       |___|    
-//================================
+//=======================|___|=====
+/*
+	<Settings> {
+		<uint> size;
+		<bool> single_process;
+		<str> browser_subprocess_path;
+		<str> framework_dir_path;
+		<bool> multi_threaded_message_loop;
+		<bool> external_message_pump;
+		<bool> windowless_rendering_enabled;
+		<bool> command_line_args_disabled;
+		<str> cache_path;
+		<str> user_data_path;
+		<bool> persist_session_cookies;
+		<bool> persist_user_preferences;
+		<str> user_agent;
+		<str> product_version;
+		<str> locale;
+		<str> log_file;
+		<int> log_severity;
+		<str> javascript_flags;
+		<str> resources_dir_path;
+		<str> locales_dir_path;
+		<bool> pack_loading_disabled;
+		<int> remote_debugging_port;
+		<int> uncaught_exception_stack_size;
+		<bool> ignore_certificate_errors;
+		<bool> enable_net_security_expiration;
+		<uint> background_color;
+		<str> accept_language_list;
+	}
+*/
 #pragma region settings
-
 static const char *__size							= "size";
 static const char *__single_process					= "single_process";
 static const char *__multi_threaded_message_loop	= "multi_threaded_message_loop";
@@ -37,38 +66,6 @@ static const char *__framework_dir_path				= "framework_dir_path";
 static const char *__enable_net_security_expiration = "enable_net_security_expiration";
 //static const char *__context_safety_implementation	= "context_safety_implementation";
 
-/*
-	<Settings> newSettings	
-	{
-		  <uint> size;
-		  <bool> single_process;
-		  <str> browser_subprocess_path;
-		  <str> framework_dir_path;
-		  <bool> multi_threaded_message_loop;
-		  <bool> external_message_pump;
-		  <bool> windowless_rendering_enabled;
-		  <bool> command_line_args_disabled;
-		  <str> cache_path;
-		  <str> user_data_path;
-		  <bool> persist_session_cookies;
-		  <bool> persist_user_preferences;
-		  <str> user_agent;
-		  <str> product_version;
-		  <str> locale;
-		  <str> log_file;
-		  <int> log_severity;
-		  <str> javascript_flags;
-		  <str> resources_dir_path;
-		  <str> locales_dir_path;
-		  <bool> pack_loading_disabled;
-		  <int> remote_debugging_port;
-		  <int> uncaught_exception_stack_size;
-		  <bool> ignore_certificate_errors;
-		  <bool> enable_net_security_expiration;
-		  <uint> background_color;
-		  <str> accept_language_list;
-	}
-*/
 static int luacef_settings_new(lua_State* L)
 {
 	size_t sz = sizeof(cef_settings_t);
@@ -355,7 +352,7 @@ static int luacef_settings_newindex(lua_State* L)
 }
 
 static const luaL_Reg luacef_settings_m[] = {
-	{ "__gc" , luacef_release },
+	//{ "__gc" , luacef_release },
 	{ "__index" , luacef_settings_index },
 	{ "__newindex" , luacef_settings_newindex },
 	{ NULL, NULL}
@@ -366,20 +363,9 @@ static const luaL_Reg luacef_settings_m[] = {
 //  ___ ___ ___ _ _ ___ ___| |_    ___ ___ ___| |_ ___ _ _| |_    ___ ___| |_| |_|_|___ ___ ___ 
 // |  _| -_| . | | | -_|_ -|  _|  |  _| . |   |  _| -_|_'_|  _|  |_ -| -_|  _|  _| |   | . |_ -|
 // |_| |___|_  |___|___|___|_|    |___|___|_|_|_| |___|_,_|_|    |___|___|_| |_| |_|_|_|_  |___|
-//           |_|                                                                       |___|    
-//==============================================================================================
-#pragma region request_context_settings
-//static const char *__size = "size";
-//static const char *__cache_path = "cache_path";
-//static const char *__persist_session_cookies = "persist_session_cookies";
-//static const char *__persist_user_preferences = "persist_user_preferences";
-//static const char *__ignore_certificate_errors = "ignore_certificate_errors";
-//static const char *__enable_net_security_expiration = "enable_net_security_expiration";
-//static const char *__accept_language_list = "accept_language_list";
-
+//===========|_|=======================================================================|___|=====
 /*
-	<RequestContextSettings> newRequestContextSettings
-	{
+	<RequestContextSettings> {
 		<str>	cache_path;
 		<bool>	persist_session_cookies;
 		<bool>	persist_user_preferences;
@@ -388,6 +374,14 @@ static const luaL_Reg luacef_settings_m[] = {
 		<str>	accept_language_list;
 	}
 */
+#pragma region request_context_settings
+//static const char *__size = "size";
+//static const char *__cache_path = "cache_path";
+//static const char *__persist_session_cookies = "persist_session_cookies";
+//static const char *__persist_user_preferences = "persist_user_preferences";
+//static const char *__ignore_certificate_errors = "ignore_certificate_errors";
+//static const char *__enable_net_security_expiration = "enable_net_security_expiration";
+//static const char *__accept_language_list = "accept_language_list";
 
 static int luacef_request_context_settings_new(lua_State *L)
 {
@@ -493,7 +487,7 @@ static int luacef_request_context_settings_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_request_context_settings_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_request_context_settings_index },
 	{ "__newindex", luacef_request_context_settings_newindex },
 	{ NULL, NULL }
@@ -504,42 +498,7 @@ static const luaL_Reg luacef_request_context_settings_m[] = {
 // | |_ ___ ___ _ _ _ ___ ___ ___    ___ ___| |_| |_|_|___ ___ ___ 
 // | . |  _| . | | | |_ -| -_|  _|  |_ -| -_|  _|  _| |   | . |_ -|
 // |___|_| |___|_____|___|___|_|    |___|___|_| |_| |_|_|_|_  |___|
-//                                                        |___|    
-//=================================================================
-#pragma region browser_settings
-//static const char *__size = "size";
-static const char *__windowless_frame_rate = "windowless_frame_rate";
-static const char *__standard_font_family = "standard_font_family";
-static const char *__fixed_font_family = "fixed_font_family";
-static const char *__serif_font_family = "serif_font_family";
-static const char *__sans_serif_font_family = "sans_serif_font_family";
-static const char *__cursive_font_family = "cursive_font_family";
-static const char *__fantasy_font_family = "fantasy_font_family";
-static const char *__default_font_size = "default_font_size";
-static const char *__default_fixed_font_size = "default_fixed_font_size";
-static const char *__minimum_font_size = "minimum_font_size";
-static const char *__minimum_logical_font_size = "minimum_logical_font_size";
-static const char *__default_encoding = "default_encoding";
-static const char *__remote_fonts = "remote_fonts";
-static const char *__javascript = "javascript";
-static const char *__javascript_close_windows = "javascript_close_windows";
-static const char *__javascript_access_clipboard = "javascript_access_clipboard";
-static const char *__javascript_dom_paste = "javascript_dom_paste";
-static const char *__plugins = "plugins";
-static const char *__universal_access_from_file_urls = "universal_access_from_file_urls";
-static const char *__file_access_from_file_urls = "file_access_from_file_urls";
-static const char *__web_security = "web_security";
-static const char *__image_loading = "image_loading";
-static const char *__image_shrink_standalone_to_fit = "image_shrink_standalone_to_fit";
-static const char *__text_area_resize = "text_area_resize";
-static const char *__tab_to_links = "tab_to_links";
-static const char *__local_storage = "local_storage";
-static const char *__databases = "databases";
-static const char *__application_cache = "application_cache";
-static const char *__webgl = "webgl";
-//static const char *__background_color = "background_color";
-//static const char *__accept_language_list = "accept_language_list";
-
+//========================================================|___|=====
 /*
 	<BrowserSettings> newBrowserSettings {
 		<uint> size;
@@ -576,6 +535,40 @@ static const char *__webgl = "webgl";
 		<str> accept_language_list;
 	}
 */
+#pragma region browser_settings
+//static const char *__size = "size";
+static const char *__windowless_frame_rate = "windowless_frame_rate";
+static const char *__standard_font_family = "standard_font_family";
+static const char *__fixed_font_family = "fixed_font_family";
+static const char *__serif_font_family = "serif_font_family";
+static const char *__sans_serif_font_family = "sans_serif_font_family";
+static const char *__cursive_font_family = "cursive_font_family";
+static const char *__fantasy_font_family = "fantasy_font_family";
+static const char *__default_font_size = "default_font_size";
+static const char *__default_fixed_font_size = "default_fixed_font_size";
+static const char *__minimum_font_size = "minimum_font_size";
+static const char *__minimum_logical_font_size = "minimum_logical_font_size";
+static const char *__default_encoding = "default_encoding";
+static const char *__remote_fonts = "remote_fonts";
+static const char *__javascript = "javascript";
+static const char *__javascript_close_windows = "javascript_close_windows";
+static const char *__javascript_access_clipboard = "javascript_access_clipboard";
+static const char *__javascript_dom_paste = "javascript_dom_paste";
+static const char *__plugins = "plugins";
+static const char *__universal_access_from_file_urls = "universal_access_from_file_urls";
+static const char *__file_access_from_file_urls = "file_access_from_file_urls";
+static const char *__web_security = "web_security";
+static const char *__image_loading = "image_loading";
+static const char *__image_shrink_standalone_to_fit = "image_shrink_standalone_to_fit";
+static const char *__text_area_resize = "text_area_resize";
+static const char *__tab_to_links = "tab_to_links";
+static const char *__local_storage = "local_storage";
+static const char *__databases = "databases";
+static const char *__application_cache = "application_cache";
+static const char *__webgl = "webgl";
+//static const char *__background_color = "background_color";
+//static const char *__accept_language_list = "accept_language_list";
+
 static int luacef_browser_settings_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_browser_settings_t);
@@ -904,7 +897,7 @@ static int luacef_browser_settings_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_browser_settings_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_browser_settings_index },
 	{ "__newindex", luacef_browser_settings_newindex },
 	{ NULL, NULL}
@@ -915,19 +908,7 @@ static const luaL_Reg luacef_browser_settings_m[] = {
 //  _ _ ___| |___ ___ ___| |_ ___ 
 // | | |  _| | . | .'|  _|  _|_ -|
 // |___|_| |_|  _|__,|_| |_| |___|
-//           |_|                  
-//================================
-#pragma region urlparts
-static const char *__spec = "spec";
-static const char *__scheme = "scheme";
-static const char *__username = "username";
-static const char *__password = "password";
-static const char *__host = "host";
-static const char *__port = "port";
-static const char *__origin = "origin";
-static const char *__path = "path";
-static const char *__query = "query";
-
+//===========|_|===================
 /*
 	<URLParts> newURLParts {
 		<str>	spec;
@@ -941,6 +922,17 @@ static const char *__query = "query";
 		<str>	query;
 	}
 */
+#pragma region urlparts
+static const char *__spec = "spec";
+static const char *__scheme = "scheme";
+static const char *__username = "username";
+static const char *__password = "password";
+static const char *__host = "host";
+static const char *__port = "port";
+static const char *__origin = "origin";
+static const char *__path = "path";
+static const char *__query = "query";
+
 static int luacef_urlparts_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_urlparts_t);
@@ -1061,7 +1053,7 @@ static int luacef_urlparts_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_urlparts_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_urlparts_index },
 	{ "__newindex", luacef_urlparts_newindex },
 	{ NULL, NULL}
@@ -1072,9 +1064,7 @@ static const luaL_Reg luacef_urlparts_m[] = {
 //  ___ ___ ___| |_|_|___ 
 // |  _| . | . | '_| | -_|
 // |___|___|___|_,_|_|___|
-//
-//========================
-#pragma region cookie
+//=========================
 /*
 	<Cookie> newCookie {
 		<str>	name;
@@ -1089,7 +1079,7 @@ static const luaL_Reg luacef_urlparts_m[] = {
 		<Time>	expires;
 	}
 */
-
+#pragma region cookie
 static const char *__name = "name";
 static const char *__value = "value";
 static const char *__domain = "domain";
@@ -1118,7 +1108,7 @@ static int luacef_cookie_new(lua_State *L)
 			p->domain = luacef_tostring(L, -1);
 
 		if (lua_getfield(L, 1, __path))
-			p->path;
+			p->path = luacef_tostring(L, -1);
 
 		if (lua_getfield(L, 1, __secure))
 			p->secure = lua_tointeger(L, -1);
@@ -1230,7 +1220,7 @@ static int luacef_cookie_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_cookie_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_cookie_index },
 	{ "__newindex", luacef_cookie_newindex },
 	{ NULL, NULL}
@@ -1241,18 +1231,17 @@ static const luaL_Reg luacef_cookie_m[] = {
 //  ___ ___|_|___| |_ 
 // | . | . | |   |  _|
 // |  _|___|_|_|_|_|  
-// |_|                
-//====================
-#pragma region point
-static const char *__x = "x";
-static const char *__y = "y";
-
+//=|_|=================
 /*
 	<Point> newPoint {
 		<int>	x;
 		<int>	y;
 	}
 */
+#pragma region point
+static const char *__x = "x";
+static const char *__y = "y";
+
 static int luacef_point_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_point_t);
@@ -1321,8 +1310,15 @@ static const luaL_Reg luacef_point_m[] = {
 //  ___ ___ ___| |_ 
 // |  _| -_|  _|  _|
 // |_| |___|___|_|  
-//                  
-//==================
+//===================
+/*
+	<Rect> {
+		<int> x;
+		<int> y;
+		<int> width;
+		<int> height;
+	}
+*/
 #pragma region rect
 //static const char *__x = "x";
 //static const char *__y = "y";
@@ -1404,7 +1400,7 @@ static int luacef_rect_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_rect_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_rect_index },
 	{ "__newindex", luacef_rect_newindex },
 	{ NULL, NULL}
@@ -1415,18 +1411,17 @@ static const luaL_Reg luacef_rect_m[] = {
 //  ___|_|___ ___ 
 // |_ -| |- _| -_|
 // |___|_|___|___|
-//                
-//================
-#pragma region size
-//static const char *__width = "width";
-//static const char *__height = "height";
-
+//=================
 /*
-	<Size> newSize {
+	<Size> {
 		<int>	width;
 		<int>	height
 	}
 */
+#pragma region size
+//static const char *__width = "width";
+//static const char *__height = "height";
+
 static int luacef_size_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_size_t);
@@ -1484,7 +1479,7 @@ static int luacef_size_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_size_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_size_index },
 	{ "__newindex", luacef_size_newindex },
 	{ NULL, NULL}
@@ -1495,18 +1490,17 @@ static const luaL_Reg luacef_size_m[] = {
 //  ___ ___ ___ ___ ___ 
 // |  _| .'|   | . | -_|
 // |_| |__,|_|_|_  |___|
-//             |___|    
-//======================
-#pragma region range
-static const char *__from = "from";
-static const char *__to = "to";
-
+//=============|___|=====
 /*
-	<Range> newRange {
+	<Range> {
 		<int>	from;
 		<int>	to
 	}
 */
+#pragma region range
+static const char *__from = "from";
+static const char *__to = "to";
+
 static int luacef_range_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_range_t);
@@ -1564,7 +1558,7 @@ static int luacef_range_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_range_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_range_index },
 	{ "__newindex", luacef_range_newindex },
 	{ NULL, NULL}
@@ -1575,22 +1569,21 @@ static const luaL_Reg luacef_range_m[] = {
 // |_|___ ___ ___| |_ ___ 
 // | |   |_ -| -_|  _|_ -|
 // |_|_|_|___|___|_| |___|
-//                        
-//========================
-#pragma region insets
-static const char *__top = "top";
-static const char *__left = "left";
-static const char *__bottom = "bottom";
-static const char *__right = "right";
-
+//=========================
 /*
-	<Insets> newInsets {
+	<Insets> {
 		<int>	top;
 		<int>	left;
 		<int>	bottom;
 		<int>	right;
 	}
 */
+#pragma region insets
+static const char *__top = "top";
+static const char *__left = "left";
+static const char *__bottom = "bottom";
+static const char *__right = "right";
+
 static int luacef_insets_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_insets_t);
@@ -1663,7 +1656,7 @@ static int luacef_insets_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_insets_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_insets_index },
 	{ "__newindex", luacef_insets_newindex },
 	{ NULL, NULL}
@@ -1674,18 +1667,17 @@ static const luaL_Reg luacef_insets_m[] = {
 //  _| |___ ___ ___ ___ ___| |_| |___    ___ ___ ___|_|___ ___ 
 // | . |  _| .'| . | . | .'| . | | -_|  |  _| -_| . | | . |   |
 // |___|_| |__,|_  |_  |__,|___|_|___|  |_| |___|_  |_|___|_|_|
-//             |___|___|                        |___|          
-//=============================================================
-#pragma region draggable_region
-static const char *__bounds = "bounds";
-static const char *__draggable = "draggable";
-
+//=============|___|___|========================|___|===========
 /*
-	<DraggableRegion> newDraggableRegion {
+	<DraggableRegion> {
 		<Rect>	bounds;
 		<bool>	draggable;
 	}
 */
+#pragma region draggable_region
+static const char *__bounds = "bounds";
+static const char *__draggable = "draggable";
+
 static int luacef_draggable_region_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_draggable_region_t);
@@ -1743,7 +1735,7 @@ static int luacef_draggable_region_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_draggable_region_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_draggable_region_index },
 	{ "__newindex", luacef_draggable_region_newindex },
 	{ NULL, NULL}
@@ -1754,16 +1746,7 @@ static const luaL_Reg luacef_draggable_region_m[] = {
 //  ___ ___ ___ ___ ___ ___   |_|___|  _|___ 
 // |_ -|  _|  _| -_| -_|   |  | |   |  _| . |
 // |___|___|_| |___|___|_|_|  |_|_|_|_| |___|
-//                                          
-//==========================================
-#pragma region screen_info
-static const char *__device_scale_factor = "device_scale_factor";
-static const char *__depth = "depth";
-static const char *__depth_per_component = "depth_per_component";
-static const char *__is_monochrome = "is_monochrome";
-static const char *__rect = "rect";
-static const char *__available_rect = "available_rect";
-
+//============================================
 /*
 	<ScreenInfo> newScreenInfo {
 		<float> device_scale_factor;
@@ -1774,6 +1757,14 @@ static const char *__available_rect = "available_rect";
 		<Rect> available_rect;
 	}
 */
+#pragma region screen_info
+static const char *__device_scale_factor = "device_scale_factor";
+static const char *__depth = "depth";
+static const char *__depth_per_component = "depth_per_component";
+static const char *__is_monochrome = "is_monochrome";
+static const char *__rect = "rect";
+static const char *__available_rect = "available_rect";
+
 static int luacef_screen_info_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_screen_info_t);
@@ -1867,7 +1858,7 @@ static int luacef_screen_info_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_screen_info_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_screen_info_index },
 	{ "__newindex", luacef_screen_info_newindex },
 	{ NULL, NULL}
@@ -1878,11 +1869,17 @@ static const luaL_Reg luacef_screen_info_m[] = {
 //  _____ ___ _ _ ___ ___    ___ _ _ ___ ___| |_ 
 // |     | . | | |_ -| -_|  | -_| | | -_|   |  _|
 // |_|_|_|___|___|___|___|  |___|\_/|___|_|_|_|  
-//                                               
-//===============================================
+//================================================
+/*
+	<MouseEvent> {
+		<int> x;
+		<int> y;
+		<int> modifiers;
+	}
+*/
 #pragma region mouse_event
-
 static const char *__modifiers = "modifiers";
+
 static int luacef_mouse_event_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_mouse_event_t);
@@ -1949,7 +1946,7 @@ static int luacef_mouse_event_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_mouse_event_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_mouse_event_index },
 	{ "__newindex", luacef_mouse_event_newindex },
 	{ NULL, NULL}
@@ -1960,19 +1957,7 @@ static const luaL_Reg luacef_mouse_event_m[] = {
 // | |_ ___ _ _    ___ _ _ ___ ___| |_ 
 // | '_| -_| | |  | -_| | | -_|   |  _|
 // |_,_|___|_  |  |___|\_/|___|_|_|_|  
-//         |___|                       
-//=====================================
-#pragma region key_event
-
-static const char *__type = "type";
-//static const char *__modifiers = "modifiers";
-static const char *__windows_key_code = "windows_key_code";
-static const char *__native_key_code = "native_key_code";
-static const char *__is_system_key = "is_system_key";
-static const char *__character = "character";
-static const char *__unmodified_character = "unmodified_character";
-static const char *__focus_on_editable_field = "focus_on_editable_field";
-
+//=========|___|========================
 /*
 	<KeyEvent> newKeyEvent {
 		<int>	type;
@@ -1985,6 +1970,16 @@ static const char *__focus_on_editable_field = "focus_on_editable_field";
 		<bool>	focus_on_editable_field;
 	}
 */
+#pragma region key_event
+static const char *__type = "type";
+//static const char *__modifiers = "modifiers";
+static const char *__windows_key_code = "windows_key_code";
+static const char *__native_key_code = "native_key_code";
+static const char *__is_system_key = "is_system_key";
+static const char *__character = "character";
+static const char *__unmodified_character = "unmodified_character";
+static const char *__focus_on_editable_field = "focus_on_editable_field";
+
 static int luacef_key_event_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_key_event_t);
@@ -2096,6 +2091,7 @@ static int luacef_key_event_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_key_event_m[] = {
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_key_event_index },
 	{ "__newindex", luacef_key_event_newindex },
 	{ NULL, NULL }
@@ -2106,10 +2102,7 @@ static const luaL_Reg luacef_key_event_m[] = {
 //  ___ ___ ___ _ _ ___   |  _|___ ___| |_ _ _ ___ ___ ___ 
 // | . | . | . | | | . |  |  _| -_| .'|  _| | |  _| -_|_ -|
 // |  _|___|  _|___|  _|  |_| |___|__,|_| |___|_| |___|___|
-// |_|     |_|     |_|                                     
-//=========================================================
-#pragma region popup_features
-
+//=|_|=====|_|=====|_|======================================
 /*
 	<PopupFeatures> {
 	  <int> x;
@@ -2130,7 +2123,7 @@ static const luaL_Reg luacef_key_event_m[] = {
 	  <int> dialog;
   }
 */
-
+#pragma region popup_features
 //static const char *__x = "x";
 static const char *__xSet = "xSet";
 //static const char *__y = "y";
@@ -2331,7 +2324,7 @@ static int luacef_popup_features_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_popup_features_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_popup_features_index },
 	{ "__newindex", luacef_popup_features_newindex },
 	{ NULL, NULL}
@@ -2342,10 +2335,7 @@ static const luaL_Reg luacef_popup_features_m[] = {
 //  ___ ___ ___ ___ ___ ___|_| |_|_|___ ___ 
 // | . | -_| . | . | . |_ -| |  _| | . |   |
 // |_  |___|___|  _|___|___|_|_| |_|___|_|_|
-// |___|       |_|                          
-//==========================================
-#pragma region geoposition
-
+//=|___|=======|_|===========================
 /*
 	<Geoposition> {
 		<double> latitude;
@@ -2360,7 +2350,7 @@ static const luaL_Reg luacef_popup_features_m[] = {
 		<str> error_message;
 	}
 */
-
+#pragma region geoposition
 static const char *__latitude = "latitude";
 static const char *__longitude = "longitude";
 static const char *__altitude = "altitude";
@@ -2499,7 +2489,7 @@ static int luacef_geoposition_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_geoposition_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_geoposition_index },
 	{ "__newindex", luacef_geoposition_newindex },
 	{ NULL, NULL}
@@ -2510,10 +2500,7 @@ static const luaL_Reg luacef_geoposition_m[] = {
 //  ___ _ _ ___ ___ ___ ___   |_|___|  _|___ 
 // |  _| | |  _|_ -| . |  _|  | |   |  _| . |
 // |___|___|_| |___|___|_|    |_|_|_|_| |___|
-//                                           
-//===========================================
-#pragma region cursor_info
-
+//============================================
 /*
 	<Cursorinfo> {
 		<Point> hotspot;
@@ -2522,7 +2509,7 @@ static const luaL_Reg luacef_geoposition_m[] = {
 		<Size> size;
 	}
 */
-
+#pragma region cursor_info
 static const char *__hotspot = "hotspot";
 static const char *__image_scale_factor = "image_scale_factor";
 static const char *__buffer = "buffer";
@@ -2612,10 +2599,7 @@ static const luaL_Reg luacef_cursor_info_m[] = {
 //  ___ _| |  _|   ___ ___|_|___| |_    ___ ___| |_| |_|_|___ ___ ___ 
 // | . | . |  _|  | . |  _| |   |  _|  |_ -| -_|  _|  _| |   | . |_ -|
 // |  _|___|_|    |  _|_| |_|_|_|_|    |___|___|_| |_| |_|_|_|_  |___|
-// |_|            |_|                                        |___|    
-//====================================================================
-#pragma region pdf_print_settings
-
+//=|_|============|_|========================================|___|=====
 /*
 	<PDFPrintSettings> {
 		<str> header_footer_title;
@@ -2634,7 +2618,7 @@ static const luaL_Reg luacef_cursor_info_m[] = {
 		<bool> backgrounds_enabled;
 	}
 */
-
+#pragma region pdf_print_settings
 static const char *__header_footer_title = "header_footer_title";
 static const char *__header_footer_url = "header_footer_url";
 static const char *__page_width = "page_width";
@@ -2810,7 +2794,7 @@ static int luacef_pdf_print_settings_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_pdf_print_settings_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_pdf_print_settings_index },
 	{ "__newindex", luacef_pdf_print_settings_newindex },
 	{ NULL, NULL}
@@ -2821,21 +2805,9 @@ static const luaL_Reg luacef_pdf_print_settings_m[] = {
 // | |_ ___ _ _   | |___ _ _ ___ _ _| |_    ___ ___| |_| |_|_|___ ___ ___ 
 // | . | . |_'_|  | | .'| | | . | | |  _|  |_ -| -_|  _|  _| |   | . |_ -|
 // |___|___|_,_|  |_|__,|_  |___|___|_|    |___|___|_| |_| |_|_|_|_  |___|
-//                      |___|                                    |___|    
-//========================================================================
-#pragma region box_layout_settings
-static const char *__horizontal = "horizontal";
-static const char *__inside_border_horizontal_spacing = "inside_border_horizontal_spacing";
-static const char *__inside_border_vertical_spacing = "inside_border_vertical_spacing";
-static const char *__inside_border_insets = "inside_border_insets";
-static const char *__between_child_spacing = "between_child_spacing";
-static const char *__main_axis_alignment = "main_axis_alignment";
-static const char *__cross_axis_alignment = "cross_axis_alignment";
-static const char *__minimum_cross_axis_size = "minimum_cross_axis_size";
-static const char *__default_flex = "default_flex";
-
+//======================|___|====================================|___|=====
 /*
-	<BoxLayoutSettings> newBoxLayoutSettings {
+	<BoxLayoutSettings> {
 		<bool>	horizontal;
 		<int>	inside_border_horizontal_spacing;
 		<int>	inside_border_vertical_spacing;
@@ -2847,6 +2819,17 @@ static const char *__default_flex = "default_flex";
 		<int>	default_flex;
 	}
 */
+#pragma region box_layout_settings
+static const char *__horizontal = "horizontal";
+static const char *__inside_border_horizontal_spacing = "inside_border_horizontal_spacing";
+static const char *__inside_border_vertical_spacing = "inside_border_vertical_spacing";
+static const char *__inside_border_insets = "inside_border_insets";
+static const char *__between_child_spacing = "between_child_spacing";
+static const char *__main_axis_alignment = "main_axis_alignment";
+static const char *__cross_axis_alignment = "cross_axis_alignment";
+static const char *__minimum_cross_axis_size = "minimum_cross_axis_size";
+static const char *__default_flex = "default_flex";
+
 static int luacef_box_layout_settings_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_box_layout_settings_t);
@@ -2967,7 +2950,7 @@ static int luacef_box_layout_settings_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_box_layout_settings_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_box_layout_settings_index },
 	{ "__newindex", luacef_box_layout_settings_newindex },
 	{ NULL, NULL}
@@ -2978,22 +2961,21 @@ static const luaL_Reg luacef_box_layout_settings_m[] = {
 //  ___ ___ _____ ___ ___ ___|_| |_|_|___ ___    _ _ ___ _| |___ ___| |_|___ ___ 
 // |  _| . |     | . | . |_ -| |  _| | . |   |  | | |   | . | -_|  _| | |   | -_|
 // |___|___|_|_|_|  _|___|___|_|_| |_|___|_|_|  |___|_|_|___|___|_| |_|_|_|_|___|
-//               |_|                                                             
-//===============================================================================
-#pragma region composition_underline
-static const char *__range = "range";
-static const char *__color = "color";
-//static const char *__background_color = "background_color";
-static const char *__thick = "thick";
-
+//===============|_|==============================================================
 /*
-	<CompositionUnderline> newCompositionUnderline {
+	<CompositionUnderline> {
 		<Range>	range;
 		<uint>	color;
 		<uint>	background_color;
 		<bool>	thick;
 	}
 */
+#pragma region composition_underline
+static const char *__range = "range";
+static const char *__color = "color";
+//static const char *__background_color = "background_color";
+static const char *__thick = "thick";
+
 static int luacef_composition_underline_new(lua_State *L)
 {
 	size_t sz = sizeof(cef_composition_underline_t);
@@ -3069,28 +3051,30 @@ static int luacef_composition_underline_newindex(lua_State *L)
 }
 
 static const luaL_Reg luacef_composition_underline_m[] = {
-	{ "__gc", luacef_release },
+	//{ "__gc", luacef_release },
 	{ "__index", luacef_composition_underline_index },
 	{ "__newindex", luacef_composition_underline_newindex },
 	{ NULL, NULL}
 };
 #pragma endregion
 
-
-
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
-// MainArgs //================================================
+//            _                        
+//  _____ ___|_|___    ___ ___ ___ ___ 
+// |     | .'| |   |  | .'|  _| . |_ -|
+// |_|_|_|__,|_|_|_|  |__,|_| |_  |___|
+//============================|___|=====
+/*
+	<MainArgs> {
+		<udata>	instance;
+	}
+*/
+
 static const char *__instance = "instance";
 
-/*
-	cef.newMainArgs {
-		<udata>	instance;
-
-	} --> <MainArgs>
-*/
 static int luacef_main_args_new(lua_State* L)
 {
 	size_t sz = sizeof(cef_main_args_t);
@@ -3140,14 +3124,34 @@ static int luacef_main_args_newindex(lua_State* L)
 }
 
 static const luaL_Reg luacef_main_args_m[] = {
-	{ "__gc" , luacef_release },
+	//{ "__gc" , luacef_release },
 	{ "__index" , luacef_main_args_index },
 	{ "__newindex" , luacef_main_args_newindex },
 	{ NULL, NULL }
 };
 
+//        _       _              _     ___     
+//  _ _ _|_|___ _| |___ _ _ _   |_|___|  _|___ 
+// | | | | |   | . | . | | | |  | |   |  _| . |
+// |_____|_|_|_|___|___|_____|  |_|_|_|_| |___|
+//==============================================
+/*
+	<WindowInfo> {
+		<int>	style
+		<udata>	parent_window
+		<int>	x
+		<int>	y
+		<int>	width
+		<int>	height
+		<int>	ex_style
+		<udata>	menu
+		<int>	transparent_painting_enabled
+		<udata>	window
+		<int>	windowless_rendering_enabled
+		<str>	window_name
+	}
+*/
 
-// WindowInfo //=====================================
 static const char *__style			= "style";
 static const char *__parent_window	= "parent_window";
 //static const char *__x				= "x";
@@ -3161,24 +3165,6 @@ static const char *__window_name		= "window_name";
 static const char *__transparent_painting_enabled = "transparent_painting_enabled";
 //static const char *__windowless_rendering_enabled = "windowless_rendering_enabled";
 
-/*
-	cef.newWindowInfo 
-	{
-		<int>	style
-		<udata>	parent_window
-		<int>	x
-		<int>	y
-		<int>	width
-		<int>	height
-		<int>	ex_style
-		<udata>	menu
-		<int>	transparent_painting_enabled
-		<udata>	window
-		<int>	windowless_rendering_enabled
-		<str>	window_name
-
-	} -> <WindowInfo>
-*/
 static int luacef_window_info_new(lua_State* L)
 {
 	size_t sz = sizeof(cef_window_info_t);
@@ -3230,7 +3216,7 @@ static int luacef_window_info_new(lua_State* L)
 		if (lua_getfield(L, 1, __windowless_rendering_enabled))
 			wi->windowless_rendering_enabled = lua_tointeger(L, -1);
 	}
-
+	
 	luacef_pushuserdata(L, wi, __window_info__);
 	return 1;
 }
@@ -3333,7 +3319,7 @@ static luacef_window_info_newindex(lua_State* L)
 }
 
 static const luaL_Reg luacef_window_info_m[] = {
-	{ "__gc" , luacef_release },
+	//{ "__gc" , luacef_release },
 	{ "__index" , luacef_window_info_index },
 	{ "__newindex" , luacef_window_info_newindex },
 	{ NULL, NULL }

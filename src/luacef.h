@@ -11,10 +11,15 @@
 
 */
 
-#ifdef BUILD_AS_DLL
-#define LUACEF_API __declspec(dllexport)
+
+#ifdef _WIN32
+#define EXPORT(t) 
+#elif
+
+#elif
+
 #else
-#define LUACEF_API __declspec(dllimport)
+#	error "platform unsupported!"
 #endif
 
 #ifdef __cplusplus
@@ -33,21 +38,27 @@ extern "C" {
 #include "include/capi/cef_client_capi.h"
 #include "include/internal/cef_types.h"
 
-#include "luacef_string.h"
 #include "luacef_api.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-// from chromium 52 :))
+// string.c
+const wchar_t *lua_towstring(lua_State *L, int stkidx);
+void lua_pushwstring(lua_State *L, wchar_t *ts);
+void lua_clearwstring(wchar_t *ws);
+void luacef_pushstring(lua_State* L, cef_string_t *s);
+cef_string_t luacef_tostring(lua_State *L, int i);
+
+// from chromium <= 52
 typedef cef_base_ref_counted_t cef_base_t;
 
 static lua_State* __mainState = NULL;
-static int __interpreter = 0; // for fix visible window on windows
 
-static const char* __release__ = "release";
-static const char* __index__ = "__index";
+static const char *__release__ = "release";
+static const char *__index__ = "__index";
+static const char *__new__ = "new";
 
 void* luacef_checkudata(lua_State* L, int i, const char* s);
 void* luacef_touserdata(lua_State* L, int i);
@@ -57,16 +68,30 @@ void luacef_pushuserdata(lua_State* L, void* udata, const char* meta);
 int luacef_release(lua_State* L);
 int luacef_index(lua_State* L);
 int luacef_newindex(lua_State* L);
+int luacef_eq(lua_State* L);
+int luacef_len(lua_State* L);
 void luacef_error_index(lua_State* L, const char* index);
 
 #define luacef_alloc(sz) (calloc(1, sz))
+#define luacef_int long long
+#define luacef_bool int
+#define luacef_double double
 
-static const luaL_Reg luacef_rl_gc[] = {
-	//{ "__index",	luacef_index },
-	//{ "__newindex", luacef_newindex },
-	{ "__gc", luacef_release },
-	{ "release", luacef_release }, // hand release
-	{NULL, NULL}
-};
+
+#if defined(_MSC_VER)
+#define EXPORT(t) __declspec(dllexport) t
+#define IMPORT(t) __declspec(dllimport) t
+#elif defined(__GNUC__)
+#define EXPORT(t) __attribute__((visibility("default"))) t
+#define IMPORT(t) t
+#else
+#define EXPORT(t) t
+#define IMPORT(t) t
+#pragma warning Unknown dynamic link import/export semantics.
+#endif
+
+
+
+
 
 #endif
