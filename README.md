@@ -35,23 +35,22 @@
 ### My technology for pointer :)
 
 ```
-lua:newuserdata  <- alloc [4-byte]
+----- C ----------------
+lua:newuserdata  <- alloc
 ~~~~~~~~~~~~~~~
        |
        v
-    <ptr**> -> <ptr*> := <udata*> <- alloc [n-byte]
-       |                   |---> ::free
-       v                   |---> ::set, get
-    <self**>  <------------|       ~~~~~~~~
+     heap[1] -> [0] := cef_type <- alloc
+       |                   |---> :: free
+       v                   |---> :: set/get
+     self //  <------------|        ~~~~~~~
     ~~~~~~~~               v          ^^^
        |           <type properties>    \
        v                   v         ~~~~~~~~~
 [method, property] <- <metatable> -> reference
        |
        v
-     return
-
- <____LUA____>
+----- LUA --------------
 ```
 
 ### Simple Google example
