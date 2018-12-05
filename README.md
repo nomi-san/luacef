@@ -5,6 +5,10 @@
 	<h1 align="center"> LuaCEF </h1>
 	<p align="center">
     	<strong> Chromium Embedded Framework for Lua. </strong>
+	<br><br>
+	<a href="https://travis-ci.org/wy3/luacef" target="_blank">
+		<img src="https://travis-ci.org/wy3/luacef.svg?branch=master">
+	</a>
  	</p>
 </p>
 
