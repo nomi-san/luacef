@@ -1,0 +1,7 @@
+os: windows
+language: c
+
+script:
+  - choco install lua53
+  - cd luacef
+  - lua53 build_win.lua
