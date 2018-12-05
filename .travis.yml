@@ -3,5 +3,6 @@ language: c
 
 script:
   - choco install lua53
+  - git clone https://github.com/wy3/luacef.git
   - cd luacef
   - lua53 build_win.lua
