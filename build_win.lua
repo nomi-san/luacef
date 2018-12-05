@@ -1,5 +1,14 @@
 local win32 = package.config:sub(1,1) == '\\' and true or false
 
+function path(path)
+	if win32 then
+		path = string.gsub(path, '/', '\\')
+	else
+		path = string.gsub(path, '\\', '/')
+	end
+	return path
+end
+
 function scandir(d)
     local i, t, p = 0, {}, io.popen('dir "'..d..'" /b ') -- "ls -a" for linux/sh
     for f in p:lines() do
@@ -29,8 +38,8 @@ function isdir(path)
 end
 
 function del(file)
+	file = path(file)
 	if win32 then
-		file = string.gsub(file, '/', '\\')
 		os.execute('del /S /Q '..file)
 	else
 		os.execute('rm '..file)
@@ -38,13 +47,11 @@ function del(file)
 end
 
 function mkdir(dir)
-	if win32 then dir = string.gsub(dir, '/', '\\') end
-	os.execute('mkdir '..dir)
+	os.execute('mkdir '..path(dir))
 end
 
 function rmdir(dir)
-	if win32 then dir = string.gsub(dir, '/', '\\') end
-	os.execute('rmdir '..dir)
+	os.execute('rmdir '..path(dir))
 end
 
 --------------------------------------------------------------
@@ -101,7 +108,7 @@ mkdir('build/obj')
 
 print("# Generating object...")
 for m = 1, #c do
-    exec(cc .. ' -shared -w -D_MSC_VER -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ideps/lua/src -Ideps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
+    exec(cc .. ' -shared -w -D__GNUC__ -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ideps/lua/src -Ideps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
     print('    ' .. l[m] .. '.c -> ' .. l[m] .. '.o' )
 end
 
@@ -109,5 +116,4 @@ print("# Linking library...")
 exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua -Ldeps/cef -llua53 -llibcef -lole32')
 print("    -> luacef.dll")
 
---exec('del *.o')
 print("# Done.\n")
