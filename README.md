@@ -70,7 +70,7 @@ local code = cef.ExecuteProcess(args, app)
 if (code >= 0) then os.exit() end
 
 -- print version
-cef.printversion()
+cef.printv()
 
 -- new cef settings
 local settings = cef.newSettings {
