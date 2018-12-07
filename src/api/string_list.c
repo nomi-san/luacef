@@ -170,7 +170,7 @@ int luacef_StringList_print(lua_State *L)
 	cef_string_t s = { 0 };
 	cef_string_utf8_t s2 = { 0 };
 	
-	printf("%s: %08x {", __string_list__, p);
+	printf("%s: %08x {", __string_list__, (size_t)p);
 	for (size_t i = 0; i < sz; i++) {
 		cef_string_list_value(sl, i, &s);
 		cef_string_to_utf8(s.str, s.length, &s2);

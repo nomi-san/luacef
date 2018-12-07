@@ -114,7 +114,7 @@ int CEF_CALLBACK life_span_handler_on_before_popup(
 
 		lua_pushinteger(self->L, user_gesture); // 7
 
-		luacef_pushuserdata(self->L, popupFeatures, __popup_features__); // 8
+		//luacef_pushuserdata(self->L, popupFeatures, __popup_features__); // 8
 
 		luacef_pushuserdata(self->L, windowInfo, __window_info__); // 9
 		

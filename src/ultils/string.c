@@ -54,10 +54,11 @@ void lua_pushwstring(lua_State *L, const wchar_t *wcs)
 // to cefstring
 cef_string_t luacef_tostring(lua_State *L, int i)
 {
-	const char *cs = lua_tostring(L, i);
-
+	int len;
+	const char *cs = lua_tolstring(L, i, &len);
+	
 	cef_string_t s = { 0 };
-	cef_string_from_utf8(cs, strlen(cs), &s);
+	cef_string_from_utf8(cs, len, &s);
 
 	return s;
 }
@@ -65,16 +66,35 @@ cef_string_t luacef_tostring(lua_State *L, int i)
 // push cefstring*
 void luacef_pushstring(lua_State* L, cef_string_t *s)
 {
-	cef_string_utf8_t src = { 0 };
-	cef_string_utf16_to_utf8(s->str, s->length, &src);
-	lua_pushstring(L, src.str);
+	int len = s->length;
+
+	char *buf = malloc(len+1);
+	wcstombs(buf, s->str, len);
+	buf[len] = '\0';
+
+	lua_pushstring(L, buf);
+	free(buf);
+
+	//cef_string_utf8_t src = { 0 };
+	//cef_string_to_utf8(s->str, s->length, &src);
+	//lua_pushstring(L, src.str);
 }
 
 // push cef_string_free
 void luacef_pushstring_free(lua_State* L, cef_string_userfree_t s)
 {
-	cef_string_utf8_t src = { 0 };
-	cef_string_utf16_to_utf8(s->str, s->length, &src);
-	lua_pushstring(L, src.str);
+	int len = s->length;
+
+	char *buf = malloc(len + 1);
+	wcstombs(buf, s->str, len);
+	buf[len] = '\0';
+
+	lua_pushstring(L, buf);
+	free(buf);
 	cef_string_userfree_free(s);
+
+	//cef_string_utf8_t src = { 0 };
+	//cef_string_utf16_to_utf8(s->str, s->length, &src);
+	//lua_pushstring(L, src.str);
+	//cef_string_userfree_free(s);
 }

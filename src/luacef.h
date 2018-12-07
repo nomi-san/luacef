@@ -11,27 +11,21 @@
 
 */
 
-
-#ifdef _WIN32
-#define EXPORT(t) 
-#elif
-
-#elif
-
-#else
-#	error "platform unsupported!"
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#include <stdlib.h>
+#include <stdbool.h>
 #include <math.h>
+
 #include "lua.h"
 #include "lapi.h"
 #include "lauxlib.h"
 
 //////////////////////////////////////
+#define	CEF_STRING_TYPE_UTF16 1
+
 #include "include/cef_version.h"
 #include "include/capi/cef_app_capi.h"
 #include "include/capi/cef_base_capi.h"
@@ -65,6 +59,10 @@ void* luacef_touserdata(lua_State* L, int i);
 void* luacef_newuserdata(lua_State* L, size_t sz);
 void luacef_pushuserdata(lua_State* L, void* udata, const char* meta);
 
+#define luacef_pushudata luacef_pushuserdata
+#define luacef_toudata luacef_touserdata
+#define luacef_newudata luacef_newuserdata
+
 int luacef_release(lua_State* L);
 int luacef_index(lua_State* L);
 int luacef_newindex(lua_State* L);
@@ -73,11 +71,12 @@ int luacef_len(lua_State* L);
 void luacef_error_index(lua_State* L, const char* index);
 
 #define luacef_alloc(sz) (calloc(1, sz))
+#define luacef_alloct(t) (calloc(1, sizeof(t)))
 #define luacef_int long long
 #define luacef_bool int
 #define luacef_double double
 
-
+#ifndef EXPORT
 #if defined(_MSC_VER)
 #define EXPORT(t) __declspec(dllexport) t
 #define IMPORT(t) __declspec(dllimport) t
@@ -89,9 +88,6 @@ void luacef_error_index(lua_State* L, const char* index);
 #define IMPORT(t) t
 #pragma warning Unknown dynamic link import/export semantics.
 #endif
-
-
-
-
+#endif
 
 #endif

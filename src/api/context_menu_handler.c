@@ -316,7 +316,7 @@ static int luacef_ContextMenuParams_GetLinkUrl(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_link_url(p);
+	cef_string_userfree_t s = p->get_link_url(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -326,7 +326,7 @@ static int luacef_ContextMenuParams_GetUnfilteredLinkUrl(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_unfiltered_link_url(p);
+	cef_string_userfree_t s = p->get_unfiltered_link_url(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -336,7 +336,7 @@ static int luacef_ContextMenuParams_GetSourceUrl(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_source_url(p);
+	cef_string_userfree_t s = p->get_source_url(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -356,7 +356,7 @@ static int luacef_ContextMenuParams_GetTitleText(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_title_text(p);
+	cef_string_userfree_t s = p->get_title_text(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -366,7 +366,7 @@ static int luacef_ContextMenuParams_GetPageUrl(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_page_url(p);
+	cef_string_userfree_t s = p->get_page_url(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -376,7 +376,7 @@ static int luacef_ContextMenuParams_GetFrameUrl(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_frame_url(p);
+	cef_string_userfree_t s = p->get_frame_url(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -386,7 +386,7 @@ static int luacef_ContextMenuParams_GetFrameCharset(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_frame_charset(p);
+	cef_string_userfree_t s = p->get_frame_charset(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -416,7 +416,7 @@ static int luacef_ContextMenuParams_GetSelectionText(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_selection_text(p);
+	cef_string_userfree_t s = p->get_selection_text(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;
@@ -426,7 +426,7 @@ static int luacef_ContextMenuParams_GetMisspelledWord(lua_State *L)
 {
 	cef_context_menu_params_t *p = luacef_touserdata(L, 1);
 
-	cef_string_userfree_t *s = p->get_misspelled_word(p);
+	cef_string_userfree_t s = p->get_misspelled_word(p);
 
 	luacef_pushstring_free(L, s);
 	return 1;

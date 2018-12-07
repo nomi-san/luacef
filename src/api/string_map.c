@@ -3,12 +3,31 @@
 
 static const char __string_map__[] = "CefStringMap";
 
+typedef struct {
+	cef_string_map_t self;
+	int ref;
+} CefStringMap;
+
+static int luacef_StringMap_totable(lua_State *L)
+{
+	CefStringMap *map = luacef_alloct(CefStringMap);
+	map->self = cef_string_map_alloc();
+
+	lua_newtable(L);
+
+	return 1;
+}
+
+
 int luacef_StringMap_new(lua_State *L)
 {
-	cef_string_map_t map = cef_string_map_alloc();
+	CefStringMap *map = luacef_alloct(CefStringMap);
+	map->self = cef_string_map_alloc();
 
 	cef_string_map_alloc;
 
+
+	luacef_pushudata(L, map, __string_map__);
 	return 1;
 }
 
@@ -18,7 +37,17 @@ int luacef_StringMap_index(lua_State *L)
 {
 	cef_string_map_t map = luacef_toudata(L, 1);
 
-	lua_pushlightuserdata(L, map);
+	if (lua_isinteger(L, 2)) {
+
+
+
+	}
+	else if (lua_isstring(L, 2)) {
+
+
+
+	}
+
 	return 1;
 }
 
