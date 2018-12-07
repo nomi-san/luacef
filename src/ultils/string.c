@@ -4,6 +4,9 @@
 
 #define CP_UTF8 65001
 
+LPVOID __stdcall CoTaskMemAlloc(SIZE_T cb);
+void __stdcall CoTaskMemFree(LPVOID pv);
+
 // to wchar_t*
 const wchar_t *lua_towstring(lua_State *L, int stkidx)
 {
