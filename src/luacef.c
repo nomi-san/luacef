@@ -148,7 +148,7 @@ static void luacef_api_reg(lua_State *L)
 	luacef_MenuModel_reg(L);
 	luacef_CompletionCallback_reg(L);
 
-	luacef_v8_reg(L);
+	luacef_V8_reg(L);
 	luacef_Time_reg(L);
 }
 

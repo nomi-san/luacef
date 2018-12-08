@@ -1,4 +1,7 @@
 #include "../luacef.h"
+#include "include/capi/cef_frame_capi.h"
+
+typedef cef_frame_t luacef_Frame;
 
 static int luacef_frame_new(lua_State* L)
 {

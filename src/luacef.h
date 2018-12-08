@@ -39,11 +39,14 @@ extern "C" {
 #endif
 
 // string.c
-const wchar_t *lua_towstring(lua_State *L, int stkidx);
+const wchar_t *lua_towlstring(lua_State *L, int idx, int *len);
 void lua_pushwstring(lua_State *L, wchar_t *ts);
 void lua_clearwstring(wchar_t *ws);
 void luacef_pushstring(lua_State* L, cef_string_t *s);
+void luacef_pushstring_free(lua_State* L, cef_string_userfree_t s);
 cef_string_t luacef_tostring(lua_State *L, int i);
+
+#define lua_towstring(L, i) lua_towlstring(L, i, NULL)
 
 // from chromium <= 52
 typedef cef_base_ref_counted_t cef_base_t;

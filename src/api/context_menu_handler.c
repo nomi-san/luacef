@@ -174,7 +174,8 @@ void CEF_CALLBACK luacef_ContextMenuHandler_OnContextMenuDismissed(
 static int luacef_ContextMenuHandler_new(lua_State *L)
 {
 	size_t sz = sizeof(luacef_ContextMenuHandler);
-	luacef_ContextMenuHandler *p = luacef_alloc(sz);
+	luacef_ContextMenuHandler *p = NULL;
+	p = luacef_alloc(sz);
 	p->base.size = sz;
 	p->L = L;
 
@@ -186,7 +187,7 @@ static int luacef_ContextMenuHandler_new(lua_State *L)
 			p->on_before_context_menu = !lua_isfunction(L, -1) ? NULL : luacef_ContextMenuHandler_OnBeforeContextMenu;
 
 		if (lua_getfield(L, 1, __RunContextMenu))
-			p->on_before_context_menu = !lua_isfunction(L, -1) ? NULL : luacef_ContextMenuHandler_RunContextMenu;
+			p->run_context_menu = !lua_isfunction(L, -1) ? NULL : luacef_ContextMenuHandler_RunContextMenu;
 
 		if (lua_getfield(L, 1, __OnContextMenuCommand))
 			p->on_context_menu_command = !lua_isfunction(L, -1) ? NULL : luacef_ContextMenuHandler_OnContextMenuCommand;

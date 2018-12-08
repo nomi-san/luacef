@@ -346,8 +346,16 @@ static int 	luacef_Browser_SendProcessMessage(lua_State* L)
 	return 1;
 }
 
+static int luacef_Browser_unm(lua_State *L)
+{
+	cef_browser_t *b = luacef_touserdata(L, 1);
+
+	lua_pushlightuserdata(L, b);
+	return 1;
+}
+
 static const luaL_Reg luacef_Browser_m[] = {
-	{ "release", luacef_release },
+	{ "__unm", luacef_Browser_unm},
 	{ "CanGoBack", luacef_Browser_CanGoBack },
 	{ "CanGoForward", luacef_Browser_CanGoForward },
 	{ "GetFocusedFrame", luacef_Browser_GetFocusedFrame },

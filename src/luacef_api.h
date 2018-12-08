@@ -2,6 +2,9 @@
 #define LUACEF_INCLUDE_API_H_
 #pragma once
 
+#pragma warning( disable : 4273)
+#pragma warning( disable : 4090)
+
 /*
 	lua:newuuserdata <- alloc [4-byte]
 	~~~~~~~~~~~~~~~~
@@ -135,15 +138,15 @@ static const char *__command_line__ = "CommandLine";
 // todo
 static const char *__v8accessor__ = "V8Accessor";
 static const char *__v8_accesscontrol__ = "V8Accesscontrol";
-static const char *__v8context__ = "V8Context";
+static const char *__v8context__ = "CefV8Context";
 static const char *__v8exception__ = "V8Exception";
-static const char *__v8handler__ = "V8Handler";
+static const char __v8handler__[] = "CefV8Handler";
 static const char *__execute = "Execute";
 
 static const char *__v8_propertyattribute__ = "V8Propertyattribute";
 static const char *__v8stack_frame__ = "V8StackFrame";
 static const char *__v8stack_trace__ = "V8StackTrace";
-static const char *__v8value__ = "V8Value";
+static const char *__v8value__ = "CefV8Value";
 
 static const char *__v8interceptor__ = "V8Interceptor";
 

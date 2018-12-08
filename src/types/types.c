@@ -2002,8 +2002,11 @@ static int luacef_key_event_new(lua_State *L)
 		if (lua_getfield(L, 1, __is_system_key))
 			p->type = lua_tointeger(L, -1);
 
-		if (lua_getfield(L, 1, __character))
-			p->character = lua_towstring(L, -1);
+		if (lua_getfield(L, 1, __character)) {
+			wchar_t buf[1];
+			mbstowcs(buf, lua_tostring(L, -1), 1);
+			p->character = buf[0];
+		}
 
 		if (lua_getfield(L, 1, __unmodified_character))
 			p->unmodified_character = lua_towstring(L, -1);
@@ -2041,8 +2044,12 @@ static int luacef_key_event_index(lua_State *L)
 	else if (!strcmp(i, __is_system_key))
 		lua_pushboolean(L, p->type);
 
-	else if (!strcmp(i, __character))
-		lua_pushwstring(L, &p->character);
+	else if (!strcmp(i, __character)) {
+		cef_string_utf8_t s = { 0 };
+		cef_string_to_utf8(&p->character, 1, &s);
+		char buf[2] = { s.str[0], '\0' };
+		lua_pushstring(L, buf);
+	}
 
 	else if (!strcmp(i, __unmodified_character))
 		lua_pushwstring(L, &p->unmodified_character);
@@ -2078,8 +2085,11 @@ static int luacef_key_event_newindex(lua_State *L)
 	else if (!strcmp(i, __is_system_key))
 		p->type = lua_tointeger(L, -1);
 
-	else if (!strcmp(i, __character))
-		p->character = lua_towstring(L, -1);
+	else if (!strcmp(i, __character)) {
+		wchar_t buf[1];
+		mbstowcs(buf, lua_tostring(L, -1), 1);
+		p->character = buf[0];
+	}
 
 	else if (!strcmp(i, __unmodified_character))
 		p->unmodified_character = lua_towstring(L, -1);
@@ -2105,23 +2115,23 @@ static const luaL_Reg luacef_key_event_m[] = {
 //=|_|=====|_|=====|_|======================================
 /*
 	<PopupFeatures> {
-	  <int> x;
-	  <int> xSet;
-	  <int> y;
-	  <int> ySet;
-	  <int> width;
-	  <int> widthSet;
-	  <int> height;
-	  <int> heightSet;
-	  <int> menuBarVisible;
-	  <int> statusBarVisible;
-	  <int> toolBarVisible;
-	  <int> locationBarVisible;
-	  <int> scrollbarsVisible;
-	  <int> resizable;
-	  <int> fullscreen;
-	  <int> dialog;
-  }
+		<int> x;
+		<int> xSet;
+		<int> y;
+		<int> ySet;
+		<int> width;
+		<int> widthSet;
+		<int> height;
+		<int> heightSet;
+		<int> menuBarVisible;
+		<int> statusBarVisible;
+		<int> toolBarVisible;
+		<int> locationBarVisible;
+		<int> scrollbarsVisible;
+		<int> resizable;
+		<int> fullscreen;
+		<int> dialog;
+	}
 */
 #pragma region popup_features
 //static const char *__x = "x";

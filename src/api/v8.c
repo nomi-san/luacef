@@ -1,20 +1,9 @@
 #include "../luacef.h"
 
-#include "include/capi/cef_base_capi.h"
-#include "include/capi/cef_browser_capi.h"
-#include "include/capi/cef_frame_capi.h"
-#include "include/capi/cef_task_capi.h"
+#include "include/capi/cef_v8_capi.h"
 
-struct _cef_v8exception_t;
-struct _cef_v8handler_t;
-struct _cef_v8stack_frame_t;
-struct _cef_v8value_t;
-
-//      ___ 
-//  _ _| . |
-// | | | . |
-//  \_/|___|
-//===========
+// V8Context
+// ==================================================
 
 /*
 	<TaskRunner> V8Context:GetTaskRunner()
@@ -139,7 +128,19 @@ static int luacef_v8context_eval(lua_State *L)
 	return 1;
 }
 
-static const luaL_Reg luacef_v8context_m[] = {
+/*
+	<udata> -V8Context
+*/
+static int luacef_V8Context_unm(lua_State *L)
+{
+	cef_v8context_t *p = luacef_touserdata(L, 1);
+
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
+
+static const luaL_Reg luacef_V8Context_meta[] = {
+	{ "__unm", luacef_V8Context_unm },
 	{ "GetTaskRunner", luacef_v8context_get_task_runner },
 	{ "IsValid", luacef_v8context_is_valid },
 	{ "GetBrowser", luacef_v8context_get_browser },
@@ -152,10 +153,12 @@ static const luaL_Reg luacef_v8context_m[] = {
 	{ NULL, NULL}
 };
 
+// static functions
+
 /*
-	<V8Context> V8Context.GetCurrentContext()
+	<CefV8Context> V8Context.GetCurrentContext()
 */
-static int luacef_v8context_get_current_context(lua_State *L)
+static int luacef_V8Context_GetCurrentContext(lua_State *L)
 {
 	cef_v8context_t *p = cef_v8context_get_current_context();
 
@@ -164,9 +167,9 @@ static int luacef_v8context_get_current_context(lua_State *L)
 }
 
 /*
-	<V8Context> V8Context.GetEnteredContext()
+	<CefV8Context> V8Context.GetEnteredContext()
 */
-static int luacef_v8context_get_entered_context(lua_State *L)
+static int luacef_V8Context_GetEnteredContext(lua_State *L)
 {
 	cef_v8context_t *p = cef_v8context_get_entered_context();
 
@@ -175,37 +178,37 @@ static int luacef_v8context_get_entered_context(lua_State *L)
 }
 
 /*
-	<bool> V8Context.GetEnteredContext()
+	<int> V8Context.InContext()
 */
-static int luacef_v8context_in_context(lua_State *L)
+static int luacef_V8Context_InContext(lua_State *L)
 {
-	lua_pushboolean(L, cef_v8context_in_context());
+	int i = cef_v8context_in_context();
+
+	lua_pushinteger(L, i);
 	return 1;
 }
 
-// v8handler /////////////////////////////////
-//////////////////////////////////////
+static const luaL_Reg luacef_V8Context_meta_static[] = {
+	{ "GetCurrentContext", luacef_V8Context_GetCurrentContext },
+	{ "GetEnteredContext", luacef_V8Context_GetEnteredContext },
+	{ "InContext", luacef_V8Context_InContext },
+	{ NULL, NULL}
+};
 
-// owned
-typedef struct luacef_v8handler {
+/* CefV8Handler
+--------------------------------------------------*/
 
-	cef_base_ref_counted_t base;
+typedef struct luacef_V8Handler {
 
-	int(CEF_CALLBACK* execute)(struct luacef_v8handler* self,
-		const cef_string_t* name,
-		struct _cef_v8value_t* object,
-		size_t argumentsCount,
-		struct _cef_v8value_t* const* arguments,
-		struct _cef_v8value_t** retval,
-		cef_string_t* exception);
+	cef_v8handler_t self;
 
 	lua_State *L;
 	int ref;
 
-} luacef_v8handler;
+} luacef_V8Handler;
 
-int CEF_CALLBACK v8h_execute(
-	struct luacef_v8handler*	self,
+int CEF_CALLBACK luacef_V8Handler_execute(
+	struct luacef_V8Handler*	self,
 	const cef_string_t*			name,
 	struct _cef_v8value_t*		object,
 	size_t						argumentsCount,
@@ -232,24 +235,24 @@ int CEF_CALLBACK v8h_execute(
 
 		lua_pcall(self->L, 7, 1, 8); // call
 
-		return lua_tonumber(self->L, -1);
+		return lua_tointeger(self->L, -1);
 	}
 
 	return 0;
 }
 
-static int luacef_v8handler_new(lua_State *L)
+static int luacef_V8Handler_new(lua_State *L)
 {
-	size_t sz = sizeof(luacef_v8handler);
-	luacef_v8handler *p = luacef_alloc(sz);
-	p->base.size = sz;
+	size_t sz = sizeof(luacef_V8Handler);
+	luacef_V8Handler *p = luacef_alloc(sz);
+	p->self.base.size = sz;
 
 	if (lua_istable(L, 1)) {
 		lua_pushvalue(L, 1);
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 		if (lua_getfield(L, 1, __execute))
-			p->execute = v8h_execute;
+			p->self.execute = luacef_V8Handler_execute;
 	}
 	else {
 		lua_newtable(L);
@@ -260,21 +263,21 @@ static int luacef_v8handler_new(lua_State *L)
 	return 1;
 }
 
-static int luacef_v8handler_release(lua_State *L)
+static int luacef_V8Handler_release(lua_State *L)
 {
 	if (lua_isnoneornil(L, 1)) return 0;
 	void **ud = (void**)lua_touserdata(L, 1);
 	if (ud && *ud) {
-		luaL_unref(L, LUA_REGISTRYINDEX, ((luacef_v8handler*)*ud)->ref); //
+		luaL_unref(L, LUA_REGISTRYINDEX, ((luacef_V8Handler*)*ud)->ref); //
 		free(*ud);
 		*ud = NULL;
 	}
 	return 0;
 }
 
-static int luacef_v8handler_index(lua_State *L)
+static int luacef_V8Handler_index(lua_State *L)
 {
-	luacef_v8handler *p = luacef_touserdata(L, 1);
+	luacef_V8Handler *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
 
 	const char *i = lua_tostring(L, 2);
@@ -283,7 +286,7 @@ static int luacef_v8handler_index(lua_State *L)
 	lua_pushvalue(L, -1);
 
 	if (!strcmp(i, __release__))
-		lua_pushcfunction(L, luacef_v8handler_release);
+		lua_pushcfunction(L, luacef_V8Handler_release);
 
 	else if (!strcmp(i, __execute))
 		lua_getfield(L, -1, __execute);
@@ -293,9 +296,9 @@ static int luacef_v8handler_index(lua_State *L)
 	return 1;
 }
 
-static int luacef_v8handler_newindex(lua_State *L)
+static int luacef_V8Handler_newindex(lua_State *L)
 {
-	luacef_v8handler *p = luacef_touserdata(L, 1);
+	luacef_V8Handler *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
 
 	const char *i = lua_tostring(L, 2);
@@ -306,16 +309,24 @@ static int luacef_v8handler_newindex(lua_State *L)
 	if (!strcmp(i, __execute)) {
 		lua_pushvalue(L, 3);
 		lua_setfield(L, -2, __execute);
-		p->execute = v8h_execute;
+		p->self.execute = luacef_V8Handler_execute;
 	}
 
 	return 0;
 }
 
-static const luaL_Reg luacef_v8handler_m[] = {
-	// gc
-	{ "index", luacef_v8handler_index },
-	{ "newindex", luacef_v8handler_newindex },
+static int luacef_V8Handler_unm(lua_State *L)
+{
+	luacef_V8Handler *p = luacef_touserdata(L, 1);
+
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
+
+static const luaL_Reg luacef_V8Handler_meta[] = {
+	{ "__unm", luacef_V8Handler_unm },
+	{ "__index", luacef_V8Handler_index },
+	{ "__newindex", luacef_V8Handler_newindex },
 	{ NULL, NULL}
 };
 
@@ -1162,9 +1173,9 @@ static int luacef_v8value_create_double(lua_State *L)
 */
 static int luacef_v8value_create_date(lua_State *L)
 {
-	cef_time_t *t = luacef_checkudata(L, 1, __time__);
+	const cef_time_t *t = luacef_checkudata(L, 1, __time__);
 
-	cef_v8value_t *p = cef_v8value_create_date(&t);
+	cef_v8value_t *p = cef_v8value_create_date(t);
 
 	luacef_pushuserdata(L, p, __v8value__);
 	return 1;
@@ -1234,7 +1245,20 @@ static int luacef_v8value_create_function(lua_State *L)
 	return 1;
 }
 
-static const luaL_Reg luacef_v8value_m[] = {
+/*
+	<udata> -V8Value
+*/
+static int luacef_V8Value_unm(lua_State* L)
+{
+	cef_v8value_t *p = luacef_touserdata(L, 1);
+
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
+
+static const luaL_Reg luacef_V8Value_meta[] = {
+
+	{ "__unm", luacef_V8Value_unm },
 	{ "IsValid", luacef_v8value_is_valid },
 	{ "IsUndefined", luacef_v8value_is_undefined },
 	{ "IsNull", luacef_v8value_is_null },
@@ -1292,7 +1316,7 @@ static const luaL_Reg luacef_v8value_m[] = {
 	{ NULL, NULL }
 };
 
-static const luaL_Reg luacef_v8value_ms[] = {
+static const luaL_Reg luacef_V8Value_meta_static[] = {
 	{ "CreateUndefined", luacef_v8value_create_undefined },
 	{ "CreateNull", luacef_v8value_create_null },
 	{ "CreateBool", luacef_v8value_create_bool },
@@ -1307,45 +1331,71 @@ static const luaL_Reg luacef_v8value_ms[] = {
 	{ NULL, NULL}
 };
 
-// v8stack_trace ===================================================================
+// V8StackTrace
+// ==================================================
+
+typedef cef_v8stack_trace_t luacef_V8StackTrace;
 
 /*
-	<bool> V8StackTrace:IsValid()
+	<int> V8StackTrace:IsValid()
 */
-static int luacef_v8stack_trace_is_valid(lua_State *L)
+static int luacef_V8StackTrace_IsValid(lua_State *L)
 {
-	cef_v8stack_trace_t *p = luacef_touserdata(L, 1);
+	luacef_V8StackTrace *p = luacef_touserdata(L, 1);
 
-	lua_pushboolean(L, p->is_valid(p));
+	int i = p->is_valid(p);
+
+	lua_pushinteger(L, i);
 	return 1;
 }
 
 /*
 	<int> V8StackTrace:GetFrameCount()
 */
-static int luacef_v8stack_trace_get_frame_count(lua_State *L)
+static int luacef_V8StackTrace_GetFrameCount(lua_State *L)
 {
-	cef_v8stack_trace_t *p = luacef_touserdata(L, 1);
+	luacef_V8StackTrace *p = luacef_touserdata(L, 1);
 
-	lua_pushinteger(L, p->get_frame_count(p));
+	int i = p->get_frame_count(p);
+
+	lua_pushinteger(L, i);
 	return 1;
 }
 
 /*
-	<Frame> V8StackTrace:GetFrame(
+	<CefFrame> V8StackTrace:GetFrame(
 		<int>	index
 	)
 */
-static int luacef_v8stack_trace_get_frame(lua_State *L)
+static int luacef_V8StackTrace_GetFrame(lua_State *L)
 {
-	cef_v8stack_trace_t *p = luacef_touserdata(L, 1);
+	luacef_V8StackTrace *p = luacef_touserdata(L, 1);
 	int i = lua_tointeger(L, 2);
 
-	cef_frame_t *fr = p->get_frame(p, i);
+	cef_v8stack_frame_t *fr = p->get_frame(p, i);
 
-	lua_pushinteger(L, fr);
+	luacef_pushudata(L, fr, __v8stack_frame__);
 	return 1;
 }
+
+/*
+	<udata> -V8StackTrace
+*/
+static int luacef_V8StackTrace_unm(lua_State *L)
+{
+	luacef_V8StackTrace *p = luacef_touserdata(L, 1);
+
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
+
+static const luaL_Reg luacef_V8StackTrace_meta[] = {
+	{ "GetFrame", luacef_V8StackTrace_GetFrame },
+	{ "GetFrameCount", luacef_V8StackTrace_GetFrameCount },
+	{ "IsValid", luacef_V8StackTrace_IsValid },
+	{ "__unm", luacef_V8StackTrace_unm },
+	{ NULL, NULL }
+};
 
 // ============= static
 
@@ -1354,7 +1404,7 @@ static int luacef_v8stack_trace_get_frame(lua_State *L)
 		<int>	frame_limit
 	)
 */
-static int luacef_v8stack_trace_get_current(lua_State *L)
+static int luacef_V8StackTrace_GetCurrent(lua_State *L)
 {
 	int i = lua_tointeger(L, 1);
 
@@ -1364,70 +1414,142 @@ static int luacef_v8stack_trace_get_current(lua_State *L)
 	return 1;
 }
 
-///
-// Structure representing a V8 stack frame handle. V8 handles can only be
-// accessed from the thread on which they are created. Valid threads for
-// creating a V8 handle include the render process main thread (TID_RENDERER)
-// and WebWorker threads. A task runner for posting tasks on the associated
-// thread can be retrieved via the cef_v8context_t::get_task_runner() function.
-///
-typedef struct __v8stack_frame_t {
-	///
-	// Base structure.
-	///
-	cef_base_ref_counted_t base;
+// V8StackFrame
+// ==================================================
 
-	///
-	// Returns true (1) if the underlying handle is valid and it can be accessed
-	// on the current thread. Do not call any other functions if this function
-	// returns false (0).
-	///
-	int(CEF_CALLBACK* is_valid)(struct _cef_v8stack_frame_t* self);
+typedef cef_v8stack_frame_t luacef_V8StackFrame ;
 
-	///
-	// Returns the name of the resource script that contains the function.
-	///
-	// The resulting string must be freed by calling cef_string_userfree_free().
-	cef_string_userfree_t(CEF_CALLBACK* get_script_name)(
-		struct _cef_v8stack_frame_t* self);
+/*
+	<int> V8StackFrame:IsValid()
+*/
+static int luacef_V8StackFrame_IsValid(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
 
-	///
-	// Returns the name of the resource script that contains the function or the
-	// sourceURL value if the script name is undefined and its source ends with a
-	// "//@ sourceURL=..." string.
-	///
-	// The resulting string must be freed by calling cef_string_userfree_free().
-	cef_string_userfree_t(CEF_CALLBACK* get_script_name_or_source_url)(
-		struct _cef_v8stack_frame_t* self);
+	int line = p->is_valid(p);
 
-	///
-	// Returns the name of the function.
-	///
-	// The resulting string must be freed by calling cef_string_userfree_free().
-	cef_string_userfree_t(CEF_CALLBACK* get_function_name)(
-		struct _cef_v8stack_frame_t* self);
+	lua_pushinteger(L, line);
+	return 1;
+}
 
-	///
-	// Returns the 1-based line number for the function call or 0 if unknown.
-	///
-	int(CEF_CALLBACK* get_line_number)(struct _cef_v8stack_frame_t* self);
+/*
+	<str> V8StackFrame:GetScriptName()
+*/
+static int luacef_V8StackFrame_GetScriptName(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
 
-	///
-	// Returns the 1-based column offset on the line for the function call or 0 if
-	// unknown.
-	///
-	int(CEF_CALLBACK* get_column)(struct _cef_v8stack_frame_t* self);
+	cef_string_t *s = p->get_script_name(p);
+	
+	luacef_pushstring_free(L, s);
+	return 1;
+}
 
-	///
-	// Returns true (1) if the function was compiled using eval().
-	///
-	int(CEF_CALLBACK* is_eval)(struct _cef_v8stack_frame_t* self);
+/*
+	<str> V8StackFrame:GetScriptNameOrSourceUrl()
+*/
+static int luacef_V8StackFrame_GetScriptNameOrSourceUrl(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
 
-	///
-	// Returns true (1) if the function was called as a constructor via "new".
-	///
-	int(CEF_CALLBACK* is_constructor)(struct _cef_v8stack_frame_t* self);
-} _v8stack_frame_t;
+	cef_string_t *s = p->get_script_name_or_source_url(p);
+
+	luacef_pushstring_free(L, s);
+	return 1;
+}
+
+/*
+	<str> V8StackFrame:GetFunctionName()
+*/
+static int luacef_V8StackFrame_GetFunctionName(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
+
+	cef_string_t *s = p->get_function_name(p);
+
+	luacef_pushstring_free(L, s);
+	return 1;
+}
+
+/*
+	<int> V8StackFrame:GetLineNumber()
+*/
+static int luacef_V8StackFrame_GetLineNumber(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
+
+	int line = p->get_line_number(p);
+
+	lua_pushinteger(L, line);
+	return 1;
+}
+
+/*
+	<int> V8StackFrame:GetColumn()
+*/
+static int luacef_V8StackFrame_GetColumn(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
+
+	int line = p->get_column(p);
+
+	lua_pushinteger(L, line);
+	return 1;
+}
+
+/*
+	<int> V8StackFrame:IsEval()
+*/
+static int luacef_V8StackFrame_IsEval(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
+
+	int line = p->is_eval(p);
+
+	lua_pushinteger(L, line);
+	return 1;
+}
+
+/*
+	<int> V8StackFrame:IsConstructor()
+*/
+static int luacef_V8StackFrame_IsConstructor(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
+
+	int line = p->is_constructor(p);
+
+	lua_pushinteger(L, line);
+	return 1;
+}
+
+static int luacef_V8StackFrame_unm(lua_State *L)
+{
+	luacef_V8StackFrame *p = luacef_toudata(L, 1);
+
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
+
+static const luaL_Reg luacef_V8StackFrame_meta[] = {
+	{ "__unm", luacef_V8StackFrame_unm },
+	{ "IsValid" , luacef_V8StackFrame_IsValid },
+	{ "GetScriptName" , luacef_V8StackFrame_GetScriptName },
+	{ "GetScriptNameOrSourceUrl" , luacef_V8StackFrame_GetScriptNameOrSourceUrl },
+	{ "GetFunctionName" , luacef_V8StackFrame_GetFunctionName },
+	{ "GetLineNumber" , luacef_V8StackFrame_GetLineNumber },
+	{ "GetColumn" , luacef_V8StackFrame_GetColumn },
+	{ "IsEval" , luacef_V8StackFrame_IsEval },
+	{ "IsConstructor" , luacef_V8StackFrame_IsConstructor },
+	{ NULL, NULL }
+};
+
+
+
+
+
+// static functions
+// ==================================================
 
 /*
 	<int> RegisterExtension(
@@ -1436,7 +1558,7 @@ typedef struct __v8stack_frame_t {
 		<V8Handler>	handler
 	)
 */
-static int luacef_register_extension(lua_State *L)
+static int luacef_RegisterExtension(lua_State *L)
 {
 	cef_string_t s1 = luacef_tostring(L, 1);
 	cef_string_t s2 = luacef_tostring(L, 2);
@@ -1444,23 +1566,52 @@ static int luacef_register_extension(lua_State *L)
 
 	int ret = cef_register_extension(&s1, &s2, p);
 
+	lua_pushinteger(L, ret);
 	return 1;
 }
 
 // ======================================================================================================
 
-void luacef_v8_reg(lua_State *L)
+void luacef_V8_reg(lua_State *L)
 {
+	// V8Handler
+
+	lua_pushcfunction(L, luacef_V8Handler_new);
+	lua_setfield(L, -2, "newV8Handler");
+
+	luaL_newmetatable(L, __v8handler__);
+	luaL_setfuncs(L, luacef_V8Handler_meta, 0);
+	lua_pop(L, 1);
+
 	// v8value
+	luaL_newmetatable(L, "CefV8StackFrame");
+	luaL_setfuncs(L, luacef_V8StackFrame_meta, 0);
+	lua_setfield(L, -1, __index__);
+	
+	luaL_newmetatable(L, "CefV8StackTrace");
+	luaL_setfuncs(L, luacef_V8StackTrace_meta, 0);
+	lua_setfield(L, -1, __index__);
 
 	luaL_newmetatable(L, __v8value__);
-	luaL_setfuncs(L, luacef_v8value_m, 0);
+	luaL_setfuncs(L, luacef_V8Value_meta, 0);
 	lua_setfield(L, -1, __index__);
 
 	lua_newtable(L);
-	luaL_setfuncs(L, luacef_v8value_ms, 0);
-	lua_setfield(L, -2, __v8value__);
+	luaL_setfuncs(L, luacef_V8Value_meta_static, 0);
+	lua_setfield(L, -2, "V8Value");
 
-	lua_pushcfunction(L, luacef_register_extension);
+	// V8Context
+
+	luaL_newmetatable(L, __v8context__);
+	luaL_setfuncs(L, luacef_V8Context_meta, 0);
+	lua_setfield(L, -1, __index__);
+
+	lua_newtable(L);
+	luaL_setfuncs(L, luacef_V8Context_meta_static, 0);
+	lua_setfield(L, -2, "V8Context");
+
+	// static functions
+
+	lua_pushcfunction(L, luacef_RegisterExtension);
 	lua_setfield(L, -2, "RegisterExtension");
 }

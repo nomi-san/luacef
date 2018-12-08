@@ -8,10 +8,10 @@ LPVOID __stdcall CoTaskMemAlloc(SIZE_T cb);
 void __stdcall CoTaskMemFree(LPVOID pv);
 
 // to wchar_t*
-const wchar_t *lua_towstring(lua_State *L, int stkidx)
+const wchar_t *lua_towlstring(lua_State *L, int idx, int *len)
 {
-	if (lua_isnoneornil(L, stkidx)) return L"";
-	const char *s = lua_tostring(L, stkidx);
+	if (lua_isnoneornil(L, idx)) return L"";
+	const char *s = lua_tolstring(L, idx, len);
 	int size = MultiByteToWideChar(CP_UTF8, 0, s, -1, 0, 0);
 	wchar_t *ws = (wchar_t *)CoTaskMemAlloc(size * sizeof(wchar_t));
 	MultiByteToWideChar(CP_UTF8, 0, s, -1, ws, size);
