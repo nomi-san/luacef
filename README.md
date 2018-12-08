@@ -12,7 +12,7 @@
  	</p>
 </p>
 
-## >> __todo__ [25%]
+## >> __todo__ [32%]
 
 ### Based on
 - [![image](https://img.shields.io/badge/lua-5.3.4-brightgreen.svg)](https://www.lua.org/ftp/)
