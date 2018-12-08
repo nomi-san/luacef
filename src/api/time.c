@@ -67,7 +67,7 @@ static int luacef_Time_GetTimeT(lua_State *L)
 {
 	cef_time_t *t = luacef_touserdata(L, 1);
 
-	int i = 0;
+	time_t i = 0;
 
 	if (!cef_time_to_timet(t, &i))
 		return 0;

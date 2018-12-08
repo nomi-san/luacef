@@ -305,7 +305,7 @@ static int 	luacef_Browser_GetFrameIdentifiers(lua_State* L)
 	p->get_frame_identifiers(
 		p,
 		&c,
-		&id
+		id
 	);
 
 	return 0;

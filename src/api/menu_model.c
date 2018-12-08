@@ -858,10 +858,10 @@ static int luacef_MenuModel_GetAccelerator(lua_State *L)
 {
 	cef_menu_model_t *p = luacef_touserdata(L, 1);
 	int command_id = lua_tointeger(L, 2);
-	luacef_int *key_code = luacef_checkudata(L, 3, __int_ptr__);
-	luacef_bool *shift_pressed = luacef_checkudata(L, 4, __int_ptr__);
-	luacef_bool *ctrl_pressed = luacef_checkudata(L, 5, __int_ptr__);
-	luacef_bool *alt_pressed = luacef_checkudata(L, 6, __int_ptr__);
+	int *key_code = luacef_checkudata(L, 3, __int_ptr__);
+	int *shift_pressed = luacef_checkudata(L, 4, __int_ptr__);
+	int *ctrl_pressed = luacef_checkudata(L, 5, __int_ptr__);
+	int *alt_pressed = luacef_checkudata(L, 6, __int_ptr__);
 
 	int r = p->get_accelerator(
 		p,
@@ -889,10 +889,10 @@ static int luacef_MenuModel_GetAcceleratorAt(lua_State *L)
 {
 	cef_menu_model_t *p = luacef_touserdata(L, 1);
 	int index = lua_tointeger(L, 2);
-	luacef_int *key_code = luacef_checkudata(L, 3, __int_ptr__);
-	luacef_bool *shift_pressed = luacef_checkudata(L, 4, __int_ptr__);
-	luacef_bool *ctrl_pressed = luacef_checkudata(L, 5, __int_ptr__);
-	luacef_bool *alt_pressed = luacef_checkudata(L, 6, __int_ptr__);
+	int *key_code = luacef_checkudata(L, 3, __int_ptr__);
+	int *shift_pressed = luacef_checkudata(L, 4, __int_ptr__);
+	int *ctrl_pressed = luacef_checkudata(L, 5, __int_ptr__);
+	int *alt_pressed = luacef_checkudata(L, 6, __int_ptr__);
 
 	int r = p->get_accelerator_at(
 		p,

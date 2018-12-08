@@ -252,7 +252,7 @@ static int luacef_V8Handler_new(lua_State *L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 		if (lua_getfield(L, 1, __execute))
-			p->self.execute = luacef_V8Handler_execute;
+			p->self.execute = (void*)luacef_V8Handler_execute;
 	}
 	else {
 		lua_newtable(L);
@@ -309,7 +309,7 @@ static int luacef_V8Handler_newindex(lua_State *L)
 	if (!strcmp(i, __execute)) {
 		lua_pushvalue(L, 3);
 		lua_setfield(L, -2, __execute);
-		p->self.execute = luacef_V8Handler_execute;
+		p->self.execute = (void*)luacef_V8Handler_execute;
 	}
 
 	return 0;
@@ -1054,7 +1054,7 @@ static int luacef_v8value_execute_function(lua_State* L)
 	int c = lua_tointeger(L, 3);
 	cef_v8value_t *a  = luacef_checkudata(L, 4, __v8value__);
 
-	cef_v8value_t *r = p->execute_function(p, o, c, a);
+	cef_v8value_t *r = p->execute_function(p, o, c, &a);
 
 	luacef_pushuserdata(L, r, __v8value__);
 	return 1;
@@ -1076,7 +1076,7 @@ static int luacef_v8value_execute_function_with_context(lua_State* L)
 	int c = lua_tointeger(L, 4);
 	cef_v8value_t *a = luacef_checkudata(L, 5, __v8value__);
 
-	cef_v8value_t *r = p->execute_function_with_context(p, ctx, o, c, a);
+	cef_v8value_t *r = p->execute_function_with_context(p, ctx, o, c, &a);
 
 	luacef_pushuserdata(L, r, __v8value__);
 	return 1;

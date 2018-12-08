@@ -2008,8 +2008,11 @@ static int luacef_key_event_new(lua_State *L)
 			p->character = buf[0];
 		}
 
-		if (lua_getfield(L, 1, __unmodified_character))
-			p->unmodified_character = lua_towstring(L, -1);
+		if (lua_getfield(L, 1, __unmodified_character)) {
+			wchar_t buf[1];
+			mbstowcs(buf, lua_tostring(L, -1), 1);
+			p->unmodified_character = buf[0];
+		}
 
 		if (lua_getfield(L, 1, __focus_on_editable_field))
 			p->focus_on_editable_field = lua_tointeger(L, -1);
@@ -2051,8 +2054,12 @@ static int luacef_key_event_index(lua_State *L)
 		lua_pushstring(L, buf);
 	}
 
-	else if (!strcmp(i, __unmodified_character))
-		lua_pushwstring(L, &p->unmodified_character);
+	else if (!strcmp(i, __unmodified_character)) {
+		cef_string_utf8_t s = { 0 };
+		cef_string_to_utf8(&p->unmodified_character, 1, &s);
+		char buf[2] = { s.str[0], '\0' };
+		lua_pushstring(L, buf);
+	}
 
 	else if (!strcmp(i, __focus_on_editable_field))
 		lua_pushboolean(L, p->focus_on_editable_field);
@@ -2091,8 +2098,11 @@ static int luacef_key_event_newindex(lua_State *L)
 		p->character = buf[0];
 	}
 
-	else if (!strcmp(i, __unmodified_character))
-		p->unmodified_character = lua_towstring(L, -1);
+	else if (!strcmp(i, __unmodified_character)) {
+		wchar_t buf[1];
+		mbstowcs(buf, lua_tostring(L, -1), 1);
+		p->unmodified_character = buf[0];
+	}
 
 	else if (!strcmp(i, __focus_on_editable_field))
 		p->focus_on_editable_field = lua_tointeger(L, -1);

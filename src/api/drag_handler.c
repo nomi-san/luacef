@@ -169,12 +169,12 @@ static int luacef_DragHandler_newindex(lua_State *L)
 
 	if (!strcmp(i, __OnDragEnter)) {
 		lua_setfield(L, -2, __OnDragEnter);
-		p->on_drag_enter = luacef_DragHandler_OnDragEnter;
+		p->on_drag_enter = (void*)luacef_DragHandler_OnDragEnter;
 	}
 		
 	else if (!strcmp(i, __OnDraggableRegionsChanged)) {
 		lua_setfield(L, -2, __OnDraggableRegionsChanged);
-		p->on_drag_enter = luacef_DragHandler_OnDraggableRegionsChanged;
+		p->on_drag_enter = (void*)luacef_DragHandler_OnDraggableRegionsChanged;
 	}
 
 	return 0;

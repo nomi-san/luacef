@@ -257,19 +257,19 @@ static int luacef_ContextMenuHandler_newindex(lua_State *L)
 
 	if (!strcmp(i, __OnBeforeContextMenu)) {
 		lua_setfield(L, -2, __OnBeforeContextMenu);
-		p->on_before_context_menu = !lua_isfunction(L, 3) ? NULL : luacef_ContextMenuHandler_OnBeforeContextMenu;
+		p->on_before_context_menu = !lua_isfunction(L, 3) ? NULL : (void*)luacef_ContextMenuHandler_OnBeforeContextMenu;
 	}
 
 	else if (!strcmp(i, __RunContextMenu)) {
-		p->on_before_context_menu = !lua_isfunction(L, 3) ? NULL : luacef_ContextMenuHandler_RunContextMenu;
+		p->on_before_context_menu = !lua_isfunction(L, 3) ? NULL : (void*)luacef_ContextMenuHandler_RunContextMenu;
 	}
 
 	else if (!strcmp(i, __OnContextMenuCommand)){
-		p->on_context_menu_command = !lua_isfunction(L, 3) ? NULL : luacef_ContextMenuHandler_OnContextMenuCommand;
+		p->on_context_menu_command = !lua_isfunction(L, 3) ? NULL : (void*)luacef_ContextMenuHandler_OnContextMenuCommand;
 	}
 
 	else if (!strcmp(i, __OnContextMenuDismissed)) {
-		p->on_context_menu_dismissed = !lua_isfunction(L, 3) ? NULL : luacef_ContextMenuHandler_OnContextMenuDismissed;
+		p->on_context_menu_dismissed = !lua_isfunction(L, 3) ? NULL : (void*)luacef_ContextMenuHandler_OnContextMenuDismissed;
 	}
 
 	return 0;

@@ -94,6 +94,61 @@ void luacef_error_index(lua_State* L, const char* index)
 	luaL_error(L, "cannot get member '%s'", index);
 }
 
+/*
+	<bool> cef.bool(<any> [, <func>() ])
+
+	-- check expression
+	-- if true, execute function and return nil
+	# '' (empty string), 0 (zero number)
+		-> false, unlike default
+	# nil, none
+		-> false
+	# 'a' (valid string), {} (table), fn (function)
+		-> true
+*/
+static int luacef_bool(lua_State *L) {
+	int b = false;
+
+	if (!lua_isnoneornil(L, 1))
+		switch (lua_type(L, 1)) {
+			case LUA_TSTRING: {
+				int len = 0;
+				const char *s = lua_tolstring(L, 1, &len);
+				b = ((len != 0) || (s[0] != '\0'))
+					? 1 : 0;
+			}	break;
+
+			case LUA_TTABLE:
+			case LUA_TFUNCTION:
+				b = true;
+				break;
+
+			case LUA_TBOOLEAN:
+				b = lua_tointeger(L, 1) != 0;
+				break;
+
+			case LUA_TNUMBER:
+				b = lua_tonumber(L, 1) != 0;
+				break;
+
+			case LUA_TUSERDATA:
+				b = lua_touserdata(L, 1) != NULL;
+				break;
+
+			default:
+				b = true;
+		}
+
+	if (b != 0 && lua_type(L, 2) == LUA_TFUNCTION) {
+		lua_pushvalue(L, 2);
+		lua_call(L, 0, 0);
+		return 0;
+	}
+
+	lua_pushboolean(L, b);
+	return 1;
+}
+
 // ==============================
 /*
 	<str>, <str> getv()
@@ -162,6 +217,9 @@ EXPORT(int) luaopen_luacef(lua_State* L)
 	//__mainState = L;
 
 	lua_newtable(L); // return of require('luacef');
+
+	lua_pushcfunction(L, luacef_bool);
+	lua_setfield(L, -2, "bool");
 
 	lua_pushcfunction(L, luacef_getv);
 	lua_setfield(L, -2, "getv");

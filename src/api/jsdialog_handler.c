@@ -275,22 +275,22 @@ static int luacef_JSDialogHandler_newindex(lua_State *L)
 
 	if (!strcmp(i, __OnJSDialog)) {
 		lua_setfield(L, -2, __OnJSDialog);
-		p->on_jsdialog = luacef_JSDialogHandler_OnJSDialog;
+		p->on_jsdialog = (void*)luacef_JSDialogHandler_OnJSDialog;
 	}
 
 	else if (!strcmp(i, __OnBeforeUnloadDialog)) {
 		lua_setfield(L, -2, __OnBeforeUnloadDialog);
-		p->on_jsdialog = luacef_JSDialogHandler_OnBeforeUnloadDialog;
+		p->on_jsdialog = (void*)luacef_JSDialogHandler_OnBeforeUnloadDialog;
 	}
 
 	else if (!strcmp(i, __OnDialogClosed)) {
 		lua_setfield(L, -2, __OnDialogClosed);
-		p->on_jsdialog = luacef_JSDialogHandler_OnDialogClosed;
+		p->on_jsdialog = (void*)luacef_JSDialogHandler_OnDialogClosed;
 	}
 
 	else if (!strcmp(i, __OnResetDialogState)) {
 		lua_setfield(L, -2, __OnResetDialogState);
-		p->on_jsdialog = luacef_JSDialogHandler_OnResetDialogState;
+		p->on_jsdialog = (void*)luacef_JSDialogHandler_OnResetDialogState;
 	}
 
 	return 0;

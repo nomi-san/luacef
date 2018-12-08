@@ -227,13 +227,6 @@ typedef struct luacef_delete_cookies_callback {
 
 } luacef_delete_cookies_callback;
 
-void luacef_delete_cookies_callback_test()
-{
-	cef_delete_cookies_callback_t *p;
-	p->base;
-	p->on_complete;
-}
-
 static int luacef_delete_cookies_callback_new(lua_State* L)
 {
 	size_t sz = sizeof(luacef_delete_cookies_callback);
@@ -254,11 +247,13 @@ static int luacef_delete_cookies_callback_new(lua_State* L)
 static int luacef_delete_cookies_callback_release(lua_State *L)
 {
 
+	return 0;
 }
 
 static int luacef_delete_cookies_callback_index(lua_State *L)
 {
 
+	return 0;
 }
 
 static int luacef_delete_cookies_callback_newindex(lua_State *L)

@@ -2,6 +2,15 @@
 #define LUACEF_INCLUDE_H_
 #pragma once
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4273)
+#pragma warning( disable : 4090)
+#pragma warning( disable : 6011)
+#pragma warning( disable : 6001)
+#pragma warning( disable : 26451)
+#pragma warning( disable : 28251)
+#endif
+
 /*
 	 __            _____ _____ _____ 
 	|  |   _ _ ___|   __|   __|   __|
@@ -33,10 +42,6 @@ extern "C" {
 #include "include/internal/cef_types.h"
 
 #include "luacef_api.h"
-
-#ifdef __cplusplus
-}
-#endif
 
 // string.c
 const wchar_t *lua_towlstring(lua_State *L, int idx, int *len);
@@ -76,7 +81,6 @@ void luacef_error_index(lua_State* L, const char* index);
 #define luacef_alloc(sz) (calloc(1, sz))
 #define luacef_alloct(t) (calloc(1, sizeof(t)))
 #define luacef_int long long
-#define luacef_bool int
 #define luacef_double double
 
 #ifndef EXPORT
@@ -93,4 +97,8 @@ void luacef_error_index(lua_State* L, const char* index);
 #endif
 #endif
 
+
+#ifdef __cplusplus
+}
+#endif
 #endif

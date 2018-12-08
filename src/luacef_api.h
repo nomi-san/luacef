@@ -2,31 +2,27 @@
 #define LUACEF_INCLUDE_API_H_
 #pragma once
 
-#pragma warning( disable : 4273)
-#pragma warning( disable : 4090)
-
 /*
-	lua:newuuserdata <- alloc [4-byte]
-	~~~~~~~~~~~~~~~~
-	       |
-	       v
-	    <ptr**> -> <ptr*> = <udata*> <- alloc [n-byte]
-	       |                   |---> ::free
-	       v                   |---> ::set, get
-	    <self**>  <------------|      ~~~~~~~~
-	    ~~~~~~~~                          ^
-	       |                               \
-	       v                             ~~~~~~~~~
-	[method, property] <- <metatable> -> references
-	       |
-	       v
-	     return
-
-	  __LUA_side__
+	----- C ----------------
+	lua:newuserdata  <- alloc
+	~~~~~~~~~~~~~~~
+		   |
+		   v
+		 heap[1] -> [0] := cef_type <- alloc
+		   |                   |---> :: free
+		   v                   |---> :: set/get
+		 self //  <------------|        ~~~~~~~
+		~~~~~~~~               v          ^^^
+		   |           <type properties>    \
+		   v                   v         ~~~~~~~~~
+	[method, property] <- <metatable> -> reference
+		   |
+		   v
+	----- LUA --------------
 */
 
 // app
-static const char *__app__ = "App";
+static const char *__app__ = "CefApp";
 static const char *__OnBeforeCommandLineProcessing = "OnBeforeCommandLineProcessing";
 static const char *__OnRegisterCustomSchemes = "OnRegisterCustomSchemes";
 static const char *__GetResourceBundleHandler = "GetResourceBundleHandler";
@@ -34,10 +30,10 @@ static const char *__GetBrowserProcessHandler = "GetBrowserProcessHandler";
 static const char *__GetRenderProcessHandler = "GetRenderProcessHandler";
 
 // base
-static const char *__base__ = "Base";
+static const char *__base__ = "CefBase";
 
 // client
-static const char *__client__ = "Client";
+static const char *__client__ = "CefClient";
 static const char *__GetContextMenuHandler = "GetContextMenuHandler";
 static const char *__GetDialogHandler = "GetDialogHandler";
 static const char *__GetDisplayHandler = "GetDisplayHandler";
@@ -55,11 +51,11 @@ static const char *__GetRequestHandler = "GetRequestHandler";
 static const char *__OnProcessMessageReceived = "OnProcessMessageReceived";
 
 // find_handler
-static const char *__find_handler__ = "FindHandler";
+static const char *__find_handler__ = "CefFindHandler";
 static const char *__on_find_result = "OnFindResult";
 
 // request
-static const char *__post_data__ = "PostData";
+static const char *__post_data__ = "CefPostData";
 static const char *__post_data_element__ = "PostData";
 
 // life_span_handler
@@ -130,7 +126,6 @@ static const char *__request__ = "Request";
 static const char *__string_visitor__ = "StringVisitor";
 static const char *__process_message__ = "ProcessMessage";
 static const char *__browser_host__ = "BrowserHost";
-
 
 static const char *__request_context__ = "RequestContext";
 static const char *__command_line__ = "CommandLine";
@@ -230,7 +225,7 @@ static const char *__jsdialog_callback__ = "JSDialogCallback";
 
 
 static const char *__keyboard_handler__ = "KeyboardHandler";
-static const char *__life_span_handler__ = "LifeSpanHandler";
+static const char *__life_span_handler__ = "CefLifeSpanHandler";
 static const char *__load_handler__ = "LoadHandler";
 static const char *__print_handler__ = "PrintHandler";
 static const char *__render_handler__ = "RenderHandler";
@@ -255,7 +250,7 @@ static const char *__ptr_ptr__ = "ptr*";
 
 
 // types
-static const char *__settings__ = "Settings";
+static const char *__settings__ = "CefSettings";
 static const char *__request_context_settings__ = "RequestContextSettings";
 static const char *__browser_settings__ = "BrowserSettings";
 static const char *__urlparts__ = "URLParts";
