@@ -109,11 +109,11 @@ mkdir('build/obj')
 print("# Generating object...")
 for m = 1, #c do
     exec(cc .. ' -shared -w -D__GNUC__ -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ideps/lua/src -Ideps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
-    print('    ' .. l[m] .. '.c -> ' .. l[m] .. '.o' )
+    print('    ./' .. c[m] .. ' -> ./build/obj/' .. l[m] .. '.o' )
 end
 
 print("# Linking library...")
 exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua -Ldeps/cef -llua53 -llibcef -lole32')
-print("    -> luacef.dll")
+print("    -> ./build/luacef.dll")
 
 print("# Done.\n")
