@@ -1,5 +1,6 @@
 #include "../luacef.h"
-#include "include/capi/cef_base_capi.h"
+
+#include "include/capi/cef_command_line_capi.h"
 
 typedef cef_command_line_t luacef_CommandLine;
 
@@ -193,9 +194,11 @@ static int luacef_CommandLine_GetSwitches(lua_State *L)
 
 	cef_string_map_t map = cef_string_map_alloc();
 	p->get_switches(p, map);
-	cef_string_map_key;
+	//cef_string_map_key;
 
-	// todo
+	//
+	// todo;
+	//
 
 	lua_newtable(L);
 
@@ -273,13 +276,31 @@ static int luacef_CommandLine_GetArguments(lua_State *L)
 	return 0;
 }
 
+/*
+	<nil> CommandLine:AppendArgument(<str> argument)
+*/
+static int luacef_CommandLine_AppendArgument(lua_State *L)
+{
+	luacef_CommandLine *p = luacef_toudata(L, 1);
 
-void(CEF_CALLBACK* append_argument)(struct luacef_cef_command_line* self,
-	const cef_string_t* argument);
+	cef_string_t s = luacef_tostring(L, 2);
+	p->append_argument(p, &s);
 
-void(CEF_CALLBACK* prepend_wrapper)(struct luacef_cef_command_line* self,
-	const cef_string_t* wrapper);
+	return 0;
+}
 
+/*
+	<nil> CommandLine:PrependWrapper(<str> wrapper)
+*/
+static int luacef_CommandLine_PrependWrapper(lua_State *L)
+{
+	luacef_CommandLine *p = luacef_toudata(L, 1);
+
+	cef_string_t s = luacef_tostring(L, 2);
+	p->prepend_wrapper(p, &s);
+
+	return 0;
+}
 
 // static functions =========================
 
@@ -305,4 +326,50 @@ static int luacef_CommandLine_GetGlobal(lua_State *L)
 
 	luacef_pushudata(L, p, __command_line__);
 	return 1;
+}
+
+// ==================================================
+
+static const luaL_Reg luacef_CommandLine_meta[] = {
+	{ "IsValid", luacef_CommandLine_IsValid },
+	{ "IsReadOnly", luacef_CommandLine_IsReadOnly },
+	{ "Copy", luacef_CommandLine_Copy },
+	{ "InitFromArgv", luacef_CommandLine_InitFromArgv },
+	{ "InitFromString", luacef_CommandLine_InitFromString },
+	{ "Reset", luacef_CommandLine_Reset },
+	{ "GetArgv", luacef_CommandLine_GetArgv },
+	{ "GetCommandLineString", luacef_CommandLine_GetCommandLineString },
+	{ "GetProgram", luacef_CommandLine_GetProgram },
+	{ "SetProgram", luacef_CommandLine_SetProgram },
+	{ "HasSwitches", luacef_CommandLine_HasSwitches },
+	{ "HasSwitch", luacef_CommandLine_HasSwitch },
+	{ "GetSwitchValue", luacef_CommandLine_GetSwitchValue },
+	{ "GetSwitches", luacef_CommandLine_GetSwitches },
+	{ "AppendSwitch", luacef_CommandLine_AppendSwitch },
+	{ "AppendSwitchWithValue", luacef_CommandLine_AppendSwitchWithValue },
+	{ "HasArguments", luacef_CommandLine_HasArguments },
+	{ "GetArguments", luacef_CommandLine_GetArguments },
+	{ "AppendArgument", luacef_CommandLine_AppendArgument },
+	{ "PrependWrapper", luacef_CommandLine_PrependWrapper },
+	//
+	{ "Create", luacef_CommandLine_Create },
+	{ "GetGlobal", luacef_CommandLine_GetGlobal },
+	{ NULL, NULL }
+};
+
+static const luaL_Reg luacef_CommandLine_meta_static[] = {
+	{ "Create", luacef_CommandLine_Create },
+	{ "GetGlobal", luacef_CommandLine_GetGlobal },
+	{ NULL, NULL }
+};
+
+void luacef_CommandLine_reg(lua_State *L)
+{
+	luaL_newmetatable(L, __command_line__);
+	luaL_setfuncs(L, luacef_CommandLine_meta, 0);
+	lua_setfield(L, -1, __index__);
+
+	lua_newtable(L);
+	luaL_setfuncs(L, luacef_CommandLine_meta_static, 0);
+	lua_setfield(L, -2, "CommandLine");
 }

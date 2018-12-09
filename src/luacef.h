@@ -98,6 +98,18 @@ void luacef_error_index(lua_State* L, const char* index);
 #endif
 
 
+#define LCEF_API(type, fn) \
+	static int luacef_##type##_##fn(lua_State *L)
+
+#define LCEF_API_N(type, fn) \
+	luacef_##type##_##fn
+
+#define LCEF_M(type, mname) \
+	static const luaL_Reg luacef_##type##_##mname[] =
+
+#define LUAREGEND \
+	{ NULL, NULL }
+
 #ifdef __cplusplus
 }
 #endif

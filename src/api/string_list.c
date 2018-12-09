@@ -38,8 +38,6 @@
 			>> CefStringList: 0x00abcdef { ... }
 */
 
-static const char __string_list__[] = "CefStringList";
-
 int luacef_StringList_append(lua_State *L)
 {
 	cef_string_list_t sl = luacef_toudata(L, 1);
