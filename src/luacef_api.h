@@ -117,6 +117,8 @@ static const char *__callback__ = "Callback";
 // 
 static const char *__scheme_registrar__ = "SchemeRegistrar";
 
+static const char __string_list__[] = "CefStringList";
+
 //
 static const char *__frame__ = "Frame";
 static const char *__browser__ = "Browser";
