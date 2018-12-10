@@ -28,7 +28,7 @@ static const char __NumPtr__[] = "NumPtr";
 static const char __PtrPtr__[] = "PtrPtr";
 
 // app
-static const char *__app__ = "CefApp";
+static const char __app__[] = "CefApp";
 static const char *__OnBeforeCommandLineProcessing = "OnBeforeCommandLineProcessing";
 static const char *__OnRegisterCustomSchemes = "OnRegisterCustomSchemes";
 static const char *__GetResourceBundleHandler = "GetResourceBundleHandler";
@@ -36,10 +36,10 @@ static const char *__GetBrowserProcessHandler = "GetBrowserProcessHandler";
 static const char *__GetRenderProcessHandler = "GetRenderProcessHandler";
 
 // base
-static const char *__base__ = "CefBase";
+static const char __base__[] = "CefBase";
 
 // client
-static const char *__client__ = "CefClient";
+static const char __client__[] = "CefClient";
 static const char *__GetContextMenuHandler = "GetContextMenuHandler";
 static const char *__GetDialogHandler = "GetDialogHandler";
 static const char *__GetDisplayHandler = "GetDisplayHandler";
@@ -207,7 +207,7 @@ static const char *__OnContextMenuCommand = "OnContextMenuCommand";
 static const char *__OnContextMenuDismissed = "OnContextMenuDismissed";
 
 // menu_model
-static const char *__menu_model__ = "MenuModel";
+static const char __menu_model__[] = "CefMenuModel";
 
 // menu_model_delegate
 static const char *__menu_model_delegate__ = "MenuModelDelegate";
@@ -222,68 +222,59 @@ static const char *__OnDragEnter = "OnDragEnter";
 static const char *__OnDraggableRegionsChanged = "OnDraggableRegionsChanged";
 
 // drag_data
-static const char *__drag_data__ = "DragData";
+static const char __drag_data__[] = "CefDragData";
 
-static const char *__focus_handler__ = "FocusHandler";
-static const char *__geolocation_handler__ = "GeolocationHandler";
+static const char __focus_handler__[] = "CefFocusHandler";
+static const char __geolocation_handler__[] = "CefGeolocationHandler";
 
 // jsdialog_handler
-static const char *__jsdialog_handler__ = "JSDialogHandler";
-static const char *__jsdialog_callback__ = "JSDialogCallback";
+static const char __jsdialog_handler__[]		= "CefJSDialogHandler";
+static const char __jsdialog_callback__[]		= "CefJSDialogCallback";
 
 
-static const char *__keyboard_handler__ = "KeyboardHandler";
-static const char *__life_span_handler__ = "CefLifeSpanHandler";
-static const char *__load_handler__ = "LoadHandler";
-static const char *__print_handler__ = "PrintHandler";
-static const char *__render_handler__ = "CefRenderHandler";
-static const char *__render_process_handler__ = "RenderProcess_handler";
-static const char *__request_context_handler__ = "RequestContextHandler";
-static const char *__request_handler__ = "RequestHandler";
-static const char *__resource_bundle_handler__ = "ResourceBundleHandler";
-static const char *__resource_handler__ = "ResourceHandler";
+static const char __keyboard_handler__[]		= "CefKeyboardHandler";
+static const char __life_span_handler__[]		= "CefLifeSpanHandler";
+static const char __load_handler__[]			= "CefLoadHandler";
+static const char __print_handler__[]			= "CefPrintHandler";
+static const char __render_handler__[]			= "CefRenderHandler";
+static const char __render_process_handler__[]	= "CefRenderProcess_handler";
+static const char __request_context_handler__[] = "CefRequestContextHandler";
+static const char __request_handler__[]			= "CefRequestHandler";
+static const char __resource_bundle_handler__[] = "CefResourceBundleHandler";
+static const char __resource_handler__[]		= "CefResourceHandler";
 
 
-static const char *__time__ = "Time";
+static const char __time__[] = "CefTime";
 
-
-
-static const char *__event_handle__ = "EventHandle";
-
-
-// ptr
-static const char *__int_ptr__ = "int*";
-static const char *__double_ptr__ = "double*";
-static const char *__ptr_ptr__ = "ptr*";
-
+static const char __event_handle__[] = "CefEventHandle";
 
 // types
-static const char *__settings__ = "CefSettings";
-static const char *__request_context_settings__ = "RequestContextSettings";
-static const char *__browser_settings__ = "BrowserSettings";
-static const char *__urlparts__ = "URLParts";
-static const char *__cookie__ = "Cookie";
-static const char *__point__ = "Point";
-static const char *__rect__ = "Rect";
-static const char *__size__ = "Size";
-static const char *__range__ = "Range";
-static const char *__insets__ = "Insets";
-static const char *__draggable_region__ = "DraggableRegion";
-static const char *__screen_info__ = "ScreenInfo";
-static const char *__mouse_event__ = "MouseEvent";
-static const char *__key_event__ = "KeyEvent";
-static const char *__popup_features__ = "PopupFeatures";
-static const char *__geoposition__ = "Geoposition";
-static const char *__cursor_info__ = "CursorInfo";
-static const char *__pdf_print_settings__ = "PDFPrintSettings";
-static const char *__box_layout_settings__ = "BoxLayoutSettings";
-static const char *__composition_underline__ = "CompositionUnderline";
+static const char __settings__[]					= "CefSettings";
+static const char __request_context_settings__[]	= "CefRequestContextSettings";
+static const char __browser_settings__[]			= "CefBrowserSettings";
+static const char __urlparts__[]					= "CefURLParts";
+static const char __cookie__[]						= "CefCookie";
+static const char __point__[]						= "CefPoint";
+static const char __rect__[]						= "CefRect";
+static const char __size__[]						= "CefSize";
+static const char __range__[]						= "CefRange";
+static const char __insets__[]						= "CefInsets";
+static const char __draggable_region__[]			= "CefDraggableRegion";
+static const char __screen_info__[]					= "CefScreenInfo";
+static const char __mouse_event__[]					= "CefMouseEvent";
+static const char __key_event__[]					= "CefKeyEvent";
+static const char __popup_features__[]				= "CefPopupFeatures";
+static const char __geoposition__[]					= "CefGeoposition";
+static const char __cursor_info__[]					= "CefCursorInfo";
+static const char __pdf_print_settings__[]			= "CefPDFPrintSettings";
+static const char __box_layout_settings__[]			= "CefBoxLayoutSettings";
+static const char __composition_underline__[]		= "CefCompositionUnderline";
 
 
 // value
-static const char *__value__ = "Value";
-static const char *__list_value__ = "ListValue";
-static const char *__dictionary_value__ = "DictionaryValue__";
+static const char __value__[] = "CefValue";
+static const char __list_value__[] = "CefListValue";
+static const char __dictionary_value__[] = "CefDictionaryValue";
 
 
 #endif

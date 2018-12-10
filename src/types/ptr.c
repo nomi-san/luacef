@@ -46,7 +46,7 @@ IP(new)
 	IntPtr p = calloc(1, sizeof(IntPtr));
 	*p = lua_tointeger(L, 1);
 
-	luacef_pushuserdata(L, p, __int_ptr__);
+	luacef_pushuserdata(L, p, __IntPtr__);
 	return 1;
 }
 

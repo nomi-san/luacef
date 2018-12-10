@@ -299,7 +299,7 @@ static int 	luacef_Browser_GetFrameCount(lua_State* L)
 static int 	luacef_Browser_GetFrameIdentifiers(lua_State* L)
 {
 	cef_browser_t *p = luacef_touserdata(L, 1);
-	luacef_int *id = luacef_checkudata(L, 2, __int_ptr__);
+	luacef_int *id = luacef_checkudata(L, 2, __IntPtr__);
 
 	size_t c = p->get_frame_count(p);
 	p->get_frame_identifiers(

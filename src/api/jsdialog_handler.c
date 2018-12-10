@@ -107,7 +107,7 @@ int CEF_CALLBACK luacef_JSDialogHandler_OnJSDialog(
 		luacef_pushstring(self->L, message_text); // 5
 		luacef_pushstring(self->L, default_prompt_text); // 6
 		luacef_pushuserdata(self->L, callback, __jsdialog_callback__); // 7
-		luacef_pushuserdata(self->L, suppress_message, __int_ptr__); // 8
+		luacef_pushuserdata(self->L, suppress_message, __IntPtr__); // 8
 
 		lua_pcall(self->L, 8, 1, 0);
 		lua_pop(self->L, 1);

@@ -72,7 +72,7 @@ int CEF_CALLBACK kh_on_pre_key_event(struct luacef_keyboard_handler* self,
 		luacef_pushuserdata(self->L, browser, __browser__); // 2
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
 		luacef_pushuserdata(self->L, os_event, __event_handle__); // 4
-		luacef_pushuserdata(self->L, is_keyboard_shortcut, __int_ptr__); // 5
+		luacef_pushuserdata(self->L, is_keyboard_shortcut, __IntPtr__); // 5
 		
 		lua_pcall(self->L, 5, 1, 0);
 		lua_pop(self->L, 1);

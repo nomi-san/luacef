@@ -858,10 +858,10 @@ static int luacef_MenuModel_GetAccelerator(lua_State *L)
 {
 	cef_menu_model_t *p = luacef_touserdata(L, 1);
 	int command_id = lua_tointeger(L, 2);
-	int *key_code = luacef_checkudata(L, 3, __int_ptr__);
-	int *shift_pressed = luacef_checkudata(L, 4, __int_ptr__);
-	int *ctrl_pressed = luacef_checkudata(L, 5, __int_ptr__);
-	int *alt_pressed = luacef_checkudata(L, 6, __int_ptr__);
+	int *key_code = luacef_checkudata(L, 3, __IntPtr__);
+	int *shift_pressed = luacef_checkudata(L, 4, __IntPtr__);
+	int *ctrl_pressed = luacef_checkudata(L, 5, __IntPtr__);
+	int *alt_pressed = luacef_checkudata(L, 6, __IntPtr__);
 
 	int r = p->get_accelerator(
 		p,
@@ -889,10 +889,10 @@ static int luacef_MenuModel_GetAcceleratorAt(lua_State *L)
 {
 	cef_menu_model_t *p = luacef_touserdata(L, 1);
 	int index = lua_tointeger(L, 2);
-	int *key_code = luacef_checkudata(L, 3, __int_ptr__);
-	int *shift_pressed = luacef_checkudata(L, 4, __int_ptr__);
-	int *ctrl_pressed = luacef_checkudata(L, 5, __int_ptr__);
-	int *alt_pressed = luacef_checkudata(L, 6, __int_ptr__);
+	int *key_code = luacef_checkudata(L, 3, __IntPtr__);
+	int *shift_pressed = luacef_checkudata(L, 4, __IntPtr__);
+	int *ctrl_pressed = luacef_checkudata(L, 5, __IntPtr__);
+	int *alt_pressed = luacef_checkudata(L, 6, __IntPtr__);
 
 	int r = p->get_accelerator_at(
 		p,
@@ -969,7 +969,7 @@ static int luacef_MenuModel_GetColor(lua_State *L)
 	cef_menu_model_t *p = luacef_touserdata(L, 1);
 	int command_id = lua_tointeger(L, 2);
 	cef_menu_color_type_t color_type = lua_tointeger(L, 3);
-	cef_color_t *color = luacef_checkudata(L, 4, __int_ptr__);
+	cef_color_t *color = luacef_checkudata(L, 4, __IntPtr__);
 	
 	int r = p->get_color(
 		p,
@@ -994,7 +994,7 @@ static int luacef_MenuModel_GetColorAt(lua_State *L)
 	cef_menu_model_t *p = luacef_touserdata(L, 1);
 	int index = lua_tointeger(L, 2);
 	cef_menu_color_type_t color_type = lua_tointeger(L, 3);
-	cef_color_t *color = luacef_checkudata(L, 4, __int_ptr__);
+	cef_color_t *color = luacef_checkudata(L, 4, __IntPtr__);
 
 	int r = p->get_color_at(
 		p,
