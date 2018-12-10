@@ -21,6 +21,12 @@
 	----- LUA --------------
 */
 
+// ptr
+
+static const char __IntPtr__[] = "IntPtr";
+static const char __NumPtr__[] = "NumPtr";
+static const char __PtrPtr__[] = "PtrPtr";
+
 // app
 static const char *__app__ = "CefApp";
 static const char *__OnBeforeCommandLineProcessing = "OnBeforeCommandLineProcessing";

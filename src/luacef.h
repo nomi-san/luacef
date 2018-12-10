@@ -2,13 +2,24 @@
 #define LUACEF_INCLUDE_H_
 #pragma once
 
-#ifdef _MSC_VER
+#ifndef EXPORT
+#if defined(_MSC_VER)
 #pragma warning( disable : 4273)
 #pragma warning( disable : 4090)
 #pragma warning( disable : 6011)
 #pragma warning( disable : 6001)
 #pragma warning( disable : 26451)
 #pragma warning( disable : 28251)
+#define EXPORT(t) __declspec(dllexport) t
+#define IMPORT(t) __declspec(dllimport) t
+#elif defined(__GNUC__)
+#define EXPORT(t) __attribute__((visibility("default"))) t
+#define IMPORT(t) t
+#else
+#define EXPORT(t) t
+#define IMPORT(t) t
+#pragma warning Unknown dynamic link import/export semantics.
+#endif
 #endif
 
 /*
@@ -33,7 +44,7 @@ extern "C" {
 #include "lauxlib.h"
 
 //////////////////////////////////////
-#define	CEF_STRING_TYPE_UTF16 1
+#define	CEF_STRING_TYPE_UTF16 1 // cannot use utf8
 
 #include "include/cef_version.h"
 #include "include/capi/cef_app_capi.h"
@@ -58,9 +69,9 @@ typedef cef_base_ref_counted_t cef_base_t;
 
 static lua_State* __mainState = NULL;
 
-static const char *__release__ = "release";
-static const char *__index__ = "__index";
-static const char *__new__ = "new";
+static const char __release__[] = "release";
+static const char __index__[]	= "__index";
+static const char __new__[]		= "new";
 
 void* luacef_checkudata(lua_State* L, int i, const char* s);
 void* luacef_touserdata(lua_State* L, int i);
@@ -83,21 +94,6 @@ void luacef_error_index(lua_State* L, const char* index);
 #define luacef_int long long
 #define luacef_double double
 
-#ifndef EXPORT
-#if defined(_MSC_VER)
-#define EXPORT(t) __declspec(dllexport) t
-#define IMPORT(t) __declspec(dllimport) t
-#elif defined(__GNUC__)
-#define EXPORT(t) __attribute__((visibility("default"))) t
-#define IMPORT(t) t
-#else
-#define EXPORT(t) t
-#define IMPORT(t) t
-#pragma warning Unknown dynamic link import/export semantics.
-#endif
-#endif
-
-
 #define LCEF_API(type, fn) \
 	static int luacef_##type##_##fn(lua_State *L)
 
@@ -114,3 +110,12 @@ void luacef_error_index(lua_State* L, const char* index);
 }
 #endif
 #endif
+
+/*/
+/*      __         __  __     ______        ______     ______     ______
+/*  __ /\ \ _____ /\ \/\ \ _ /\  __ \ ____ /\  ___\ _ /\  ___\ _ /\  ___\_
+/*   __\ \ \___  _\ \ \_\ \ _\ \ \_\ \ ____\ \ \__/___\ \  __\ __\ \  __\__
+/*    __\ \_____\ _\ \_____\ _\ \_\ \_\ ____\ \_____\ _\ \_____\ _\ \_\ ____
+/*     __\/_____/___\/_____/___\/_/\/_/______\/_____/___\/_____/___\/_/______
+/*
+/*/

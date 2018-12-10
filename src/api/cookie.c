@@ -68,7 +68,7 @@ static int luacef_CookieManager_SetCookie(lua_State *L)
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
 	cef_string_t url = luacef_tostring(L, 2);
 	cef_cookie_t *cookie = luacef_checkudata(L, 3, __cookie__);
-	cef_delete_cookies_callback_t *cb = luacef_checkudata(L, 4, __set_cookies_callback__);
+	cef_set_cookie_callback_t *cb = luacef_checkudata(L, 4, __set_cookies_callback__);
 
 	int r = p->set_cookie(
 		p,

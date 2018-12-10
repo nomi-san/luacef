@@ -22,19 +22,19 @@ typedef struct luacef_RenderHandler{
 
 #define SELF luacef_RenderHandler
 
-static const char __GetAccessibilityHandler[] = "GetAccessibilityHandler";
-static const char __GetRootScreenRect[] = "GetRootScreenRect";
-static const char __GetViewRect[] = "GetViewRect";
-static const char __GetScreenPoint[] = "GetScreenPoint";
-static const char __GetScreenInfo[] = "GetScreenInfo";
-static const char __OnPopupShow[] = "OnPopupShow";
-static const char __OnPopupSize[] = "OnPopupSize";
-static const char __OnPaint[] = "OnPaint";
-static const char __OnCursorChange[] = "OnCursorChange";
-static const char __StartDragging[] = "StartDragging";
-static const char __UpdateDragCursor[] = "UpdateDragCursor";
-static const char __OnScrollOffsetChanged[] = "OnScrollOffsetChanged";
-static const char __OnIMECompositionRangeChanged[] = "OnIMECompositionRangeChanged";
+static const char __GetAccessibilityHandler[]		= "GetAccessibilityHandler";
+static const char __GetRootScreenRect[]				= "GetRootScreenRect";
+static const char __GetViewRect[]					= "GetViewRect";
+static const char __GetScreenPoint[]				= "GetScreenPoint";
+static const char __GetScreenInfo[]					= "GetScreenInfo";
+static const char __OnPopupShow[]					= "OnPopupShow";
+static const char __OnPopupSize[]					= "OnPopupSize";
+static const char __OnPaint[]						= "OnPaint";
+static const char __OnCursorChange[]				= "OnCursorChange";
+static const char __StartDragging[]					= "StartDragging";
+static const char __UpdateDragCursor[]				= "UpdateDragCursor";
+static const char __OnScrollOffsetChanged[]			= "OnScrollOffsetChanged";
+static const char __OnIMECompositionRangeChanged[]	= "OnIMECompositionRangeChanged";
 
 struct _cef_accessibility_handler_t* CEF_CALLBACK RH_N(GetAccessibilityHandler)
 	(struct luacef_RenderHandler* self)
@@ -71,8 +71,9 @@ int CEF_CALLBACK RH_N(GetRootScreenRect)
 	return 0;
 }
 
-int CEF_CALLBACK RH_N(GetViewRect) 
-	(struct luacef_RenderHandler* self, struct _cef_browser_t* browser, cef_rect_t* rect)
+int CEF_CALLBACK RH_N(GetViewRect)(struct luacef_RenderHandler* self,
+	struct _cef_browser_t* browser,
+	cef_rect_t* rect)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetViewRect)) {
@@ -97,7 +98,23 @@ int CEF_CALLBACK RH_N(GetScreenPoint) (struct luacef_RenderHandler* self,
 	int* screenX,
 	int* screenY)
 {
-	// todo
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __GetScreenPoint)) {
+
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		lua_pushinteger(self->L, viewX); // 3
+		lua_pushinteger(self->L, viewY); // 4
+		luacef_pushudata(self->L, screenX, __IntPtr__); // 5
+		luacef_pushudata(self->L, screenY, __IntPtr__); // 6
+
+		lua_pcall(self->L, 6, 1, 8); // call
+
+		int ret = lua_tointeger(self->L, -1);
+		return ret;
+	}
+
+	return 0;
 }
 
 
@@ -105,21 +122,50 @@ int CEF_CALLBACK RH_N(GetScreenInfo)(struct luacef_RenderHandler* self,
 	struct _cef_browser_t* browser,
 	struct _cef_screen_info_t* screen_info)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __GetScreenInfo)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, screen_info, __screen_info__); // 3
+
+		lua_pcall(self->L, 3, 1, 8); // call
+
+		int ret = lua_tointeger(self->L, -1);
+		return ret;
+	}
+
+	return 0;
 }
 
 void CEF_CALLBACK RH_N(OnPopupShow)(struct luacef_RenderHandler* self,
 	struct _cef_browser_t* browser,
 	int show)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __OnPopupShow)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		lua_pushinteger(self->L, show); // 3
+
+		lua_pcall(self->L, 3, 0, 8); // call
+	}
 }
 
 void CEF_CALLBACK RH_N(OnPopupSize)(struct luacef_RenderHandler* self,
 	struct _cef_browser_t* browser,
 	const cef_rect_t* rect)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __OnPopupSize)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, rect, __rect__); // 3
+
+		lua_pcall(self->L, 3, 0, 8); // call
+	}
 }
 
 void CEF_CALLBACK RH_N(OnPaint)(struct luacef_RenderHandler* self,
@@ -131,17 +177,39 @@ void CEF_CALLBACK RH_N(OnPaint)(struct luacef_RenderHandler* self,
 	int width,
 	int height)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __OnPaint)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		lua_pushinteger(self->L, type); // 3
+		lua_pushinteger(self->L, dirtyRectsCount); // 4
+		luacef_pushuserdata(self->L, dirtyRects, __rect__); // 5
+		lua_pushlightuserdata(self->L, buffer); // 6
+		lua_pushinteger(self->L, width); // 7
+		lua_pushinteger(self->L, height); // 8
+
+		lua_pcall(self->L, 8, 0, 8); // call
+	}
 }
 
-void CEF_CALLBACK RH_N(OnCursorChange)(
-	struct luacef_RenderHandler* self,
+void CEF_CALLBACK RH_N(OnCursorChange)(struct luacef_RenderHandler* self,
 	struct _cef_browser_t* browser,
 	cef_cursor_handle_t cursor,
 	cef_cursor_type_t type,
 	const struct _cef_cursor_info_t* custom_cursor_info)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __OnCursorChange)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		lua_pushlightuserdata(self->L, cursor); // 3
+		lua_pushinteger(self->L, type); // 4
+		luacef_pushuserdata(self->L, custom_cursor_info, __cursor_info__); // 5
+
+		lua_pcall(self->L, 5, 0, 8); // call
+	}
 }
 
 int CEF_CALLBACK RH_N(StartDragging)(struct luacef_RenderHandler* self,
@@ -151,23 +219,54 @@ int CEF_CALLBACK RH_N(StartDragging)(struct luacef_RenderHandler* self,
 	int x,
 	int y)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __StartDragging)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, drag_data, __drag_data__); // 3
+		lua_pushinteger(self->L, allowed_ops); // 4
+		lua_pushinteger(self->L, x); // 5
+		lua_pushinteger(self->L, y); // 6
+
+		lua_pcall(self->L, 6, 1, 8); // call
+		int ret = lua_tointeger(self->L, -1);
+		return ret;
+	}
+
+	return 0;
 }
 
 void CEF_CALLBACK RH_N(UpdateDragCursor)(struct luacef_RenderHandler* self,
 	struct _cef_browser_t* browser,
 	cef_drag_operations_mask_t operation)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __StartDragging)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		lua_pushinteger(self->L, operation); // 3
+
+		lua_pcall(self->L, 3, 0, 8); // call
+	}
 }
 
-void CEF_CALLBACK RH_N(OnScrollOffsetChanged)(
-	struct luacef_RenderHandler* self,
+void CEF_CALLBACK RH_N(OnScrollOffsetChanged)(struct luacef_RenderHandler* self,
 	struct _cef_browser_t* browser,
 	double x,
 	double y)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __OnScrollOffsetChanged)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		lua_pushnumber(self->L, x); // 3
+		lua_pushnumber(self->L, y); // 4
+
+		lua_pcall(self->L, 4, 0, 8); // call
+	}
 }
 
 void CEF_CALLBACK RH_N(OnIMECompositionRangeChanged)(
@@ -177,7 +276,17 @@ void CEF_CALLBACK RH_N(OnIMECompositionRangeChanged)(
 	size_t character_boundsCount,
 	cef_rect_t const* character_bounds)
 {
+	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
+	if (lua_getfield(self->L, -1, __OnScrollOffsetChanged)) {
 
+		luacef_pushuserdata(self->L, self, __render_handler__); // 1
+		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, selected_range, __range__); // 2
+		lua_pushinteger(self->L, character_boundsCount);
+		luacef_pushuserdata(self->L, character_bounds, __rect__); // 2
+
+		lua_pcall(self->L, 5, 0, 8); // call
+	}
 }
 
 // api =========================

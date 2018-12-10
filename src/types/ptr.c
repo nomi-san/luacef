@@ -1,163 +1,175 @@
 #include "../luacef.h"
 
-static const char *__val = "val";
-static const char *__ptr = "ptr";
-static const char *__new = "new";
+typedef int *IntPtr;
+typedef double *NumPtr;
+typedef void** PtrPtr;
 
+#define IP(fn) \
+	LCEF_API(IntPtr, fn)
+
+#define IP_N(fn) \
+	LCEF_API_N(IntPtr, fn)
+
+#define IP_M(mname) \
+	LCEF_M(IntPtr, mname)
+
+#define NP(fn) \
+	LCEF_API(NumPtr, fn)
+
+#define NP_N(fn) \
+	LCEF_API_N(NumPtr, fn)
+
+#define NP_M(mname) \
+	LCEF_M(NumPtr, mname)
+
+// IntPtr
+// =========================
 /*
-	<IntPtr> newIntPtr(<int> value)
-	<IntPtr> IntPtr.new(<int> value)
-	-- create new IntPtr
+	-- new IntPtr
+	<IntPtr> cef.newIntPtr(<int> value)
 
-	<void> IntPtr:release()
-	-- release, only use when itself created by newIntPtr() or self.new()
+	-- set value
+	<nil> IntPtr(<int> value)
 
-	<udata> IntPtr.ptr
+	-- get value
+	<int> IntPtr()
+
+	-- get sizeof
+	<int> #IntPtr
+
 	-- get pointer
-
-	<int> IntPtr.val
-	-- set/get value
+	<udata> -IntPtr
 */
-static int luacef_IntPtr_new(lua_State *L)
+
+IP(new)
 {
-	luacef_int *p = calloc(1, sizeof(luacef_int));
+	IntPtr p = calloc(1, sizeof(IntPtr));
 	*p = lua_tointeger(L, 1);
 
 	luacef_pushuserdata(L, p, __int_ptr__);
 	return 1;
 }
 
-static int luacef_IntPtr_index(lua_State *L)
+IP(call)
 {
-	luacef_int *p = luacef_touserdata(L, 1);
-	if (!p) return 0;
+	IntPtr p = luacef_touserdata(L, 1);
 
-	const char *i = lua_tostring(L, 2);
-
-	if (!strcmp(i, __val))
+	if (lua_isnoneornil(L, 2))
 		lua_pushinteger(L, *p);
-
-	else if (!strcmp(i, __release__))
-		lua_pushcfunction(L, luacef_release);
-
-	else if (!strcmp(i, __new))
-		lua_pushcfunction(L, luacef_IntPtr_new);
-
-	else if (!strcmp(i, __ptr))
-		lua_pushlightuserdata(L, p);
-
-	else return 0;
+	else {
+		*p = lua_tointeger(L, 2);
+		lua_pushnil(L);
+	}
 
 	return 1;
 }
 
-static int luacef_int_ptr_newindex(lua_State *L)
+IP(unm)
 {
-	luacef_int *p = luacef_touserdata(L, 1);
-	if (!p) return 0;
+	IntPtr p = luacef_touserdata(L, 1);
 
-	const char *i = lua_tostring(L, 2);
-
-	if (!strcmp(i, __val))
-		*p = lua_tointeger(L, 3);
-
-	return 0;
+	lua_pushlightuserdata(L, p);
+	return 1;
 }
 
-static const luaL_Reg luacef_IntPtr_m[] = {
-	{ "__index", luacef_IntPtr_index },
-	{ "__newindex", luacef_int_ptr_newindex },
-	{ NULL, NULL}
+IP(len)
+{
+	lua_pushinteger(L, sizeof(IntPtr));
+	return 1;
+}
+
+IP_M(meta)
+{
+	{ "__len", IP_N(len) },
+	{ "__call", IP_N(call) },
+	{ "__unm", IP_N(unm) },
+
+	LUAREGEND
 };
 
-// ==================================
-
+// NumPtr
+// =========================
 /*
-	<DoublePtr> newDoublePtr(<double> value)
-	<DoublePtr> DoublePtr.new(<double> value)
-	-- create new DoublePtr
+	-- new NumPtr
+	<NumPtr> cef.newNumPtr(<num> value)
 
-	<void> DoublePtr:release()
-	-- release, only use when itself created by newDoublePtr() or self.new()
+	-- set value
+	<nil> NumPtr(<num> value)
 
-	<udata> IntDouble.ptr
+	-- get value
+	<num> NumPtr()
+
+	-- get sizeof
+	<int> #NumPtr
+
 	-- get pointer
-
-	<double> DoublePtr.val
-	-- set/get value
+	<udata> -NumPtr
 */
-static int luacef_DoublePtr_new(lua_State *L)
+
+NP(new)
 {
-	luacef_double *p = calloc(1, sizeof(luacef_double));
+	NumPtr p = calloc(1, sizeof(NumPtr));
 	*p = lua_tonumber(L, 1);
 
-	luacef_pushuserdata(L, p, __double_ptr__);
+	luacef_pushuserdata(L, p, __NumPtr__);
 	return 1;
 }
 
-static int luacef_DoublePtr_index(lua_State *L)
+NP(call)
 {
-	luacef_double *p = luacef_touserdata(L, 1);
-	if (!p) return 0;
+	NumPtr p = luacef_touserdata(L, 1);
 
-	const char *i = lua_tostring(L, 2);
-
-	if (!strcmp(i, __val))
+	if (lua_isnoneornil(L, 2))
 		lua_pushnumber(L, *p);
-
-	else if (!strcmp(i, __release__))
-		lua_pushcfunction(L, luacef_release);
-
-	else if (!strcmp(i, __new))
-		lua_pushcfunction(L, luacef_DoublePtr_new);
-
-	else if (!strcmp(i, __ptr))
-		lua_pushlightuserdata(L, p);
-
-	else return 0;
+	else {
+		*p = lua_tonumber(L, 2);
+		lua_pushnil(L);
+	}
 
 	return 1;
 }
 
-static int luacef_DoublePtr_newindex(lua_State *L)
+NP(unm)
 {
-	luacef_double *p = luacef_touserdata(L, 1);
-	if (!p) return 0;
+	NumPtr p = luacef_touserdata(L, 1);
 
-	const char *i = lua_tostring(L, 2);
-
-	if (!strcmp(i, __val))
-		*p = lua_tonumber(L, 3);
-
-	return 0;
+	lua_pushlightuserdata(L, p);
+	return 1;
 }
 
-static const luaL_Reg luacef_DoublePtr_m[] = {
-	{ "__index", luacef_DoublePtr_index },
-	{ "__newindex", luacef_DoublePtr_newindex },
-	{ NULL, NULL}
-};
+NP(len)
+{
+	lua_pushinteger(L, sizeof(NumPtr));
+	return 1;
+}
 
+NP_M(meta)
+{
+	{ "__len", NP_N(len) },
+	{ "__call", NP_N(call) },
+	{ "__unm", NP_N(unm) },
+
+	LUAREGEND
+};
 // =================================
 
 void luacef_ptr_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __int_ptr__);
-	luaL_setfuncs(L, luacef_IntPtr_m, 0);
+	// IntPtr
+	luaL_newmetatable(L, __IntPtr__);
+	luaL_setfuncs(L, IP_N(meta), 0);
 	lua_pop(L, 1);
 
-	lua_pushcfunction(L, luacef_IntPtr_new);
+	lua_pushcfunction(L, IP_N(new));
 	lua_setfield(L, -2, "newIntPtr");
 	
-	// ==============
-
-	luaL_newmetatable(L, __double_ptr__);
-	luaL_setfuncs(L, luacef_DoublePtr_m, 0);
+	// NumPtr
+	luaL_newmetatable(L, __NumPtr__);
+	luaL_setfuncs(L, NP_N(meta), 0);
 	lua_pop(L, 1);
 
-	lua_pushcfunction(L, luacef_DoublePtr_new);
-	lua_setfield(L, -2, "newDoublePtr");
-
+	lua_pushcfunction(L, NP_N(new));
+	lua_setfield(L, -2, "newNumPtr");
 }
 
 // =================================
