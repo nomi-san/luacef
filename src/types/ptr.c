@@ -1,9 +1,5 @@
 #include "../luacef.h"
 
-typedef int *IntPtr;
-typedef double *NumPtr;
-typedef void** PtrPtr;
-
 #define IP(fn) \
 	LCEF_API(IntPtr, fn)
 

@@ -2,6 +2,10 @@
 #define LUACEF_INCLUDE_API_H_
 #pragma once
 
+typedef int *IntPtr;
+typedef double *NumPtr;
+typedef void** PtrPtr;
+
 /*
 	----- C ----------------
 	lua:newuserdata  <- alloc
@@ -26,6 +30,12 @@
 static const char __IntPtr__[] = "IntPtr";
 static const char __NumPtr__[] = "NumPtr";
 static const char __PtrPtr__[] = "PtrPtr";
+
+// binary value
+static const char __binary_value__[] = "CefBinaryValue";
+
+// image
+static const char __image__[] = "CefImage";
 
 // app
 static const char __app__[] = "CefApp";
