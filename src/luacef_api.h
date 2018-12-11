@@ -190,12 +190,12 @@ static const char *__send_process_message = "SendProcessMessage";
 static const char *__stop_load = "StopLoad";
 
 // browser_process_handler
-static const char *__browser_process_handler__ = "BrowserProcessHandler";
-static const char *__on_context_initialized = "OnContextInitialized";
-static const char *__on_before_child_process_launch = "OnBeforeChildProcessLaunch";
-static const char *__on_render_process_thread_created = "OnRenderProcessThreadCreated";
-static const char *__on_schedule_message_pump_work = "OnScheduleMessagePumpWork";
-static const char *__get_print_handler = "GetPrintHandler";
+static const char __browser_process_handler__[]		= "CefBrowserProcessHandler";
+static const char __OnContextInitialized[]			= "OnContextInitialized";
+static const char __OnBeforeChildProcessLaunch[]	= "OnBeforeChildProcessLaunch";
+static const char __OnRenderProcessThreadCreated[]	= "OnRenderProcessThreadCreated";
+static const char __OnScheduleMessagePumpWork[]		= "OnScheduleMessagePumpWork";
+static const char __GetPrintHandler[]				= "GetPrintHandler";
 
 // context_menu_handler
 static const char *__context_menu_handler__ = "ContextMenuHandler";

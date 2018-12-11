@@ -506,6 +506,7 @@ RH_M(meta)
 	{ "__len", RH_N(len) },
 	{ "__index", RH_N(index) },
 	{ "__newindex", RH_N(newindex) },
+
 	LUAREGEND
 };
 
