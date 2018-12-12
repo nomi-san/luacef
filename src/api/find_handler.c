@@ -1,26 +1,29 @@
 #include "../luacef.h"
+#include "include/capi/cef_find_handler_capi.h"
 
+typedef struct luacef_FindHandler {
 
-typedef struct luacef_find_handler {
-
-	cef_base_ref_counted_t base;
-
-	void(CEF_CALLBACK* on_find_result)(struct luacef_find_handler* self,
-		struct _cef_browser_t* browser,
-		int identifier,
-		int count,
-		const cef_rect_t* selectionRect,
-		int activeMatchOrdinal,
-		int finalUpdate);
+	cef_find_handler_t self;
 
 	lua_State *L;
 	int ref;
 
-} luacef_find_handler;
+} luacef_FindHandler;
+
+#define API(fn) \
+	LCEF_API(FindHandler, fn)
+
+#define API_N(fn) \
+	LCEF_API_N(FindHandler, fn)
+
+#define API_M(mname) \
+	LCEF_M(FindHandler, mname)
+
+#define SELF luacef_FindHandler
 
 /*
-	<void> OnFindResult(
-		<Browser>	browser,
+	<void> FindHandler:OnFindResult(
+		<CefBrowser>	browser,
 		<int>		identifier,
 		<int>		count,
 		<Rect>		selectionRect,
@@ -28,7 +31,7 @@ typedef struct luacef_find_handler {
 		<int>		finalUpdate
 	)
 */
-void CEF_CALLBACK fh_on_find_result(struct luacef_find_handler* self,
+void CEF_CALLBACK API_N(OnFindResult)(SELF* self,
 	struct _cef_browser_t* browser,
 	int identifier,
 	int count,
@@ -37,7 +40,7 @@ void CEF_CALLBACK fh_on_find_result(struct luacef_find_handler* self,
 	int finalUpdate)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, __on_find_result)) {
+	if (lua_getfield(self->L, -1, __OnFindResult)) {
 
 		luacef_pushuserdata(self->L, self, __find_handler__); // self
 
@@ -58,25 +61,23 @@ void CEF_CALLBACK fh_on_find_result(struct luacef_find_handler* self,
 }
 
 /*
-	<FindHandler> newFindHandler
-	{
-		<void>	
-			OnFindResult(self, <Browser>, <int>, <int>, <Rect>, <int>, <int>)
+	<CefFindHandler> newFindHandler {
+		OnFindResult = <void> func(self, <CefBrowser>, <int>, <int>, <Rect>, <int>, <int>)
 	}
 */
-static int luacef_find_handler_new(lua_State *L)
+API(new)
 {
-	size_t sz = sizeof(luacef_find_handler);
-	luacef_find_handler *p = luacef_alloc(sz);
-	p->base.size = sz;
+	size_t sz = sizeof(SELF);
+	SELF *p = luacef_alloc(sz);
+	p->self.base.size = sz;
 	p->L = L;
 
 	if (lua_istable(L, 1)) {
 		lua_pushvalue(L, 1);
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-		if (lua_getfield(L, 1, __on_find_result))
-			p->on_find_result = fh_on_find_result;
+		if (lua_getfield(L, 1, __OnFindResult))
+			p->self.on_find_result = API_N(OnFindResult);
 	}
 	else {
 		lua_newtable(L);
@@ -87,21 +88,9 @@ static int luacef_find_handler_new(lua_State *L)
 	return 1;
 }
 
-static int luacef_find_handler_release(lua_State *L)
+API(index)
 {
-	if (lua_isnoneornil(L, 1)) return 0;
-	void **ud = (void**)lua_touserdata(L, 1);
-	if (ud && *ud) {
-		luaL_unref(L, LUA_REGISTRYINDEX, ((luacef_find_handler*)*ud)->ref); //
-		free(*ud);
-		*ud = NULL;
-	}
-	return 0;
-}
-
-static int luacef_find_handler_index(lua_State *L)
-{
-	luacef_find_handler *p = luacef_touserdata(L, 1);
+	SELF *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
 
 	const char *i = lua_tostring(L, 2);
@@ -109,20 +98,17 @@ static int luacef_find_handler_index(lua_State *L)
 	lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
 	lua_pushvalue(L, -1);
 
-	if (!strcmp(i, __release__))
-		lua_pushcfunction(L, luacef_find_handler_release);
-
-	else if (!strcmp(i, __on_find_result))
-		lua_getfield(L, -1, __on_find_result);
+	if (!strcmp(i, __OnFindResult))
+		lua_getfield(L, -1, __OnFindResult);
 
 	else return 0;
 
 	return 1;
 }
 
-static int luacef_find_handler_newindex(lua_State *L)
+API(newindex)
 {
-	luacef_find_handler *p = luacef_touserdata(L, 1);
+	SELF *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
 
 	const char *i = lua_tostring(L, 2);
@@ -130,27 +116,44 @@ static int luacef_find_handler_newindex(lua_State *L)
 	lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
 	lua_pushvalue(L, -1);
 
-	if (!strcmp(i, __on_find_result)) {
+	if (!strcmp(i, __OnFindResult)) {
 		lua_pushvalue(L, 3);
-		lua_setfield(L, -2, __on_find_result);
-		p->on_find_result = fh_on_find_result;
+		lua_setfield(L, -2, __OnFindResult);
+		p->self.on_find_result = API_N(OnFindResult);
 	}
 		
 	return 0;
 }
 
-static const luaL_Reg luacef_find_handler_m[] = {
-	{ "__index", luacef_find_handler_index },
-	{ "__newindex", luacef_find_handler_newindex },
-	{ NULL, NULL}
+API(len)
+{
+	lua_pushinteger(L, sizeof(SELF));
+	return 1;
+}
+
+API(unm)
+{
+	SELF *p = luacef_toudata(L, 1);
+
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
+
+API_M(meta)
+{
+	{ "__len", API_N(len) },
+	{ "__unm", API_N(unm) },
+	{ "__index", API_N(index) },
+	{ "__newindex", API_N(newindex) },
+	LUAREGEND
 };
 
-void luacef_find_handler_reg(lua_State *L)
+void API_N(reg)(lua_State *L)
 {
 	luaL_newmetatable(L, __find_handler__);
-	luaL_setfuncs(L, luacef_find_handler_m, 0);
+	luaL_setfuncs(L, API_N(meta), 0);
 	lua_pop(L, 1);
 
-	lua_pushcfunction(L, luacef_find_handler_new);
+	lua_pushcfunction(L, API_N(new));
 	lua_setfield(L, -2, "newFindHandler");
 }

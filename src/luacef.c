@@ -9,7 +9,7 @@ typedef struct luacef_base {
 
 void* luacef_newuserdata(lua_State* L, size_t sz)
 {
-	void **ud = (void**)lua_newuserdata(L, 4u);
+	void **ud = (void**)lua_newuserdata(L, sizeof(void*));
 	*ud = calloc(1, sz);
 	return *ud;
 }
@@ -149,6 +149,39 @@ static int luacef_bool(lua_State *L) {
 	return 1;
 }
 
+// trycatch ==============================
+/*
+	cef.try {
+		func(),
+		catch = func(<str> err)
+	}
+*/
+static int luacef_trycatch(lua_State *L)
+{
+	if (!lua_istable(L, 1)) return 0;
+
+	lua_rawgeti(L, 1, 1);
+	if (!lua_isfunction(L, -1)) return 0;
+
+	int err = lua_pcall(L, 0, 1, 0);
+	lua_pushvalue(L, -1);
+	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	if (!err) {
+		if (!lua_getfield(L, 1, "catch"))
+			lua_rawgeti(L, -1, 2);
+		if (!lua_isfunction(L, -1))
+			return 0;
+
+		lua_call(L, 0, 0);
+	}
+
+	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
+	lua_pushvalue(L, -1);
+	luaL_unref(L, LUA_REGISTRYINDEX, ref);
+	return 1;
+}
+
 // ==============================
 /*
 	<str>, <str> getv()
@@ -190,7 +223,7 @@ static int luacef_printv(lua_State* L)
 
 static void luacef_handler_reg(lua_State* L)
 {
-	luacef_life_span_handler_reg(L);
+	LCEF_API_N(LifeSpanHandler, reg)(L);
 	luacef_keyboard_handler_reg(L);
 	luacef_LoadHandler_reg(L);
 	luacef_ContextMenuHandler_reg(L);

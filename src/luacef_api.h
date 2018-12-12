@@ -67,18 +67,18 @@ static const char *__GetRequestHandler = "GetRequestHandler";
 static const char *__OnProcessMessageReceived = "OnProcessMessageReceived";
 
 // find_handler
-static const char *__find_handler__ = "CefFindHandler";
-static const char *__on_find_result = "OnFindResult";
+static const char __find_handler__[]	= "CefFindHandler";
+static const char __OnFindResult[]		= "OnFindResult";
 
 // request
 static const char *__post_data__ = "CefPostData";
 static const char *__post_data_element__ = "PostData";
 
 // life_span_handler
-static const char *__do_close = "DoClose";
-static const char *__on_before_popup = "OnBeforePopup";
-static const char *__on_after_created = "OnAfterCreated";
-static const char *__on_before_close = "OnBeforeClose";
+static const char __DoClose[]			= "DoClose";
+static const char __OnBeforePopup[]		= "OnBeforePopup";
+static const char __OnAfterCreated[]	= "OnAfterCreated";
+static const char __OnBeforeClose[]		= "OnBeforeClose";
 
 // rect
 

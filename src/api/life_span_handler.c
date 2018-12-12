@@ -29,58 +29,43 @@
 
 */
 
-typedef struct luacef_life_span_handler {
+typedef struct luacef_LifeSpanHandler {
 
-	cef_base_t base; // base
-
-	int (CEF_CALLBACK *on_before_popup)(
-		struct luacef_life_span_handler*	self,
-		struct _cef_browser_t*				browser,
-		struct _cef_frame_t*				frame,
-		const cef_string_t*					target_url,
-		const cef_string_t*					target_frame_name,
-		cef_window_open_disposition_t		target_disposition,
-		int									user_gesture,
-		const struct _cef_popup_features_t* popupFeatures,
-		struct _cef_window_info_t*			windowInfo,
-		struct _cef_client_t**				client,
-		struct _cef_browser_settings_t*		settings,
-		int*								no_javascript_access);
-
-	void (CEF_CALLBACK *on_after_created)(
-		struct luacef_life_span_handler*	self,
-		struct _cef_browser_t*				browser);
-
-	int (CEF_CALLBACK *do_close)(
-		struct luacef_life_span_handler*	self,
-		struct _cef_browser_t*				browser);
-
-	void (CEF_CALLBACK *on_before_close)(
-		struct luacef_life_span_handler*	self,
-		struct _cef_browser_t*				browser);
+	cef_life_span_handler_t self;
 
 	lua_State *L; // state
 	int ref; // table ref
 
-} luacef_life_span_handler;
+} luacef_LifeSpanHandler;
+
+#define API(fn) \
+	LCEF_API(LifeSpanHandler, fn)
+
+#define API_N(fn) \
+	LCEF_API_N(LifeSpanHandler, fn)
+
+#define API_M(mname) \
+	LCEF_M(LifeSpanHandler, mname)
+
+#define SELF luacef_LifeSpanHandler
 
 /*
-	<int> LifeSpanHandler:OnBeforePopup(
-		<Browser>			browser
-		<Frame>				frame
+	<int> CefLifeSpanHandler:OnBeforePopup(
+		<CefBrowser>			browser
+		<CefFrame>				frame
 		<str>				target_url
 		<str>				target_frame_name
 		<int>				target_disposition
 		<int>				user_gesture
-		<PopupFeatures>		popupFeatures
-		<WindowInfo>		windowInfo
-		<Client>			client
-		<BrowserSettings>	settings
+		<CefPopupFeatures>		popupFeatures
+		<CefWindowInfo>		windowInfo
+		<CefClient>			client
+		<CefBrowserSettings>	settings
 		<int>				no_javascript_access
 	)
 */
-int CEF_CALLBACK life_span_handler_on_before_popup(
-	struct luacef_life_span_handler*	self,
+int CEF_CALLBACK API_N(OnBeforePopup)(
+	SELF*	self,
 	struct _cef_browser_t*				browser,
 	struct _cef_frame_t*				frame,
 	const cef_string_t*					target_url,
@@ -94,7 +79,7 @@ int CEF_CALLBACK life_span_handler_on_before_popup(
 	int*								no_javascript_access)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, __on_before_popup)) {
+	if (lua_getfield(self->L, -1, __OnBeforePopup)) {
 
 		luacef_pushuserdata(self->L, self, __life_span_handler__); // self, first arg
 
@@ -114,7 +99,7 @@ int CEF_CALLBACK life_span_handler_on_before_popup(
 
 		lua_pushinteger(self->L, user_gesture); // 7
 
-		//luacef_pushuserdata(self->L, popupFeatures, __popup_features__); // 8
+		luacef_pushuserdata(self->L, popupFeatures, __popup_features__); // 8
 
 		luacef_pushuserdata(self->L, windowInfo, __window_info__); // 9
 		
@@ -127,6 +112,7 @@ int CEF_CALLBACK life_span_handler_on_before_popup(
 		lua_pcall(self->L, 12, 1, -8);
 		return lua_tointeger(self->L, -1);
 	}
+
 	return 0;
 }
 
@@ -135,12 +121,12 @@ int CEF_CALLBACK life_span_handler_on_before_popup(
 		<Browser>	browser
 	)
 */
-int CEF_CALLBACK life_span_handler_do_close(
-	struct luacef_life_span_handler*	self,
+int CEF_CALLBACK API_N(DoClose)(
+	SELF*	self,
 	struct _cef_browser_t*				browser)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, __do_close)) {
+	if (lua_getfield(self->L, -1, __DoClose)) {
 			
 		luacef_pushuserdata(self->L, self, __life_span_handler__);
 
@@ -158,12 +144,12 @@ int CEF_CALLBACK life_span_handler_do_close(
 		<Browser>	browser
 	)
 */
-void CEF_CALLBACK life_span_handler_on_after_created(
-	struct luacef_life_span_handler*	self,
+void CEF_CALLBACK API_N(OnAfterCreated)(
+	SELF*	self,
 	struct _cef_browser_t*				browser)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, __on_after_created)) {
+	if (lua_getfield(self->L, -1, __OnAfterCreated)) {
 
 		luacef_pushuserdata(self->L, self, __life_span_handler__);
 
@@ -178,12 +164,12 @@ void CEF_CALLBACK life_span_handler_on_after_created(
 		<Browser>	browser
 	)
 */
-void CEF_CALLBACK life_span_handler_on_before_close(
-	struct luacef_life_span_handler*	self,
+void CEF_CALLBACK API_N(OnBeforeClose)(
+	SELF*	self,
 	struct _cef_browser_t*				browser)
 {
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
-	if (lua_getfield(self->L, -1, __on_before_close)) {
+	if (lua_getfield(self->L, -1, __OnBeforeClose)) {
 
 		luacef_pushuserdata(self->L, self, __life_span_handler__);
 
@@ -195,28 +181,28 @@ void CEF_CALLBACK life_span_handler_on_before_close(
 
 //===================================================
 
-static int luacef_life_span_handler_new(lua_State* L)
+API(new)
 {
-	size_t sz = sizeof(luacef_life_span_handler);
-	luacef_life_span_handler* lsh = luacef_alloc(sz);
-	lsh->base.size = sz;
+	size_t sz = sizeof(SELF);
+	SELF* lsh = luacef_alloc(sz);
+	lsh->self.base.size = sz;
 	lsh->L = L;
 
 	if (lua_istable(L, 1)) {
 		lua_pushvalue(L, 1);
 		lsh->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-		if (lua_getfield(L, 1, __on_after_created))
-			lsh->on_after_created = life_span_handler_on_after_created;
+		if (lua_getfield(L, 1, __OnAfterCreated))
+			lsh->self.on_after_created = API_N(OnAfterCreated);
 
-		if (lua_getfield(L, 1, __on_before_close))
-			lsh->on_before_close = life_span_handler_on_before_close;
+		if (lua_getfield(L, 1, __OnBeforeClose))
+			lsh->self.on_before_close = API_N(OnBeforeClose);
 
-		if (lua_getfield(L, 1, __do_close))
-			lsh->do_close = life_span_handler_do_close;
+		if (lua_getfield(L, 1, __DoClose))
+			lsh->self.do_close = API_N(DoClose);
 
-		if (lua_getfield(L, 1, __on_before_popup))
-			lsh->on_before_popup = life_span_handler_on_before_popup;
+		if (lua_getfield(L, 1, __OnBeforePopup))
+			lsh->self.on_before_popup = API_N(OnBeforePopup);
 	}
 	else {
 		lua_newtable(L);
@@ -227,99 +213,96 @@ static int luacef_life_span_handler_new(lua_State* L)
 	return 1;
 }
 
-static int luacef_lifespan_handler_release(lua_State* L)
+API(index)
 {
-	if (lua_isnoneornil(L, 1)) return 0;
-	void **ud = (void**)lua_touserdata(L, 1);
-	if (ud && *ud) {
-		luaL_unref(L, LUA_REGISTRYINDEX, ((luacef_life_span_handler*)*ud)->ref); //
-		free(*ud);
-		*ud = NULL;
+	SELF* lsh = luacef_touserdata(L, 1);
+	if (!lsh || !lsh->L) return 0;
+
+	const char* id = lua_tostring(L, 2);
+
+	lua_rawgeti(L, LUA_REGISTRYINDEX, lsh->ref);
+	lua_pushvalue(L, -1);
+
+	if (!strcmp(id, __OnAfterCreated))
+		lua_getfield(L, -1, __OnAfterCreated);
+
+	else if (!strcmp(id, __OnBeforeClose))
+		lua_getfield(L, -1, __OnBeforeClose);
+
+	else if (!strcmp(id, __OnBeforePopup))
+		lua_getfield(L, -1, __OnBeforePopup);
+
+	else if (!strcmp(id, __DoClose))
+		lua_getfield(L, -1, __DoClose);
+
+	else return 0;
+
+	return 1;
+}
+
+API(newindex)
+{
+	SELF* lsh = luacef_touserdata(L, 1);
+	if (!lsh || !lsh->L) return 0;
+
+	const char* id = lua_tostring(L, 2);
+
+	lua_rawgeti(L, LUA_REGISTRYINDEX, lsh->ref);
+	if (!lua_isfunction(L, 3)) return 0;
+	lua_pushvalue(L, 3);
+
+	if (!strcmp(id, __OnAfterCreated)) {
+		lua_setfield(L, -2, __OnAfterCreated);
+		lsh->self.on_after_created = API_N(OnAfterCreated);
 	}
+
+	else if (!strcmp(id, __OnBeforeClose)) {
+		lua_setfield(L, -2, __OnBeforeClose);
+		lsh->self.on_before_close = API_N(OnBeforeClose);
+	}
+
+	else if (!strcmp(id, __OnBeforePopup)) {
+		lua_setfield(L, -2, __OnBeforePopup);
+		lsh->self.on_before_popup = API_N(OnBeforePopup);
+	}
+
+	else if (!strcmp(id, __DoClose)) {
+		lua_setfield(L, -2, __DoClose);
+		lsh->self.do_close = API_N(DoClose);
+	}
+
 	return 0;
 }
 
-static int luacef_life_span_handler_index(lua_State* L)
+API(len)
 {
-	luacef_life_span_handler* lsh = luacef_touserdata(L, 1);
-	if (!lsh || !lsh->L) return 0;
-
-	const char* id = lua_tostring(L, 2);
-
-	lua_rawgeti(L, LUA_REGISTRYINDEX, lsh->ref);
-	lua_pushvalue(L, -1);
-
-	if (!strcmp(id, __release__)) // release method
-		lua_pushcfunction(L, luacef_lifespan_handler_release);
-
-	else if (!strcmp(id, __on_after_created))
-		lua_getfield(L, -1, __on_after_created);
-
-	else if (!strcmp(id, __on_before_close))
-		lua_getfield(L, -1, __on_before_close);
-
-	else if (!strcmp(id, __on_before_popup))
-		lua_getfield(L, -1, __on_before_popup);
-
-	else if (!strcmp(id, __do_close))
-		lua_getfield(L, -1, __do_close);
-
-	else return 0;
-
+	lua_pushinteger(L, sizeof(SELF));
 	return 1;
 }
 
-static int luacef_life_span_handler_newindex(lua_State* L)
+API(unm)
 {
-	luacef_life_span_handler* lsh = luacef_touserdata(L, 1);
-	if (!lsh || !lsh->L) return 0;
+	SELF *p = luacef_toudata(L, 1);
 
-	const char* id = lua_tostring(L, 2);
-
-	lua_rawgeti(L, LUA_REGISTRYINDEX, lsh->ref);
-	lua_pushvalue(L, -1);
-
-	if (!strcmp(id, __on_after_created)) {
-		lua_pushvalue(L, 3);
-		lua_setfield(L, -2, __on_after_created);
-		lsh->on_after_created = life_span_handler_on_after_created;
-	}
-
-	else if (!strcmp(id, __on_before_close)) {
-		lua_pushvalue(L, 3);
-		lua_setfield(L, -2, __on_before_close);
-		lsh->on_before_close = life_span_handler_on_before_close;
-	}
-
-	else if (!strcmp(id, __on_before_popup)) {
-		lua_pushvalue(L, 3);
-		lua_setfield(L, -2, __on_before_popup);
-		lsh->on_before_popup = life_span_handler_on_before_popup;
-	}
-
-	else if (!strcmp(id, __do_close)) {
-		lua_pushvalue(L, 3);
-		lua_setfield(L, -2, __do_close);
-		lsh->do_close = life_span_handler_do_close;
-	}
-
-	else return 0;
-
+	lua_pushlightuserdata(L, p);
 	return 1;
 }
 
-static const luaL_Reg luacef_life_span_handler_m[] = {
-	{ "__index", luacef_life_span_handler_index },
-	{ "__newindex", luacef_life_span_handler_newindex },
-	{ NULL, NULL }
+API_M(meta)
+{
+	{ "__len", API_N(len) },
+	{ "__unm", API_N(unm) },
+	{ "__index", API_N(index) },
+	{ "__newindex", API_N(newindex) },
+		LUAREGEND
 };
 
-void luacef_life_span_handler_reg(lua_State* L)
+void API_N(reg)(lua_State *L)
 {
 	luaL_newmetatable(L, __life_span_handler__);
-	luaL_setfuncs(L, luacef_life_span_handler_m, 0);
+	luaL_setfuncs(L, API_N(meta), 0);
 	lua_pop(L, 1);
 
-	lua_pushcfunction(L, luacef_life_span_handler_new);
+	lua_pushcfunction(L, API_N(new));
 	lua_setfield(L, -2, "newLifeSpanHandler");
 }
