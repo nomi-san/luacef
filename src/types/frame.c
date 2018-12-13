@@ -1,49 +1,23 @@
 #include "../luacef.h"
 #include "include/capi/cef_frame_capi.h"
 
-typedef cef_frame_t luacef_Frame;
+#define SELF luacef_Frame
 
-static int luacef_frame_new(lua_State* L)
-{
-	size_t sz = sizeof(cef_frame_t);
-	cef_frame_t *f = calloc(1, sz);
-	f->base.size = sz;
+typedef cef_frame_t SELF;
 
-	/*
-	f->copy;
-	f->cut;
-	f->del;
-	f->execute_java_script;
-	f->get_browser;
-	f->get_identifier;
-	f->get_name;
-	f->get_parent;
-	f->get_source;
-	f->get_text;
-	f->get_url;
-	f->get_v8context;
-	f->is_focused;
-	f->is_main;
-	f->is_valid;
-	f->load_request;
-	f->load_string;
-	f->load_url;
-	f->paste;
-	f->redo;
-	f->select_all;
-	f->undo;
-	f->view_source;
-	f->visit_dom;
-	*/
+#define API(fn) \
+	LCEF_API(Frame, fn)
 
-	luacef_pushuserdata(L, f, __frame__);
-	return 1;
-}
+#define API_N(fn) \
+	LCEF_API_N(Frame, fn)
+
+#define API_M(mname) \
+	LCEF_M(Frame, mname)
 
 /*
 	<void> Frame:Copy()
 */
-static int luacef_frame_copy(lua_State* L)
+API(Copy)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -55,7 +29,7 @@ static int luacef_frame_copy(lua_State* L)
 /*
 	<void> Frame:Cut()
 */
-static int luacef_frame_cut(lua_State* L)
+API(Cut)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -67,7 +41,7 @@ static int luacef_frame_cut(lua_State* L)
 /*
 	<void> Frame:Delete()
 */
-static int luacef_frame_del(lua_State* L)
+API(Delete)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -83,7 +57,7 @@ static int luacef_frame_del(lua_State* L)
 		<int>	start_line
 	)
 */
-static int luacef_frame_execute_java_script(lua_State* L)
+API(ExecuteJavaScript)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	const cef_string_t code = luacef_tostring(L, 2);
@@ -98,7 +72,7 @@ static int luacef_frame_execute_java_script(lua_State* L)
 /*
 	<Browser> Frame:GetBrowser()
 */
-static int luacef_frame_get_browser(lua_State* L)
+API(GetBrowser)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	cef_browser_t *b = f->get_browser(f);
@@ -110,7 +84,7 @@ static int luacef_frame_get_browser(lua_State* L)
 /*
 	<int> Frame:GetIdentifier()
 */
-static int luacef_frame_get_identifier(lua_State* L)
+API(GetIdentifier)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -121,7 +95,7 @@ static int luacef_frame_get_identifier(lua_State* L)
 /*
 	<str> Frame:GetName()
 */
-static int luacef_frame_get_name(lua_State* L)
+API(GetName)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -134,7 +108,7 @@ static int luacef_frame_get_name(lua_State* L)
 /*
 	<Frame> Frame:GetParent()
 */
-static int luacef_frame_get_parent(lua_State* L)
+API(GetParent)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -149,7 +123,7 @@ static int luacef_frame_get_parent(lua_State* L)
 		<StringVisitor> visitor
 	)
 */
-static int luacef_frame_get_source(lua_State* L)
+API(GetSource)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	cef_string_visitor_t *v = luacef_checkudata(L, 2, __string_visitor__);
@@ -164,7 +138,7 @@ static int luacef_frame_get_source(lua_State* L)
 		<StringVisitor> visitor
 	)
 */
-static int luacef_frame_get_text(lua_State* L)
+API(GetText)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	cef_string_visitor_t *v = luacef_checkudata(L, 2, __string_visitor__);
@@ -177,7 +151,7 @@ static int luacef_frame_get_text(lua_State* L)
 /*
 	<str> Frame:GetURL()
 */
-static int luacef_frame_get_url(lua_State* L)
+API(GetURL)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -188,9 +162,9 @@ static int luacef_frame_get_url(lua_State* L)
 }
 
 /*
-	<V8Context> Frame:GetV8context()
+	<V8Context> Frame:GetV8Context()
 */
-static int luacef_frame_get_v8context(lua_State* L)
+API(GetV8Context)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -203,7 +177,7 @@ static int luacef_frame_get_v8context(lua_State* L)
 /*
 	<bool> Frame:IsFocused()
 */
-static int luacef_frame_is_focused(lua_State* L)
+API(IsFocused)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -214,7 +188,7 @@ static int luacef_frame_is_focused(lua_State* L)
 /*
 	<bool> Frame:IsMain()
 */
-static int luacef_frame_is_main(lua_State* L)
+API(IsMain)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -225,7 +199,7 @@ static int luacef_frame_is_main(lua_State* L)
 /*
 	<bool> Frame:IsValid()
 */
-static int luacef_frame_is_valid(lua_State* L)
+API(IsValid)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -238,7 +212,7 @@ static int luacef_frame_is_valid(lua_State* L)
 		<Request> request
 	)
 */
-static int luacef_frame_load_request(lua_State* L)
+API(LoadRequest)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	cef_request_t *r = luacef_checkudata(L, 2, __request__);
@@ -253,7 +227,7 @@ static int luacef_frame_load_request(lua_State* L)
 		<str> url
 	)
 */
-static int luacef_frame_load_string(lua_State* L)
+API(LoadString)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	const char* cs_val = lua_tostring(L, 2);
@@ -268,11 +242,11 @@ static int luacef_frame_load_string(lua_State* L)
 }
 
 /*
-	<void> Frame:LoadUrl(
+	<void> Frame:LoadURL(
 		<str> url
 	)
 */
-static int luacef_frame_load_url(lua_State* L)
+API(LoadURL)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	const char* cs = lua_tostring(L, 2);
@@ -287,7 +261,7 @@ static int luacef_frame_load_url(lua_State* L)
 /*
 	<void> Frame:Paste()
 */
-static int luacef_frame_paste(lua_State* L)
+API(Paste)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -298,7 +272,7 @@ static int luacef_frame_paste(lua_State* L)
 /*
 	<void> Frame:Redo()
 */
-static int luacef_frame_redo(lua_State* L)
+API(Redo)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -309,7 +283,7 @@ static int luacef_frame_redo(lua_State* L)
 /*
 	<void> Frame:SelectAll()
 */
-static int luacef_frame_select_all(lua_State* L)
+API(SelectAll)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -320,7 +294,7 @@ static int luacef_frame_select_all(lua_State* L)
 /*
 	<void> Frame:Undo()
 */
-static int luacef_frame_undo(lua_State* L)
+API(Undo)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -331,7 +305,7 @@ static int luacef_frame_undo(lua_State* L)
 /*
 	<void> Frame:ViewSource()
 */
-static int luacef_frame_view_source(lua_State* L)
+API(ViewSource)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 
@@ -345,7 +319,7 @@ static int luacef_frame_view_source(lua_State* L)
 		<DOMVisitor> visitor
 	)
 */
-static int luacef_frame_visit_dom(lua_State* L)
+API(VisitDOM)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	cef_domvisitor_t *dv = luacef_checkudata(L, 2, __domvisitor__);
@@ -355,44 +329,57 @@ static int luacef_frame_visit_dom(lua_State* L)
 	return 0;
 }
 
+API(len)
+{
+	lua_pushinteger(L, sizeof(SELF));
+	return 1;
+}
 
+API(unm)
+{
+	SELF *p = luacef_toudata(L, 1);
 
+	lua_pushlightuserdata(L, p);
+	return 1;
+}
 
-//=====================
+// meta =========================
 
-static const luaL_Reg luacef_frame_m[] = {
-	{ "Copy", luacef_frame_copy },
-	{ "Cut", luacef_frame_cut },
-	{ "Delete", luacef_frame_del },
-	{ "ExecuteJavaScript", luacef_frame_execute_java_script },
-	{ "GetBrowser", luacef_frame_get_browser },
-	{ "GetIdentifier", luacef_frame_get_identifier },
-	{ "GetName", luacef_frame_get_name },
-	{ "GetParent", luacef_frame_get_parent },
-	{ "GetSource", luacef_frame_get_source },
-	{ "GetText", luacef_frame_get_text },
-	{ "GetURL", luacef_frame_get_url },
-	{ "GetV8context", luacef_frame_get_v8context },
-	{ "IsFocused", luacef_frame_is_focused },
-	{ "IsMain", luacef_frame_is_main },
-	{ "IsValid", luacef_frame_is_valid },
-	{ "LoadRequest", luacef_frame_load_request },
-	{ "LoadString", luacef_frame_load_string },
-	{ "LoadUrl", luacef_frame_load_url },
-	{ "Paste", luacef_frame_paste },
-	{ "Redo", luacef_frame_redo },
-	{ "SelectAll", luacef_frame_select_all },
-	{ "Undo", luacef_frame_undo },
-	{ "ViewSource", luacef_frame_view_source },
-	{ "VisitDOM", luacef_frame_visit_dom },
+API_M(meta)
+{
+	{ "__unm", API_N(unm) },
+	{ "__len", API_N(len) },
+
+	{ "Copy",				API_N(Copy) },
+	{ "Cut",				API_N(Cut) },
+	{ "Delete",				API_N(Delete) },
+	{ "ExecuteJavaScript",	API_N(ExecuteJavaScript) },
+	{ "GetBrowser",			API_N(GetBrowser) },
+	{ "GetIdentifier",		API_N(GetIdentifier) },
+	{ "GetName",			API_N(GetName) },
+	{ "GetParent",			API_N(GetParent) },
+	{ "GetSource",			API_N(GetSource) },
+	{ "GetText",			API_N(GetText) },
+	{ "GetURL",				API_N(GetURL) },
+	{ "GetV8Context",		API_N(GetV8Context) },
+	{ "IsFocused",			API_N(IsFocused) },
+	{ "IsMain",				API_N(IsMain) },
+	{ "IsValid",			API_N(IsValid) },
+	{ "LoadRequest",		API_N(LoadRequest) },
+	{ "LoadString",			API_N(LoadString) },
+	{ "LoadURL",			API_N(LoadURL) },
+	{ "Paste",				API_N(Paste) },
+	{ "Redo",				API_N(Redo) },
+	{ "SelectAll",			API_N(SelectAll) },
+	{ "Undo",				API_N(Undo) },
+	{ "ViewSource",			API_N(ViewSource) },
+	{ "VisitDOM",			API_N(VisitDOM) },
 	{ NULL, NULL }
 };
 
-void luacef_frame_reg(lua_State* L)
+void API_N(reg)(lua_State* L)
 {
 	luaL_newmetatable(L, __frame__);
-	luaL_setfuncs(L, luacef_frame_m, 0);
+	luaL_setfuncs(L, API_N(meta), 0);
 	lua_setfield(L, -1, __index__);
-
-	//
 }

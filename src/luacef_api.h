@@ -136,11 +136,11 @@ static const char *__scheme_registrar__ = "SchemeRegistrar";
 static const char __string_list__[] = "CefStringList";
 
 //
-static const char *__frame__ = "Frame";
-static const char *__browser__ = "Browser";
-static const char *__main_args__ = "MainArgs";
-static const char *__window_info__ = "WindowInfo";
-static const char *__request__ = "Request";
+static const char __frame__[] = "CefFrame";
+static const char __browser__[] = "CefBrowser";
+static const char __main_args__[] = "CefMainArgs";
+static const char __window_info__[] = "CefWindowInfo";
+static const char __request__[] = "CefRequest";
 static const char *__string_visitor__ = "StringVisitor";
 static const char *__process_message__ = "ProcessMessage";
 static const char *__browser_host__ = "BrowserHost";
