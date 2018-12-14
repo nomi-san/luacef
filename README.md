@@ -163,12 +163,6 @@ cef.RunMessageLoop()
 
 -- shutdown
 cef.Shutdown()
-
--- release callback/handler object, it has no __gc
-client:release()
-app:release()
-life_span:release()
-keyboard:release()
 ```
 
 <p align="center">
