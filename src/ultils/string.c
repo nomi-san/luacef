@@ -35,16 +35,16 @@ void lua_clearwstring(wchar_t *ws) {
 #else
 
 // to wchar_t* via cefstring
-const wchar_t *lua_towstring(lua_State *L, int i)
+const wchar_t *lua_tolwstring(lua_State *L, int i, int *len)
 {
-	const char *cs = lua_tostring(L, i);
+    const char *cs = lua_tolstring(L, i, len);
 	cef_string_t s = { 0 };
 	cef_string_utf8_to_utf16(cs, strlen(cs), &s);
 	return s.str;
 }
 
 // push wchar_t* via cefstring
-void lua_pushwstring(lua_State *L, const wchar_t *wcs)
+void lua_pushwstring(lua_State *L, wchar_t *wcs)
 {
 	cef_string_utf8_t s = { 0 };
 	cef_string_wide_to_utf8(wcs, wcslen(wcs), &s);

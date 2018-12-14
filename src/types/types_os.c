@@ -57,7 +57,7 @@ API(new)
 
 				if (lua_istable(L, -1)) {
 
-					for (int i = 1, i < p->argc, ; i++) {
+                    for (int i = 1; i < p->argc ; i++) {
 						lua_rawgeti(L, -1, i);
 						p->argv[i-1] = lua_tostring(L, 1);
 						lua_pop(L, 1);
@@ -78,8 +78,22 @@ API(index)
 
 	const char* i = lua_tostring(L, 2);
 
+#if defined(OS_WIN)
 	if (!strcmp(i, "instance"))
 		lua_pushlightuserdata(L, args->instance);
+
+#elif defined(OS_LINUX)
+    if (!strcmp(i, "argc"))
+        lua_pushinteger(L, args->argc);
+
+    else if (!strcmp(i, "argv")) {
+        lua_newtable(L);
+        for (int i = 0; i < args->argc; i++) {
+            lua_pushstring(L, args->argv[i]);
+            lua_rawseti(L, -2, i+1);
+        }
+    }
+#endif
 
 	else return 0;
 
@@ -94,8 +108,12 @@ API(newindex)
 	const char* i = lua_tostring(L, 2);
 	lua_pushvalue(L, 3);
 
+#if defined(OS_WIN)
 	if (!strcmp(i, "instance"))
 		args->instance = lua_touserdata(L, -1);
+#elif defined(OS_LINUX)
+
+#endif
 
 	return 0;
 }
@@ -185,6 +203,7 @@ API(new)
 	size_t sz = sizeof(SELF);
 	SELF *wi = calloc(1, sz);
 
+#if defined(OS_WIN)
 	// default value
 	wi->style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | /*(__interpreter ?*/ WS_VISIBLE /* : 0)*/;
 	wi->parent_window = NULL;
@@ -192,6 +211,7 @@ API(new)
 	wi->y = CW_USEDEFAULT;
 	wi->width = CW_USEDEFAULT;
 	wi->height = CW_USEDEFAULT;
+#endif
 
 	if (lua_istable(L, 1)) {
 
