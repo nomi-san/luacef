@@ -3,7 +3,7 @@ language: c
 
 script:
   - git clone https://github.com/wy3/luacef.git
-  - cd luacef
+  - cd ./luacef
   - choco feature enable -n=allowGlobalConfirmation
   - choco install mingw
   - choco install make
