@@ -9,11 +9,18 @@ script:
   - choco install curl
   - choco install 7zip
   - curl http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_minimal.tar.bz2 --output cef.tar.bz2
-  - 7z x cef.tar.bz2
-  - 7z x cef.tar
+  - 7z -y x cef.tar.bz2
+  - 7z -y x cef.tar
   - rename ".\cef_binary_3.3112.1659.gfef43e0_windows64_minimal" cef_minimal
-  - set dir=cd
-  - cd deps\lua\src
+  - xcopy /Y .\cef_minimal\Release\libcef.lib deps\cef\
+  - curl https://www.lua.org/ftp/lua-5.3.5.tar.gz --output lua.tar.gz
+  - 7z -y x lua.tar.gz
+  - 7z -y x lua.tar
+  - rename ".\lua-5.3.5" lua53
+  - cd lua53
   - make mingw
-  - cd %dir%
-  - xcopy .\cef_minimal\Release\libcef.lib deps\cef\
+  - cd ..
+  - xcopy /Y lua53\src\lua.exe lua53\
+  - xcopy /Y lua53\src\lua53.dll lua53\
+  - xcopy /Y lua53\src\liblua.a deps\lua\
+ 
