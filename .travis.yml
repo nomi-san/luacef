@@ -16,7 +16,7 @@ script:
   - curl https://www.lua.org/ftp/lua-5.3.5.tar.gz --output lua.tar.gz
   - 7z -y x lua.tar.gz
   - 7z -y x lua.tar
-  - rename lua-5.3.5 lua53
+  - rename "lua-5.3.5" lua53
   - cd lua53
   - make mingw
   - cd ..
