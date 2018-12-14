@@ -193,16 +193,16 @@ API(new)
 		lsh->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 		if (lua_getfield(L, 1, __OnAfterCreated))
-			lsh->self.on_after_created = API_N(OnAfterCreated);
+			lsh->self.on_after_created = (void*)API_N(OnAfterCreated);
 
 		if (lua_getfield(L, 1, __OnBeforeClose))
-			lsh->self.on_before_close = API_N(OnBeforeClose);
+			lsh->self.on_before_close = (void*)API_N(OnBeforeClose);
 
 		if (lua_getfield(L, 1, __DoClose))
-			lsh->self.do_close = API_N(DoClose);
+			lsh->self.do_close = (void*)API_N(DoClose);
 
 		if (lua_getfield(L, 1, __OnBeforePopup))
-			lsh->self.on_before_popup = API_N(OnBeforePopup);
+			lsh->self.on_before_popup = (void*)API_N(OnBeforePopup);
 	}
 	else {
 		lua_newtable(L);
@@ -253,22 +253,22 @@ API(newindex)
 
 	if (!strcmp(id, __OnAfterCreated)) {
 		lua_setfield(L, -2, __OnAfterCreated);
-		lsh->self.on_after_created = API_N(OnAfterCreated);
+		lsh->self.on_after_created = (void*)API_N(OnAfterCreated);
 	}
 
 	else if (!strcmp(id, __OnBeforeClose)) {
 		lua_setfield(L, -2, __OnBeforeClose);
-		lsh->self.on_before_close = API_N(OnBeforeClose);
+		lsh->self.on_before_close = (void*)API_N(OnBeforeClose);
 	}
 
 	else if (!strcmp(id, __OnBeforePopup)) {
 		lua_setfield(L, -2, __OnBeforePopup);
-		lsh->self.on_before_popup = API_N(OnBeforePopup);
+		lsh->self.on_before_popup = (void*)API_N(OnBeforePopup);
 	}
 
 	else if (!strcmp(id, __DoClose)) {
 		lua_setfield(L, -2, __DoClose);
-		lsh->self.do_close = API_N(DoClose);
+		lsh->self.do_close = (void*)API_N(DoClose);
 	}
 
 	return 0;

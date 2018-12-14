@@ -270,6 +270,8 @@ EXPORT(int) luaopen_luacef(lua_State* L)
 
 	luacef_api_reg(L);
 
+	luacef_types_os_reg(L);
+
 	// ptr
 	luacef_ptr_reg(L);
 

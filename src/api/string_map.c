@@ -24,7 +24,7 @@ int luacef_StringMap_new(lua_State *L)
 	CefStringMap *map = luacef_alloct(CefStringMap);
 	map->self = cef_string_map_alloc();
 
-	cef_string_map_alloc;
+//	cef_string_map_alloc;
 
 
 	luacef_pushudata(L, map, __string_map__);

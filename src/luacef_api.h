@@ -2,6 +2,14 @@
 #define LUACEF_INCLUDE_API_H_
 #pragma once
 
+#if defined(OS_WIN)
+#define luacef_pushhandle(L, handle) lua_pushlightuserdata(L, handle)
+#define luacef_tohandle(L, idx) lua_touserdata(L, idx)
+#elif defined(OS_LINUX)
+#define luacef_pushhandle(L, handle) lua_pushinteger(L, handle)
+#define luacef_tohandle(L, idx) lua_tointegerx(L,(idx),NULL)
+#endif
+
 typedef int *IntPtr;
 typedef double *NumPtr;
 typedef void** PtrPtr;
