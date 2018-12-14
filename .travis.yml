@@ -24,6 +24,6 @@ script:
   - make mingw
   - cd ..
   - cp ./lua53/src/lua.exe ./lua53/
-  - cp ./lua53/src/lua53.dll ./lua535/
+  - cp ./lua53/src/lua53.dll ./lua53/
   - cp ./lua53/src/liblua.a ./deps/lua/
   - ./lua53/lua.exe build_win.lua
