@@ -6,8 +6,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Setup
+          command:
+            - sudo apt-get update
+            - sudo apt-get install gcc
+            - sudo apt-get install curl
       - run:
-          name: Print the Current Time
-          command: date
+          name: Build
+          command:
+            - echo Building...
