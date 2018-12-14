@@ -6,6 +6,7 @@ script:
   - cd luacef
   - choco feature enable -n=allowGlobalConfirmation
   - choco install mingw
+  - choco install make
   - choco install curl
   - choco install 7zip
   - curl http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_minimal.tar.bz2 --output cef.tar.bz2
@@ -16,12 +17,10 @@ script:
   - curl https://www.lua.org/ftp/lua-5.3.5.tar.gz --output lua.tar.gz
   - 7z -y x lua.tar.gz
   - 7z -y x lua.tar
-  - dir lua-5.3.5
-  - move ".\lua-5.3.5" lua53
-  - cd lua53
+  - cd lua-5.3.5
   - make mingw
   - cd ..
-  - xcopy /Y lua53\src\lua.exe lua53\
-  - xcopy /Y lua53\src\lua53.dll lua53\
-  - xcopy /Y lua53\src\liblua.a deps\lua\
-  - lua build_win.lua
+  - xcopy /Y lua-5.3.5\src\lua.exe lua-5.3.5\
+  - xcopy /Y lua-5.3.5\src\lua53.dll lua-5.3.5\
+  - xcopy /Y lua-5.3.5\src\liblua.a deps\lua\
+  - lua-5.3.5\lua.exe build_win.lua
