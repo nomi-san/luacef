@@ -7,10 +7,7 @@ jobs:
       - checkout
       - run:
           name: Setup
-          command:
-            - sudo apt-get update
-            - sudo apt-get install gcc
-            - sudo apt-get install curl
+          command: sudo apt-get update && sudo apt-get install gcc curl
       - run:
           name: Build
           command:
