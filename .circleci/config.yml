@@ -10,5 +10,4 @@ jobs:
           command: sudo apt-get update && sudo apt-get install gcc curl
       - run:
           name: Build
-          command:
-            - echo Building...
+          command: echo Building...
