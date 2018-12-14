@@ -97,7 +97,7 @@ static const char *__before_download_callback__ = "BeforeDownloadCallback";
 static const char *__download_item_callback__ = "DownloadItemCallback";
 
 static const char *__cont = "Cont";
-static const char *__pause = "Pause";
+//static const char *__pause = "Pause";
 static const char *__resume = "Resume";
 static const char *__on_before_download = "OnBeforeDownload";
 static const char *__on_download_updated = "OnDownloadUpdated";
