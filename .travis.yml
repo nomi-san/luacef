@@ -2,6 +2,18 @@ os: windows
 language: c
 
 script:
-  - choco install lua53
   - git clone https://github.com/wy3/luacef.git
   - cd luacef
+  - choco feature enable -n=allowGlobalConfirmation
+  - choco install lua53
+  - choco install curl
+  - choco install 7zip
+  - curl http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_minimal.tar.bz2 --output cef.tar.bz2
+  - 7z x cef.tar.bz2
+  - 7z x cef.tar
+  - move cef_binary_3.2704.1414.g185cd6c_windows64 cef_minimal
+  - set dir=cd
+  - cd deps\lua\src
+  - make mingw
+  - cd %dir%
+  
