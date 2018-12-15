@@ -34,9 +34,21 @@
 - High performance
 
 ### Build
-#### For Windows
+
+#### Windows (x86)
 - Run `$ lua build_win.lua`
 - Add all resources files in __Release__ and __Resources__ folder (from __CEF__ distribution, you can [download here](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) for current version).
+
+#### Linux (x64)
+
+```bash
+git clone https://github.com/wy3/luacef.git
+cd luacef
+curl http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux64_minimal.tar.bz2 --output cef_minimal.tar.bz2
+tar jfx cef_minimal.tar.bz2
+mv cef_binary_3.3112.1659.gfef43e0_linux64_minimal cef_minimal
+lua build.lua
+```
 
 ....
 
