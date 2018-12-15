@@ -57,7 +57,7 @@ static int luacef_show_browser(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	cef_browser_host_t *bh = b->get_host(b);
-	ShowWindow(bh->get_window_handle(bh), lua_isnone(L, 2) ? 5 : lua_tointeger(L, 2));
+	//ShowWindow(bh->get_window_handle(bh), lua_isnone(L, 2) ? 5 : lua_tointeger(L, 2));
 	return 0;
 }
 

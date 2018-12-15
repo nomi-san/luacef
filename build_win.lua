@@ -10,25 +10,25 @@ function path(path)
 end
 
 function scandir(d)
-    local i, t, p = 0, {}, io.popen('dir "'..d..'" /b ') -- "ls -a" for linux/sh
-    for f in p:lines() do
-        i = i + 1; t[i] = f
-    end
-    p:close()
-    return t
+	local i, t, p = 0, {}, io.popen(win32 and ('dir "'..d..'" /b ') or ('ls -a "'..d..'" '))
+	for f in p:lines() do
+		i = i + 1; t[i] = f
+	end
+	p:close()
+	return t
 end
 
 function findLast(s, p)
-    local f = s:reverse():find(p:reverse(), nil, true)
-    return f and #s - #p - f + 2 or f
+	local f = s:reverse():find(p:reverse(), nil, true)
+	return f and #s - #p - f + 2 or f
 end
 
 function exists(file)
    local ok, err, code = os.rename(file, file)
    if not ok then
-      if code == 13 then
-         return true
-      end
+	  if code == 13 then
+		 return true
+	  end
    end
    return ok, err
 end
@@ -42,7 +42,7 @@ function del(file)
 	if win32 then
 		os.execute('del /S /Q '..file)
 	else
-		os.execute('rm '..file)
+		os.execute('rm -r '..file)
 	end
 end
 
@@ -67,29 +67,29 @@ dir = 'src'
 c, d, l = {}, {}, {}
 
 for k, v in pairs(scandir(dir)) do
-    if not findLast(v, '.') then
-        d[#d+1] = dir..'/'..v
-    elseif  findLast(v, '.c') then
-        c[#c+1] = dir..'/'..v
-        l[#l+1] = v:gsub('%.c', '')
-    end
+	if not findLast(v, '.') then
+		d[#d+1] = dir..'/'..v
+	elseif  findLast(v, '.c') then
+		c[#c+1] = dir..'/'..v
+		l[#l+1] = v:gsub('%.c', '')
+	end
 end
 
 for n = 1, #d do
-    for k, v in pairs(scandir(d[n])) do
-        if findLast(v, '.c') then
-            c[#c+1] = d[n]..'/'..v
-            l[#l+1] = v:gsub('%.c', '')
-        end
-    end
+	for k, v in pairs(scandir(d[n])) do
+		if findLast(v, '.c') then
+			c[#c+1] = d[n]..'/'..v
+			l[#l+1] = v:gsub('%.c', '')
+		end
+	end
 end
 
 function exec(cmd)
-    local _,__,c = os.execute(cmd)
-    if c > 0 then
-        print('build error!')
-        os.exit()
-    end
+	local _,__,c = os.execute(cmd)
+	if c > 0 then
+		print('build error!')
+		os.exit()
+	end
 end
 
 cc = 'gcc -std=gnu99 '
@@ -108,12 +108,18 @@ mkdir('build/obj')
 
 print("# Generating object...")
 for m = 1, #c do
-    exec(cc .. ' -shared -w -D__GNUC__ -DBUILD_AS_DLL -D_WIN32 -D_NDEBUG -Ideps/lua/src -Ideps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
-    print('    ./' .. c[m] .. ' -> ./build/obj/' .. l[m] .. '.o' )
+	exec(cc .. ' -std=c99 -w -fPIC -I./deps/lua/src -I./deps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
+	print('    ./' .. c[m] .. ' -> ./build/obj/' .. l[m] .. '.o' )
 end
 
 print("# Linking library...")
-exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua -Ldeps/cef -llua53 -llibcef -lole32')
-print("    -> ./build/luacef.dll")
+if win32 then
+	exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua -Ldeps/cef -llua53 -llibcef -lole32')
+	print("    -> ./build/luacef.dll")
+else
+	cef_dir = '*cef_dir*' -- ./cef/ (directoty included `libcef.so`)
+	exec(cc .. ' -std=c99 -shared -o ./build/luacef.so ./build/obj/*.o -Wl,-rpath,. -L./ -L./'..cef_dir..' -lcef')
+	print("    -> ./build/luacef.so")
+end
 
 print("# Done.\n")
