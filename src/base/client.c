@@ -116,7 +116,7 @@ struct _cef_context_menu_handler_t* CEF_CALLBACK luacef_Client_GetContextMenuHan
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetContextMenuHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -134,7 +134,7 @@ struct _cef_dialog_handler_t* CEF_CALLBACK luacef_Client_GetDialogHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetDialogHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -152,7 +152,7 @@ struct _cef_display_handler_t* CEF_CALLBACK luacef_Client_GetDisplayHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetDisplayHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -170,7 +170,7 @@ struct _cef_download_handler_t* CEF_CALLBACK luacef_Client_GetDownloadHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetDownloadHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -188,7 +188,7 @@ struct _cef_drag_handler_t* CEF_CALLBACK luacef_Client_GetDragHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetDragHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -206,7 +206,7 @@ struct _cef_find_handler_t* CEF_CALLBACK luacef_Client_GetFindHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetFindHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -224,7 +224,7 @@ struct _cef_focus_handler_t* CEF_CALLBACK luacef_Client_GetFocusHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetFocusHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -242,7 +242,7 @@ struct _cef_geolocation_handler_t* CEF_CALLBACK luacef_Client_GetGeolocationHand
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetGeolocationHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -260,7 +260,7 @@ struct _cef_jsdialog_handler_t* CEF_CALLBACK luacef_Client_GetJSDialogHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetJSDialogHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -278,7 +278,7 @@ struct _cef_keyboard_handler_t* CEF_CALLBACK luacef_Client_GetKeyboardHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetKeyboardHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -296,7 +296,7 @@ struct _cef_life_span_handler_t* CEF_CALLBACK luacef_Client_GetLifeSpanHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetLifeSpanHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return luacef_touserdata(self->L, -1);
@@ -314,7 +314,7 @@ struct _cef_load_handler_t* CEF_CALLBACK luacef_Client_GetLoadHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetLoadHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -332,7 +332,7 @@ struct _cef_render_handler_t* CEF_CALLBACK luacef_Client_GetRenderHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetRenderHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -350,7 +350,7 @@ struct _cef_request_handler_t* CEF_CALLBACK luacef_Client_GetRequestHandler(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetRequestHandler)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
+		luacef_pushuserdata(self->L, self, __CefClient);
 
 		lua_pcall(self->L, 1, 1, 0); // call
 		return lua_isnil(self->L, -1) ? NULL : luacef_touserdata(self->L, -1);
@@ -375,10 +375,10 @@ int CEF_CALLBACK luacef_Client_OnProcessMessageReceived(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnProcessMessageReceived)) {
 
-		luacef_pushuserdata(self->L, self, __client__);
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, self, __CefClient);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushinteger(self->L, source_process);
-		luacef_pushuserdata(self->L, message, __process_message__);
+		luacef_pushuserdata(self->L, message, __CefProcessMessage);
 
 		lua_pcall(self->L, 4, 1, 0); // call
 		return lua_tointeger(self->L, -1);
@@ -448,7 +448,7 @@ int luacef_Client_new(lua_State* L)
 		client->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, client, __client__);
+	luacef_pushuserdata(L, client, __CefClient);
 	return 1;
 }
 
@@ -631,7 +631,7 @@ static const luaL_Reg luacef_Client_m[] = {
 
 void luacef_Client_reg(lua_State* L)
 {
-	luaL_newmetatable(L, __client__);
+	luaL_newmetatable(L, __CefClient);
 	luaL_setfuncs(L, luacef_Client_m, 0);
 	lua_pop(L, 1);
 

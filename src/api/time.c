@@ -59,7 +59,7 @@ static int luacef_Time_new(lua_State *L)
 		cef_time_from_doublet(d, p);
 	}
 
-	luacef_pushuserdata(L, p, __time__);
+	luacef_pushuserdata(L, p, __CefTime);
 	return 1;
 }
 
@@ -121,7 +121,7 @@ static int luacef_Time_Now(lua_State *L)
 static int luacef_Time_Delta(lua_State *L)
 {
 	cef_time_t *t = luacef_touserdata(L, 1);
-	cef_time_t *t2 = luacef_checkudata(L, 2, __time__);
+	cef_time_t *t2 = luacef_checkudata(L, 2, __CefTime);
 
 	long long d;
 	int r = cef_time_delta(t, t2, &d);
@@ -234,7 +234,7 @@ static const luaL_Reg luacef_Time_m[] = {
 
 void luacef_Time_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __time__);
+	luaL_newmetatable(L, __CefTime);
 	luaL_setfuncs(L, luacef_Time_m, 0);
 	lua_pop(L, 1);
 

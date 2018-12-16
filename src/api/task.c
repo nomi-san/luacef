@@ -32,7 +32,7 @@ static int luacef_Task_Execute(lua_State *L)
 static int luacef_TaskRunner_IsSame(lua_State *L)
 {
 	cef_task_runner_t *p = luacef_touserdata(L, 1);
-	cef_task_runner_t *that = luacef_checkudata(L, 2, __task_runner__);
+	cef_task_runner_t *that = luacef_checkudata(L, 2, __CefTaskRunner);
 
 	int r = p->is_same(
 		p,
@@ -83,7 +83,7 @@ static int luacef_TaskRunner_BelongsToThread(lua_State *L)
 static int luacef_TaskRunner_PostTask(lua_State *L)
 {
 	cef_task_runner_t *p = luacef_touserdata(L, 1);
-	cef_task_t *task = luacef_checkudata(L, 2, __task__);
+	cef_task_t *task = luacef_checkudata(L, 2, __CefTask);
 
 	int r = p->post_task(
 		p,
@@ -103,7 +103,7 @@ static int luacef_TaskRunner_PostTask(lua_State *L)
 static int luacef_TaskRunner_PostDelayedTask(lua_State *L)
 {
 	cef_task_runner_t *p = luacef_touserdata(L, 1);
-	cef_task_t *task = luacef_checkudata(L, 2, __task__);
+	cef_task_t *task = luacef_checkudata(L, 2, __CefTask);
 	int delay_ms = lua_tointeger(L, 3);
 
 	int r = p->post_delayed_task(
@@ -125,7 +125,7 @@ static int luacef_TaskRunner_GetForCurrentThread(lua_State *L)
 {
 	cef_task_runner_t *r = cef_task_runner_get_for_current_thread();
 
-	luacef_pushuserdata(L, r, __task_runner__);
+	luacef_pushuserdata(L, r, __CefTaskRunner);
 	return 1;
 }
 
@@ -142,7 +142,7 @@ static int luacef_TaskRunner_GetForThread(lua_State *L)
 		id
 	);
 
-	luacef_pushuserdata(L, r, __task_runner__);
+	luacef_pushuserdata(L, r, __CefTaskRunner);
 	return 1;
 }
 
@@ -172,7 +172,7 @@ static int luacef_CurrentlyOn(lua_State *L)
 static int luacef_PostTask(lua_State *L)
 {
 	cef_thread_id_t id = lua_tointeger(L, 1);
-	cef_task_t *task = luacef_checkudata(L, 2, __task__);
+	cef_task_t *task = luacef_checkudata(L, 2, __CefTask);
 
 	int r = cef_post_task(id, task);
 
@@ -189,7 +189,7 @@ static int luacef_PostTask(lua_State *L)
 static int luacef_PostDelayedTask(lua_State *L)
 {
 	cef_thread_id_t id = lua_tointeger(L, 1);
-	cef_task_t *task = luacef_checkudata(L, 2, __task__);
+	cef_task_t *task = luacef_checkudata(L, 2, __CefTask);
 	int delay_ms = lua_tointeger(L, 3);
 	
 	int r = cef_post_delayed_task(id, task, delay_ms);
@@ -220,11 +220,11 @@ static const luaL_Reg luacef_TaskRunner_m[] = {
 
 void luacef_Task_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __task__);
+	luaL_newmetatable(L, __CefTask);
 	luaL_setfuncs(L, luacef_Task_m, 0);
 	lua_setfield(L, -1, __index__);
 
-	luaL_newmetatable(L, __task_runner__);
+	luaL_newmetatable(L, __CefTaskRunner);
 	luaL_setfuncs(L, luacef_TaskRunner_m, 0);
 	lua_setfield(L, -1, __index__);
 

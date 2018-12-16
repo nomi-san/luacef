@@ -54,7 +54,7 @@ static int 	luacef_Browser_GetHost(lua_State* L)
 
 	cef_browser_host_t *host = b->get_host(b);
 
-	luacef_pushuserdata(L, host, __browser_host__);
+	luacef_pushuserdata(L, host, __CefBrowserHost);
 	return 1;
 }
 
@@ -173,7 +173,7 @@ static int 	luacef_Browser_GetIdentifier(lua_State* L)
 static int 	luacef_Browser_IsSame(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
-	cef_browser_t *b2 = luacef_checkudata(L, 2, __browser__);
+	cef_browser_t *b2 = luacef_checkudata(L, 2, __CefBrowser);
 
 	lua_pushboolean(L, b->is_same(b, b2));
 
@@ -212,7 +212,7 @@ static int 	luacef_Browser_GetMainFrame(lua_State* L)
 
 	cef_frame_t *f = b->get_main_frame(b);
 
-	luacef_pushuserdata(L, f, __frame__);
+	luacef_pushuserdata(L, f, __CefFrame);
 	return 1;
 }
 
@@ -225,7 +225,7 @@ static int 	luacef_Browser_GetFocusedFrame(lua_State* L)
 
 	cef_frame_t *f = b->get_focused_frame(b);
 
-	luacef_pushuserdata(L, f, __frame__);
+	luacef_pushuserdata(L, f, __CefFrame);
 	return 1;
 }
 
@@ -255,7 +255,7 @@ static int 	luacef_Browser_GetFrame(lua_State* L)
 		r = p->get_frame_byident(p, id);
 	}
 
-	luacef_pushuserdata(L, r, __frame__);
+	luacef_pushuserdata(L, r, __CefFrame);
 	return 1;
 }
 
@@ -319,7 +319,7 @@ static int 	luacef_Browser_SendProcessMessage(lua_State* L)
 {
 	cef_browser_t *b = luacef_touserdata(L, 1);
 	int p_id = lua_tointeger(L, 2);
-	cef_process_message_t *pm = luacef_checkudata(L, 3, __process_message__);
+	cef_process_message_t *pm = luacef_checkudata(L, 3, __CefProcessMessage);
 
 	int ret = b->send_process_message(b, p_id, pm);
 	
@@ -520,7 +520,7 @@ API(GetBrowser)
 
 	cef_browser_t *b = h->get_browser(h);
 
-	luacef_pushuserdata(L, b, __browser__);
+	luacef_pushuserdata(L, b, __CefBrowser);
 	return 1;
 }
 
@@ -533,7 +533,7 @@ API(GetClient)
 
 	cef_client_t *c = h->get_client(h);
 
-	luacef_pushuserdata(L, c, __client__);
+	luacef_pushuserdata(L, c, __CefClient);
 	return 1;
 }
 
@@ -585,7 +585,7 @@ API(GetRequestContext)
 
 	cef_request_context_t *rq = h->get_request_context(h);
 
-	luacef_pushuserdata(L, rq, __request_context__);
+	luacef_pushuserdata(L, rq, __CefRequestContext);
 	return 1;
 }
 
@@ -970,8 +970,8 @@ API(SetZoomLevel)
 API(ShowDevTools)
 {
 	cef_browser_host_t *h = luacef_touserdata(L, 1);
-	cef_window_info_t *wi = luacef_checkudata(L, 2, __window_info__);
-	cef_client_t *c = luacef_checkudata(L, 3, __client__);
+	cef_window_info_t *wi = luacef_checkudata(L, 2, __CefWindowInfo);
+	cef_client_t *c = luacef_checkudata(L, 3, __CefClient);
 	cef_browser_settings_t *bs = luacef_checkudata(L, 4, __browser_settings__);
 	cef_point_t *pt = luacef_checkudata(L, 5, __point__);
 
@@ -1138,11 +1138,11 @@ static const luaL_Reg luacef_Browser_Host_m[] = {
 */
 static int luacef_CreateBrowser(lua_State* L)
 {
-	cef_window_info_t *info = luacef_checkudata(L, 1, __window_info__);
-	cef_client_t *client = luacef_checkudata(L, 2, __client__);
+	cef_window_info_t *info = luacef_checkudata(L, 1, __CefWindowInfo);
+	cef_client_t *client = luacef_checkudata(L, 2, __CefClient);
 	cef_string_t url = luacef_tostring(L, 3);
 	cef_browser_settings_t *settings = luacef_checkudata(L, 4, __browser_settings__);
-	cef_request_context_t *request_context = luacef_checkudata(L, 5, __request_context__);
+	cef_request_context_t *request_context = luacef_checkudata(L, 5, __CefRequestContext);
 
 	int r = cef_browser_host_create_browser(
 		info,
@@ -1167,11 +1167,11 @@ static int luacef_CreateBrowser(lua_State* L)
 */
 static int luacef_CreateBrowserSync(lua_State* L)
 {
-	cef_window_info_t *info = luacef_checkudata(L, 1, __window_info__);
-	cef_client_t *client = luacef_checkudata(L, 2, __client__);
+	cef_window_info_t *info = luacef_checkudata(L, 1, __CefWindowInfo);
+	cef_client_t *client = luacef_checkudata(L, 2, __CefClient);
 	cef_string_t url = luacef_tostring(L, 3);
 	cef_browser_settings_t *settings = luacef_checkudata(L, 4, __browser_settings__);
-	cef_request_context_t *request_context = luacef_checkudata(L, 5, __request_context__);
+	cef_request_context_t *request_context = luacef_checkudata(L, 5, __CefRequestContext);
 
 	cef_browser_t *browser = cef_browser_host_create_browser_sync(
 		info,
@@ -1181,7 +1181,7 @@ static int luacef_CreateBrowserSync(lua_State* L)
 		request_context
 	);
 	
-	luacef_pushuserdata(L, browser, __browser__);
+	luacef_pushuserdata(L, browser, __CefBrowser);
 	return 1;
 }
 
@@ -1189,13 +1189,13 @@ static int luacef_CreateBrowserSync(lua_State* L)
 
 void luacef_Browser_reg(lua_State* L)
 {
-	luaL_newmetatable(L, __browser__);
+	luaL_newmetatable(L, __CefBrowser);
 	luaL_setfuncs(L, luacef_Browser_m, 0);
 	lua_setfield(L, -1, __index__);
 
 	//
 
-	luaL_newmetatable(L, __browser_host__);
+	luaL_newmetatable(L, __CefBrowserHost);
 	luaL_setfuncs(L, luacef_Browser_Host_m, 0);
 	lua_setfield(L, -1, __index__);
 

@@ -69,9 +69,9 @@ int CEF_CALLBACK kh_on_pre_key_event(struct luacef_keyboard_handler* self,
 	if (lua_getfield(self->L, -1, __on_pre_key_event)) {
 
 		luacef_pushuserdata(self->L, self, __keyboard_handler__); // self, 1
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
-		luacef_pushuserdata(self->L, os_event, __event_handle__); // 4
+		luacef_pushuserdata(self->L, os_event, __CefEventHandle); // 4
 		luacef_pushuserdata(self->L, is_keyboard_shortcut, __IntPtr__); // 5
 		
 		lua_pcall(self->L, 5, 1, 0);
@@ -92,9 +92,9 @@ int CEF_CALLBACK kh_on_key_event(struct luacef_keyboard_handler* self,
 	if (lua_getfield(self->L, -1, __on_pre_key_event)) {
 
 		luacef_pushuserdata(self->L, self, __keyboard_handler__); // self, 1
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
-		luacef_pushuserdata(self->L, os_event, __event_handle__); // 4
+		luacef_pushuserdata(self->L, os_event, __CefEventHandle); // 4
 
 		lua_pcall(self->L, 4, 1, 0);
 		lua_pop(self->L, 1);

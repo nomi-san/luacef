@@ -43,7 +43,7 @@ static int luacef_Value_IsReadOnly(lua_State *L)
 static int luacef_Value_IsSame(lua_State *L)
 {
 	cef_value_t *p = luacef_touserdata(L, 1);
-	cef_value_t *that = luacef_checkudata(L, 2, __value__);
+	cef_value_t *that = luacef_checkudata(L, 2, __CefValue);
 
 	lua_pushboolean(L, p->is_same(p, that));
 	return 1;
@@ -57,7 +57,7 @@ static int luacef_Value_IsSame(lua_State *L)
 static int luacef_Value_IsEqual(lua_State *L)
 {
 	cef_value_t *p = luacef_touserdata(L, 1);
-	cef_value_t *that = luacef_checkudata(L, 2, __value__);
+	cef_value_t *that = luacef_checkudata(L, 2, __CefValue);
 
 	lua_pushboolean(L, p->is_equal(p, that));
 	return 1;
@@ -72,7 +72,7 @@ static int luacef_Value_Copy(lua_State *L)
 
 	cef_value_t *cop = p->copy(p);
 
-	luacef_pushuserdata(L, cop, __value__);
+	luacef_pushuserdata(L, cop, __CefValue);
 	return 1;
 }
 
@@ -134,7 +134,7 @@ static int luacef_Value_Create(lua_State *L)
 {
 	cef_value_t *r = cef_value_create();
 
-	luacef_pushuserdata(L, r, __value__);
+	luacef_pushuserdata(L, r, __CefValue);
 	return 1;
 }
 
@@ -439,7 +439,7 @@ static int luacef_DictionaryValue_Create(lua_State *L)
 {
 	cef_dictionary_value_t *r = cef_dictionary_value_create();
 
-	luacef_pushuserdata(L, r, __dictionary_value__);
+	luacef_pushuserdata(L, r, __CefDictionaryValue);
 	return 1;
 }
 
@@ -667,6 +667,6 @@ static int luacef_ListValue_Create(lua_State *L)
 {
 	cef_list_value_t *r = cef_list_value_create();
 
-	luacef_pushuserdata(L, r, __list_value__);
+	luacef_pushuserdata(L, r, __CefListValue);
 	return 1;
 }

@@ -51,10 +51,10 @@ void CEF_CALLBACK luacef_App_OnBeforeCommandLineProcessing(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnBeforeCommandLineProcessing)) {
 
-		luacef_pushuserdata(self->L, self, __app__);
+		luacef_pushuserdata(self->L, self, __CefApp);
 
 		luacef_pushstring(self->L, process_type); // 2
-		luacef_pushuserdata(self->L, command_line, __command_line__); // 3
+		luacef_pushuserdata(self->L, command_line, __CefCommandLine); // 3
 
 		lua_pcall(self->L, 3, 0, 8); // call, no return
 	}
@@ -72,9 +72,9 @@ void CEF_CALLBACK luacef_App_OnRegisterCustomSchemes(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnRegisterCustomSchemes)) {
 
-		luacef_pushuserdata(self->L, self, __app__);
+		luacef_pushuserdata(self->L, self, __CefApp);
 
-		luacef_pushstring(self->L, __scheme_registrar__); // 2
+		luacef_pushstring(self->L, __CefSchemeRegistrar); // 2
 
 		lua_pcall(self->L, 2, 0, 8); // call, no return
 	}
@@ -89,7 +89,7 @@ struct _cef_resource_bundle_handler_t*
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetResourceBundleHandler)) {
 
-		luacef_pushuserdata(self->L, self, __app__);
+		luacef_pushuserdata(self->L, self, __CefApp);
 
 		lua_pcall(self->L, 1, 1, 8); // call
 
@@ -108,7 +108,7 @@ struct _cef_browser_process_handler_t*
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetBrowserProcessHandler)) {
 
-		luacef_pushuserdata(self->L, self, __app__);
+		luacef_pushuserdata(self->L, self, __CefApp);
 
 		lua_pcall(self->L, 1, 1, 8); // call
 
@@ -127,7 +127,7 @@ struct _cef_render_process_handler_t*
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __GetRenderProcessHandler)) {
 
-		luacef_pushuserdata(self->L, self, __app__);
+		luacef_pushuserdata(self->L, self, __CefApp);
 
 		lua_pcall(self->L, 1, 1, 8); // call
 		
@@ -184,7 +184,7 @@ static int luacef_App_new(lua_State* L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, p, __app__);
+	luacef_pushuserdata(L, p, __CefApp);
 	return 1;
 }
 
@@ -297,10 +297,10 @@ static const luaL_Reg luacef_App_m[] = {
 */
 static int luacef_ExecuteProcess(lua_State* L)
 {
-	cef_main_args_t *args = luacef_checkudata(L, 1, __main_args__);
+	cef_main_args_t *args = luacef_checkudata(L, 1, __CefMainArgs);
 	if (!args) return 0;
 
-	cef_app_t *app = luacef_checkudata(L, 2, __app__);
+	cef_app_t *app = luacef_checkudata(L, 2, __CefApp);
 	if (!app) return 0;
 
 	int code = cef_execute_process(args, app, NULL);
@@ -318,13 +318,13 @@ static int luacef_ExecuteProcess(lua_State* L)
 */
 static int luacef_Initialize(lua_State* L)
 {
-	cef_main_args_t *args = luacef_checkudata(L, 1, __main_args__);
+	cef_main_args_t *args = luacef_checkudata(L, 1, __CefMainArgs);
 	if (!args) return 0;
 
-	cef_settings_t	*settings = luacef_checkudata(L, 2, __settings__);
+	cef_settings_t	*settings = luacef_checkudata(L, 2, __CefSettings);
 	if (!settings) return 0;
 
-	cef_app_t		*app = luacef_checkudata(L, 3, __app__);
+	cef_app_t		*app = luacef_checkudata(L, 3, __CefApp);
 	if (!app) return 0;
 
 	int ret = cef_initialize(args, settings, app, NULL); // no sanbox
@@ -394,7 +394,7 @@ static int luacef_EnableHighDPISupport(lua_State* L)
 
 void luacef_app_reg(lua_State* L)
 {
-	luaL_newmetatable(L, __app__);
+	luaL_newmetatable(L, __CefApp);
 	luaL_setfuncs(L, luacef_App_m, 0);
 	lua_pop(L, 1);
 

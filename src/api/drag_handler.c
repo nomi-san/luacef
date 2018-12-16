@@ -51,7 +51,7 @@ int CEF_CALLBACK luacef_DragHandler_OnDragEnter(
 	if (lua_getfield(self->L, -1, __OnDragEnter)) {
 
 		luacef_pushuserdata(self->L, self, __drag_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, dragData, __drag_data__);
 		lua_pushinteger(self->L, mask);
 
@@ -80,7 +80,7 @@ void CEF_CALLBACK luacef_DragHandler_OnDraggableRegionsChanged(
 	if (lua_getfield(self->L, -1, __OnDraggableRegionsChanged)) {
 
 		luacef_pushuserdata(self->L, self, __drag_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushinteger(self->L, regionsCount);
 
 		// todo array

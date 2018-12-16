@@ -67,7 +67,7 @@ API(new)
 #endif
 	}
 
-	luacef_pushuserdata(L, p, __main_args__);
+	luacef_pushuserdata(L, p, __CefMainArgs);
 	return 1;
 }
 
@@ -254,7 +254,7 @@ API(new)
 			//p->transparent_painting_enabled = lua_tointeger(L, -1);
 	}
 
-	luacef_pushuserdata(L, wi, __window_info__);
+	luacef_pushuserdata(L, wi, __CefWindowInfo);
 	return 1;
 }
 
@@ -389,14 +389,14 @@ API_M(meta)
 
 void luacef_types_os_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __main_args__);
+	luaL_newmetatable(L, __CefMainArgs);
 	luaL_setfuncs(L, LCEF_API_N(MainArgs, meta), 0);
 	lua_pop(L, 1);
 
 	lua_pushcfunction(L, LCEF_API_N(MainArgs, new));
 	lua_setfield(L, -2, "newMainArgs");
 
-	luaL_newmetatable(L, __window_info__);
+	luaL_newmetatable(L, __CefWindowInfo);
 	luaL_setfuncs(L, LCEF_API_N(WindowInfo, meta), 0);
 	lua_pop(L, 1);
 

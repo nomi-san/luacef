@@ -95,10 +95,10 @@ void CEF_CALLBACK luacef_ContextMenuHandler_OnBeforeContextMenu(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnBeforeContextMenu)) {
 
-		luacef_pushuserdata(self->L, self, __context_menu_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
-		luacef_pushuserdata(self->L, params, __context_menu_params__);
+		luacef_pushuserdata(self->L, self, __Continueext_menu_handler__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
+		luacef_pushuserdata(self->L, params, __Continueext_menu_params__);
 		luacef_pushuserdata(self->L, model, __menu_model__);
 
 		lua_pcall(self->L, 5, 0, 8);
@@ -116,10 +116,10 @@ int CEF_CALLBACK luacef_ContextMenuHandler_RunContextMenu(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __RunContextMenu)) {
 
-		luacef_pushuserdata(self->L, self, __context_menu_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
-		luacef_pushuserdata(self->L, params, __context_menu_params__);
+		luacef_pushuserdata(self->L, self, __Continueext_menu_handler__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
+		luacef_pushuserdata(self->L, params, __Continueext_menu_params__);
 		luacef_pushuserdata(self->L, model, __menu_model__);
 		luacef_pushuserdata(self->L, callback, __run_context_menu_callback__);
 
@@ -141,10 +141,10 @@ int CEF_CALLBACK luacef_ContextMenuHandler_OnContextMenuCommand(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnContextMenuCommand)) {
 
-		luacef_pushuserdata(self->L, self, __context_menu_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
-		luacef_pushuserdata(self->L, params, __context_menu_params__);
+		luacef_pushuserdata(self->L, self, __Continueext_menu_handler__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
+		luacef_pushuserdata(self->L, params, __Continueext_menu_params__);
 		lua_pushinteger(self->L, command_id);
 		lua_pushinteger(self->L, event_flags);
 
@@ -163,9 +163,9 @@ void CEF_CALLBACK luacef_ContextMenuHandler_OnContextMenuDismissed(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnContextMenuDismissed)) {
 
-		luacef_pushuserdata(self->L, self, __context_menu_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, self, __Continueext_menu_handler__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 
 		lua_pcall(self->L, 3, 0, 8);
 	}
@@ -200,7 +200,7 @@ static int luacef_ContextMenuHandler_new(lua_State *L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 	
-	luacef_pushuserdata(L, p, __context_menu_handler__);
+	luacef_pushuserdata(L, p, __Continueext_menu_handler__);
 	return 1;
 }
 
@@ -525,14 +525,14 @@ void luacef_ContextMenuHandler_reg(lua_State *L)
 	luaL_setfuncs(L, luacef_RunContextMenuCallback_m, 0);
 	lua_setfield(L, -1, __index__);
 
-	luaL_newmetatable(L, __context_menu_handler__);
+	luaL_newmetatable(L, __Continueext_menu_handler__);
 	luaL_setfuncs(L, luacef_ContextMenuHandler_m, 0);
 	lua_pop(L, 1);
 
 	lua_pushcfunction(L, luacef_ContextMenuHandler_new);
 	lua_setfield(L, -2, "newContextMenuHandler");
 
-	luaL_newmetatable(L, __context_menu_params__);
+	luaL_newmetatable(L, __Continueext_menu_params__);
 	luaL_setfuncs(L, luacef_ContextMenuParams_m, 0);
 	lua_setfield(L, -1, __index__);
 }

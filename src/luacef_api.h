@@ -40,50 +40,50 @@ static const char __NumPtr__[] = "NumPtr";
 static const char __PtrPtr__[] = "PtrPtr";
 
 // binary value
-static const char __binary_value__[] = "CefBinaryValue";
+static const char __CefBinaryValue[] = "CefBinaryValue";
 
 // image
-static const char __image__[] = "CefImage";
+static const char __CefImage[] = "CefImage";
 
 //
-static const char __x509certificate__[] = "CefX509Certificate";
+static const char __CefX509Certificate[] = "CefX509Certificate";
 
 // app
-static const char __app__[] = "CefApp";
-static const char *__OnBeforeCommandLineProcessing = "OnBeforeCommandLineProcessing";
-static const char *__OnRegisterCustomSchemes = "OnRegisterCustomSchemes";
-static const char *__GetResourceBundleHandler = "GetResourceBundleHandler";
-static const char *__GetBrowserProcessHandler = "GetBrowserProcessHandler";
-static const char *__GetRenderProcessHandler = "GetRenderProcessHandler";
+static const char __CefApp[] = "CefApp";
+static const char __OnBeforeCommandLineProcessing[] = "OnBeforeCommandLineProcessing";
+static const char __OnRegisterCustomSchemes[] = "OnRegisterCustomSchemes";
+static const char __GetResourceBundleHandler[] = "GetResourceBundleHandler";
+static const char __GetBrowserProcessHandler[] = "GetBrowserProcessHandler";
+static const char __GetRenderProcessHandler[] = "GetRenderProcessHandler";
 
 // base
-static const char __base__[] = "CefBase";
+static const char __CefBase[] = "CefBase";
 
 // client
-static const char __client__[] = "CefClient";
-static const char *__GetContextMenuHandler = "GetContextMenuHandler";
-static const char *__GetDialogHandler = "GetDialogHandler";
-static const char *__GetDisplayHandler = "GetDisplayHandler";
-static const char *__GetDownloadHandler = "GetDownloadHandler";
-static const char *__GetDragHandler = "GetDragHandler";
-static const char *__GetFindHandler = "GetFindHandler";
-static const char *__GetFocusHandler = "GetFocusHandler";
-static const char *__GetGeolocationHandler = "GetGeolocationHandler";
-static const char *__GetJSDialogHandler = "GetJSDialogHandler";
-static const char *__GetKeyboardHandler = "GetKeyboardHandler";
-static const char *__GetLifeSpanHandler = "GetLifeSpanHandler";
-static const char *__GetLoadHandler = "GetLoadHandler";
-static const char *__GetRenderHandler = "GetRenderHandler";
-static const char *__GetRequestHandler = "GetRequestHandler";
-static const char *__OnProcessMessageReceived = "OnProcessMessageReceived";
+static const char __CefClient[] = "CefClient";
+static const char __GetContextMenuHandler[] = "GetContextMenuHandler";
+static const char __GetDialogHandler[]		= "GetDialogHandler";
+static const char __GetDisplayHandler[]		= "GetDisplayHandler";
+static const char __GetDownloadHandler[]	= "GetDownloadHandler";
+static const char __GetDragHandler[]		= "GetDragHandler";
+static const char __GetFindHandler[]		= "GetFindHandler";
+static const char __GetFocusHandler[]		= "GetFocusHandler";
+static const char __GetGeolocationHandler[] = "GetGeolocationHandler";
+static const char __GetJSDialogHandler[]	= "GetJSDialogHandler";
+static const char __GetKeyboardHandler[]	= "GetKeyboardHandler";
+static const char __GetLifeSpanHandler[]	= "GetLifeSpanHandler";
+static const char __GetLoadHandler[]		= "GetLoadHandler";
+static const char __GetRenderHandler[]		= "GetRenderHandler";
+static const char __GetRequestHandler[]		= "GetRequestHandler";
+static const char __OnProcessMessageReceived[] = "OnProcessMessageReceived";
 
 // find_handler
-static const char __find_handler__[]	= "CefFindHandler";
+static const char __CefFindHandler[]	= "CefFindHandler";
 static const char __OnFindResult[]		= "OnFindResult";
 
 // request
-static const char *__post_data__ = "CefPostData";
-static const char *__post_data_element__ = "PostData";
+static const char __CefPostData[] = "CefPostData";
+static const char __CefPostDataElement[] = "CefPostDataElement";
 
 // life_span_handler
 static const char __DoClose[]			= "DoClose";
@@ -95,20 +95,20 @@ static const char __OnBeforeClose[]		= "OnBeforeClose";
 
 
 // download_handler
-static const char *__download_handler__ = "DownloadHandler";
-static const char *__before_download_callback__ = "BeforeDownloadCallback";
-static const char *__download_item_callback__ = "DownloadItemCallback";
+static const char __DownloadHandler__[] = "CefDownloadHandler";
+static const char *__BeforeDownloadCallback = "BeforeDownloadCallback";
+static const char *__DownloadItemCallback = "DownloadItemCallback";
 
-static const char *__cont = "Cont";
+static const char *__Continue = "Continue";
 //static const char *__pause = "Pause";
 static const char *__resume = "Resume";
-static const char *__on_before_download = "OnBeforeDownload";
-static const char *__on_download_updated = "OnDownloadUpdated";
+static const char __OnBeforeDownload[] = "OnBeforeDownload";
+static const char __OnDownloadUpdated[] = "OnDownloadUpdated";
 
 // download_item
-static const char *__download_item__ = "DownloadItem";
+static const char *__CefDownloadItem = "CefDownloadItem";
 
-static const char *__get_resource_handler = "GetResourceHandler";
+static const char *__GetResourceHandler = "GetResourceHandler";
 static const char *__get_auth_credentials = "GetAuthCredentials";
 static const char *__on_before_browse =				"OnBeforeBrowse";
 static const char *__on_open_urlfrom_tab =			"OnOpenURLFromTab";
@@ -126,38 +126,38 @@ static const char *__on_render_process_terminated =	"OnRenderProcessTerminated";
 
 
 // dom
-static const char *__domvisitor__ = "DOMVisitor";
-static const char *__domdocument__ = "DOMDocument";
-static const char *__domnode__ = "DOMMode";
+static const char __CefDOMVisitor[] = "CefDOMVisitor";
+static const char __CefDOMDocument[] = "CefDOMDocument";
+static const char __CefDOMMode[] = "CefDOMMode";
 
 // cookie
-static const char *__cookie_manager__ = "CookieManager";
-static const char *__cookie_visitor__ = "CookieVisitor";
-static const char *__delete_cookies_callback__ = "DeleteCookiesCallback";
-static const char *__set_cookies_callback__ = "SerCookieCallback";
+static const char __CefCookieManager[] = "CefCookieManager";
+static const char __CefCookieVisitor[] = "CefCookieVisitor";
+static const char __CefDeleteCookiesCallback[] = "CefDeleteCookiesCallback";
+static const char __CefSerCookieCallback[] = "CefSerCookieCallback";
 
 // callback
-static const char *__completion_callback__ = "CompletionCallback";
+static const char *__CefCompletionCallback = "CefCompletionCallback";
 static const char *__OnComplete = "OnComplete";
-static const char *__callback__ = "Callback";
+static const char *__CefCallback = "CefCallback";
 
 // 
-static const char *__scheme_registrar__ = "SchemeRegistrar";
+static const char *__CefSchemeRegistrar = "SchemeRegistrar";
 
 static const char __string_list__[] = "CefStringList";
 
 //
-static const char __frame__[] = "CefFrame";
-static const char __browser__[] = "CefBrowser";
-static const char __main_args__[] = "CefMainArgs";
-static const char __window_info__[] = "CefWindowInfo";
-static const char __request__[] = "CefRequest";
-static const char *__string_visitor__ = "StringVisitor";
-static const char *__process_message__ = "ProcessMessage";
-static const char *__browser_host__ = "BrowserHost";
+static const char __CefFrame[] = "CefFrame";
+static const char __CefBrowser[] = "CefBrowser";
+static const char __CefMainArgs[] = "CefMainArgs";
+static const char __CefWindowInfo[] = "CefWindowInfo";
+static const char __CefRequest[] = "CefRequest";
+static const char *__CefStringVisitor = "CefStringVisitor";
+static const char *__CefProcessMessage = "CefProcessMessage";
+static const char *__CefBrowserHost = "CefBrowserHost";
 
-static const char *__request_context__ = "RequestContext";
-static const char *__command_line__ = "CommandLine";
+static const char *__CefRequestContext = "CefRequestContext";
+static const char *__CefCommandLine = "CefCommandLine";
 
 // todo
 static const char *__v8accessor__ = "V8Accessor";
@@ -174,9 +174,8 @@ static const char *__v8value__ = "CefV8Value";
 
 static const char *__v8interceptor__ = "V8Interceptor";
 
-
-static const char *__task__ = "Task";
-static const char *__task_runner__ = "TaskRunner";
+static const char *__CefTask = "Task";
+static const char *__CefTaskRunner = "TaskRunner";
 
 
 
@@ -219,8 +218,8 @@ static const char __OnScheduleMessagePumpWork[]		= "OnScheduleMessagePumpWork";
 static const char __GetPrintHandler[]				= "GetPrintHandler";
 
 // context_menu_handler
-static const char *__context_menu_handler__ = "ContextMenuHandler";
-static const char *__context_menu_params__ = "ContextMenuParams";
+static const char *__Continueext_menu_handler__ = "ContextMenuHandler";
+static const char *__Continueext_menu_params__ = "ContextMenuParams";
 static const char *__run_context_menu_callback__ = "RunContextMenuCallback";
 static const char *__OnBeforeContextMenu = "OnBeforeContextMenu";
 static const char *__RunContextMenu = "RunContextMenu";
@@ -252,7 +251,6 @@ static const char __geolocation_handler__[] = "CefGeolocationHandler";
 static const char __jsdialog_handler__[]		= "CefJSDialogHandler";
 static const char __jsdialog_callback__[]		= "CefJSDialogCallback";
 
-
 static const char __keyboard_handler__[]		= "CefKeyboardHandler";
 static const char __life_span_handler__[]		= "CefLifeSpanHandler";
 static const char __load_handler__[]			= "CefLoadHandler";
@@ -265,13 +263,13 @@ static const char __resource_bundle_handler__[] = "CefResourceBundleHandler";
 static const char __resource_handler__[]		= "CefResourceHandler";
 
 
-static const char __time__[] = "CefTime";
+static const char __CefTime[] = "CefTime";
 
-static const char __event_handle__[] = "CefEventHandle";
+static const char __CefEventHandle[] = "CefEventHandle";
 
 // types
-static const char __settings__[]					= "CefSettings";
-static const char __request_context_settings__[]	= "CefRequestContextSettings";
+static const char __CefSettings[]					= "CefSettings";
+static const char __CefRequestContextSettings[]	= "CefRequestContextSettings";
 static const char __browser_settings__[]			= "CefBrowserSettings";
 static const char __urlparts__[]					= "CefURLParts";
 static const char __cookie__[]						= "CefCookie";
@@ -292,10 +290,10 @@ static const char __box_layout_settings__[]			= "CefBoxLayoutSettings";
 static const char __composition_underline__[]		= "CefCompositionUnderline";
 
 
-// value
-static const char __value__[] = "CefValue";
-static const char __list_value__[] = "CefListValue";
-static const char __dictionary_value__[] = "CefDictionaryValue";
+// Value
+static const char __CefValue[] = "CefValue";
+static const char __CefListValue[] = "CefListValue";
+static const char __CefDictionaryValue[] = "CefDictionaryValue";
 
 
 #endif

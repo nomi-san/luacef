@@ -60,7 +60,7 @@ void CEF_CALLBACK luacef_CompletionCallback_OnComplete(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnComplete)) {
 
-		luacef_pushuserdata(self->L, self, __completion_callback__);
+		luacef_pushuserdata(self->L, self, __CefCompletionCallback);
 
 		lua_pcall(self->L, 1, 0, 0);
 	}
@@ -85,7 +85,7 @@ static int luacef_CompletionCallback_new(lua_State *L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, p, __completion_callback__);
+	luacef_pushuserdata(L, p, __CefCompletionCallback);
 	return 1;
 }
 
@@ -150,11 +150,11 @@ static const luaL_Reg luacef_CompletionCallback_m[] = {
 
 void luacef_CompletionCallback_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __callback__);
+	luaL_newmetatable(L, __CefCallback);
 	luaL_setfuncs(L, luacef_Callback_m, 0);
 	lua_setfield(L, -1, __index__);
 
-	luaL_newmetatable(L, __completion_callback__);
+	luaL_newmetatable(L, __CefCompletionCallback);
 	luaL_setfuncs(L, luacef_CompletionCallback_m, 0);
 	lua_pop(L, 1);
 

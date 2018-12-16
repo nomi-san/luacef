@@ -83,9 +83,9 @@ int CEF_CALLBACK API_N(OnBeforePopup)(
 
 		luacef_pushuserdata(self->L, self, __life_span_handler__); // self, first arg
 
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
-		luacef_pushuserdata(self->L, frame, __frame__); //3
+		luacef_pushuserdata(self->L, frame, __CefFrame); //3
 
 		cef_string_utf8_t s1 = { 0 };
 		cef_string_to_utf8(target_url->str, target_url->length, &s1);
@@ -101,9 +101,9 @@ int CEF_CALLBACK API_N(OnBeforePopup)(
 
 		luacef_pushuserdata(self->L, popupFeatures, __popup_features__); // 8
 
-		luacef_pushuserdata(self->L, windowInfo, __window_info__); // 9
+		luacef_pushuserdata(self->L, windowInfo, __CefWindowInfo); // 9
 		
-		luacef_pushuserdata(self->L, *client, __client__); // 10
+		luacef_pushuserdata(self->L, *client, __CefClient); // 10
 
 		luacef_pushuserdata(self->L, settings, __browser_settings__); // 11
 		
@@ -131,7 +131,7 @@ int CEF_CALLBACK API_N(DoClose)(
 		luacef_pushuserdata(self->L, self, __life_span_handler__);
 
 		lua_pushlightuserdata(self->L, browser);
-		luaL_setmetatable(self->L, __browser__);
+		luaL_setmetatable(self->L, __CefBrowser);
 
 		lua_pcall(self->L, 2, 1, -8);
 		return lua_tointeger(self->L, -1);
@@ -153,7 +153,7 @@ void CEF_CALLBACK API_N(OnAfterCreated)(
 
 		luacef_pushuserdata(self->L, self, __life_span_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 
 		lua_pcall(self->L, 2, 0, -8);
 	}
@@ -173,7 +173,7 @@ void CEF_CALLBACK API_N(OnBeforeClose)(
 
 		luacef_pushuserdata(self->L, self, __life_span_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 
 		lua_pcall(self->L, 2, 0, -8);
 	}

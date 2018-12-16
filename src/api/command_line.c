@@ -39,7 +39,7 @@ static int luacef_CommandLine_Copy(lua_State *L)
 
 	luacef_CommandLine *cpy = p->copy(p);
 
-	luacef_pushudata(L, cpy, __command_line__);
+	luacef_pushudata(L, cpy, __CefCommandLine);
 	return 1;
 }
 
@@ -312,7 +312,7 @@ static int luacef_CommandLine_Create(lua_State *L)
 {
 	cef_command_line_t *p = cef_command_line_create();
 
-	luacef_pushudata(L, p, __command_line__);
+	luacef_pushudata(L, p, __CefCommandLine);
 	return 1;
 }
 
@@ -324,7 +324,7 @@ static int luacef_CommandLine_GetGlobal(lua_State *L)
 {
 	cef_command_line_t *p = cef_command_line_get_global();
 
-	luacef_pushudata(L, p, __command_line__);
+	luacef_pushudata(L, p, __CefCommandLine);
 	return 1;
 }
 
@@ -365,7 +365,7 @@ static const luaL_Reg luacef_CommandLine_meta_static[] = {
 
 void luacef_CommandLine_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __command_line__);
+	luaL_newmetatable(L, __CefCommandLine);
 	luaL_setfuncs(L, luacef_CommandLine_meta, 0);
 	lua_setfield(L, -1, __index__);
 

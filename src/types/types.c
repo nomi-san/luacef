@@ -64,7 +64,7 @@ static const char *__user_data_path					= "user_data_path";
 static const char *__windowless_rendering_enabled	= "windowless_rendering_enabled";
 static const char *__framework_dir_path				= "framework_dir_path";
 static const char *__enable_net_security_expiration = "enable_net_security_expiration";
-//static const char *__context_safety_implementation	= "context_safety_implementation";
+//static const char *__Continueext_safety_implementation	= "context_safety_implementation";
 
 static int luacef_settings_new(lua_State* L)
 {
@@ -155,11 +155,11 @@ static int luacef_settings_new(lua_State* L)
 		if (lua_getfield(L, 1, __accept_language_list))
 			s->accept_language_list = luacef_tostring(L, -1);
 
-		//if (lua_getfield(L, 1, __context_safety_implementation))
+		//if (lua_getfield(L, 1, __Continueext_safety_implementation))
 			//s->context_safety_implementation = lua_tointeger(L, -1);
 	}
 
-	luacef_pushuserdata(L, s, __settings__);
+	luacef_pushuserdata(L, s, __CefSettings);
 	return 1;
 }
 
@@ -414,7 +414,7 @@ static int luacef_request_context_settings_new(lua_State *L)
 
 	}
 
-	luacef_pushuserdata(L, p, __request_context_settings__);
+	luacef_pushuserdata(L, p, __CefRequestContextSettings);
 	return 1;
 }
 
@@ -1162,16 +1162,16 @@ static int luacef_cookie_index(lua_State *L)
 		lua_pushboolean(L, p->httponly);
 
 	else if (!strcmp(i, __creation))
-		luacef_pushuserdata(L, &p->creation, __time__);
+		luacef_pushuserdata(L, &p->creation, __CefTime);
 
 	else if (!strcmp(i, __last_access))
-		luacef_pushuserdata(L, &p->last_access , __time__);
+		luacef_pushuserdata(L, &p->last_access , __CefTime);
 
 	else if (!strcmp(i, __has_expires))
 		lua_pushboolean(L, p->has_expires);
 
 	else if (!strcmp(i, __expires))
-		luacef_pushuserdata(L, &p->expires, __time__);
+		luacef_pushuserdata(L, &p->expires, __CefTime);
 
 	else return 0;
 
@@ -2456,7 +2456,7 @@ static int luacef_geoposition_index(lua_State *L)
 		lua_pushnumber(L, p->speed);
 
 	else if (!strcmp(i, __timestamp))
-		luacef_pushuserdata(L, &p->timestamp, __time__);
+		luacef_pushuserdata(L, &p->timestamp, __CefTime);
 
 	else if (!strcmp(i, __error_code))
 		lua_pushinteger(L, p->error_code);
@@ -3102,14 +3102,14 @@ static const luaL_Reg luacef_composition_underline_m[] = {
 void luacef_types_reg(lua_State* L)
 {
 	// settings
-	luaL_newmetatable(L, __settings__);
+	luaL_newmetatable(L, __CefSettings);
 	luaL_setfuncs(L, luacef_settings_m, 0);
 	lua_pop(L, 1);
 	lua_pushcfunction(L, luacef_settings_new);
 	lua_setfield(L, -2, "newSettings");
 
 	// request_context_settings
-	luaL_newmetatable(L, __request_context_settings__);
+	luaL_newmetatable(L, __CefRequestContextSettings);
 	luaL_setfuncs(L, luacef_request_context_settings_m, 0);
 	lua_pop(L, 1);
 	lua_pushcfunction(L, luacef_request_context_settings_new);

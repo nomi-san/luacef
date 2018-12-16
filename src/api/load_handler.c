@@ -80,7 +80,7 @@ void CEF_CALLBACK lh_on_loading_state_change(
 	if (lua_getfield(self->L, -1, __on_loading_state_change)) {
 
 		luacef_pushuserdata(self->L, self, __load_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushboolean(self->L, isLoading);
 		lua_pushboolean(self->L, canGoBack);
 		lua_pushboolean(self->L, canGoForward);
@@ -99,8 +99,8 @@ void CEF_CALLBACK lh_on_load_start(
 	if (lua_getfield(self->L, -1, __on_load_start)) {
 
 		luacef_pushuserdata(self->L, self, __load_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 		lua_pushinteger(self->L, transition_type);
 
 		lua_pcall(self->L, 4, 0, 8);
@@ -117,8 +117,8 @@ void CEF_CALLBACK lh_on_load_end(
 	if (lua_getfield(self->L, -1, __on_load_end)) {
 
 		luacef_pushuserdata(self->L, self, __load_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 		lua_pushinteger(self->L, httpStatusCode);
 
 		lua_pcall(self->L, 4, 0, 8);
@@ -137,8 +137,8 @@ void CEF_CALLBACK lh_on_load_error(
 	if (lua_getfield(self->L, -1, __on_load_error)) {
 
 		luacef_pushuserdata(self->L, self, __load_handler__);
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 		lua_pushinteger(self->L, errorCode);
 		luacef_pushstring(self->L, errorText);
 		luacef_pushstring(self->L, failedUrl);

@@ -42,9 +42,9 @@ void CEF_CALLBACK API_N(OnFindResult)(SELF* self,
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnFindResult)) {
 
-		luacef_pushuserdata(self->L, self, __find_handler__); // self
+		luacef_pushuserdata(self->L, self, __CefFindHandler); // self
 
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
 		lua_pushinteger(self->L, identifier); // 3
 
@@ -77,14 +77,14 @@ API(new)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 
 		if (lua_getfield(L, 1, __OnFindResult))
-			p->self.on_find_result = API_N(OnFindResult);
+			p->self.on_find_result = (void*)API_N(OnFindResult);
 	}
 	else {
 		lua_newtable(L);
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, p, __find_handler__);
+	luacef_pushuserdata(L, p, __CefFindHandler);
 	return 1;
 }
 
@@ -114,12 +114,12 @@ API(newindex)
 	const char *i = lua_tostring(L, 2);
 
 	lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
-	lua_pushvalue(L, -1);
+	if (!lua_isfunction(L, 3)) return 0;
+	lua_pushvalue(L, 3);
 
 	if (!strcmp(i, __OnFindResult)) {
-		lua_pushvalue(L, 3);
 		lua_setfield(L, -2, __OnFindResult);
-		p->self.on_find_result = API_N(OnFindResult);
+		p->self.on_find_result = (void*)API_N(OnFindResult);
 	}
 		
 	return 0;
@@ -150,7 +150,7 @@ API_M(meta)
 
 void API_N(reg)(lua_State *L)
 {
-	luaL_newmetatable(L, __find_handler__);
+	luaL_newmetatable(L, __CefFindHandler);
 	luaL_setfuncs(L, API_N(meta), 0);
 	lua_pop(L, 1);
 

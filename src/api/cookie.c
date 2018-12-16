@@ -27,7 +27,7 @@ static int luacef_CookieManager_SetSupportedSchemes(lua_State *L)
 static int luacef_CookieManager_VisitAllCookies(lua_State *L)
 {
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
-	cef_cookie_visitor_t *visitor = luacef_checkudata(L, 2, __cookie_visitor__);
+	cef_cookie_visitor_t *visitor = luacef_checkudata(L, 2, __CefCookieVisitor);
 
 	int r = p->visit_all_cookies(
 		p,
@@ -50,7 +50,7 @@ static int luacef_CookieManager_VisitUrlCookies(lua_State *L)
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
 	cef_string_t url = luacef_tostring(L, 2);
 	int includeHttpOnly = lua_tointeger(L, 3);
-	cef_cookie_visitor_t *visitor = luacef_checkudata(L, 4, __cookie_visitor__);
+	cef_cookie_visitor_t *visitor = luacef_checkudata(L, 4, __CefCookieVisitor);
 
 	int r = p->visit_url_cookies(
 		p,
@@ -68,7 +68,7 @@ static int luacef_CookieManager_SetCookie(lua_State *L)
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
 	cef_string_t url = luacef_tostring(L, 2);
 	cef_cookie_t *cookie = luacef_checkudata(L, 3, __cookie__);
-	cef_set_cookie_callback_t *cb = luacef_checkudata(L, 4, __set_cookies_callback__);
+	cef_set_cookie_callback_t *cb = luacef_checkudata(L, 4, __CefSerCookieCallback);
 
 	int r = p->set_cookie(
 		p,
@@ -93,7 +93,7 @@ static int luac_CookieManager_DeleteCookies(lua_State *L)
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
 	cef_string_t url = luacef_tostring(L, 2);
 	cef_string_t cookie_name = luacef_tostring(L, 3);
-	cef_delete_cookies_callback_t *cb = luacef_checkudata(L, 4, __delete_cookies_callback__);
+	cef_delete_cookies_callback_t *cb = luacef_checkudata(L, 4, __CefDeleteCookiesCallback);
 
 	int r = p->delete_cookies(
 		p,
@@ -118,7 +118,7 @@ static int luacef_CookieManager_SetStoragePath(lua_State *L)
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
 	cef_string_t s = luacef_tostring(L, 2);
 	int b = lua_tointeger(L, 3);
-	cef_completion_callback_t *cb = luacef_checkudata(L, 4, __completion_callback__);
+	cef_completion_callback_t *cb = luacef_checkudata(L, 4, __CefCompletionCallback);
 
 	int r = p->set_storage_path(
 		p,
@@ -139,7 +139,7 @@ static int luacef_CookieManager_SetStoragePath(lua_State *L)
 static int luacef_CookieManager_FlushStore(lua_State *L)
 {
 	cef_cookie_manager_t *p = luacef_touserdata(L, 1);
-	cef_completion_callback_t *cb = luacef_checkudata(L, 2, __completion_callback__);
+	cef_completion_callback_t *cb = luacef_checkudata(L, 2, __CefCompletionCallback);
 
 	int r = p->flush_store(p, cb);
 
@@ -154,11 +154,11 @@ static int luacef_CookieManager_FlushStore(lua_State *L)
 */
 static int luacef_CookieManager_GetGlobalManager(lua_State *L)
 {
-	cef_completion_callback_t *p = luacef_checkudata(L, 1, __completion_callback__);
+	cef_completion_callback_t *p = luacef_checkudata(L, 1, __CefCompletionCallback);
 
 	cef_cookie_manager_t* p2 = cef_cookie_manager_get_global_manager(p);
 
-	luacef_pushuserdata(L, p2, __cookie_manager__);
+	luacef_pushuserdata(L, p2, __CefCookieManager);
 	return 1;
 }
 
@@ -173,7 +173,7 @@ static int luacef_CookieManager_CreateManager(lua_State *L)
 {
 	cef_string_t path = luacef_tostring(L, 1);
 	int persist_session_cookies = lua_tointeger(L, 2);
-	cef_completion_callback_t * callback = luacef_checkudata(L, 3, __completion_callback__);
+	cef_completion_callback_t * callback = luacef_checkudata(L, 3, __CefCompletionCallback);
 
 	cef_cookie_manager_t* r = cef_cookie_manager_create_manager(
 		&path,
@@ -181,7 +181,7 @@ static int luacef_CookieManager_CreateManager(lua_State *L)
 		callback
 	);
 
-	luacef_pushuserdata(L, r, __cookie_manager__);
+	luacef_pushuserdata(L, r, __CefCookieManager);
 	return 1;
 }
 
@@ -240,7 +240,7 @@ static int luacef_delete_cookies_callback_new(lua_State* L)
 		lua_newtable(L);
 	}
 
-	luacef_pushuserdata(L, p, __delete_cookies_callback__);
+	luacef_pushuserdata(L, p, __CefDeleteCookiesCallback);
 	return 1;
 }
 

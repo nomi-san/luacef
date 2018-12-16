@@ -77,7 +77,7 @@ API(GetBrowser)
 	cef_frame_t *f = luacef_touserdata(L, 1);
 	cef_browser_t *b = f->get_browser(f);
 
-	luacef_pushuserdata(L, b, __browser__);
+	luacef_pushuserdata(L, b, __CefBrowser);
 	return 1;
 }
 
@@ -114,7 +114,7 @@ API(GetParent)
 
 	cef_frame_t *fp = f->get_parent(f);
 
-	luacef_pushuserdata(L, fp, __frame__);
+	luacef_pushuserdata(L, fp, __CefFrame);
 	return 1;
 }
 
@@ -126,7 +126,7 @@ API(GetParent)
 API(GetSource)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
-	cef_string_visitor_t *v = luacef_checkudata(L, 2, __string_visitor__);
+	cef_string_visitor_t *v = luacef_checkudata(L, 2, __CefStringVisitor);
 
 	f->get_source(f, v);
 
@@ -141,7 +141,7 @@ API(GetSource)
 API(GetText)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
-	cef_string_visitor_t *v = luacef_checkudata(L, 2, __string_visitor__);
+	cef_string_visitor_t *v = luacef_checkudata(L, 2, __CefStringVisitor);
 
 	f->get_text(f, v);
 
@@ -215,7 +215,7 @@ API(IsValid)
 API(LoadRequest)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
-	cef_request_t *r = luacef_checkudata(L, 2, __request__);
+	cef_request_t *r = luacef_checkudata(L, 2, __CefRequest);
 
 	f->load_request(f, r);
 	return 0;
@@ -322,7 +322,7 @@ API(ViewSource)
 API(VisitDOM)
 {
 	cef_frame_t *f = luacef_touserdata(L, 1);
-	cef_domvisitor_t *dv = luacef_checkudata(L, 2, __domvisitor__);
+	cef_domvisitor_t *dv = luacef_checkudata(L, 2, __CefDOMVisitor);
 
 	f->visit_dom(f, dv);
 
@@ -379,7 +379,7 @@ API_M(meta)
 
 void API_N(reg)(lua_State* L)
 {
-	luaL_newmetatable(L, __frame__);
+	luaL_newmetatable(L, __CefFrame);
 	luaL_setfuncs(L, API_N(meta), 0);
 	lua_setfield(L, -1, __index__);
 }

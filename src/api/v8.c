@@ -14,7 +14,7 @@ static int luacef_v8context_get_task_runner(lua_State *L)
 
 	cef_task_runner_t *p2 = p->get_task_runner(p);
 
-	luacef_pushuserdata(L, p2, __task_runner__);
+	luacef_pushuserdata(L, p2, __CefTaskRunner);
 	return 1;
 }
 
@@ -38,7 +38,7 @@ static int luacef_v8context_get_browser(lua_State *L)
 
 	cef_browser_t *p2 = p->get_browser(p);
 
-	luacef_pushuserdata(L, p2, __browser__);
+	luacef_pushuserdata(L, p2, __CefBrowser);
 	return 1;
 }
 
@@ -51,7 +51,7 @@ static int luacef_v8context_get_frame(lua_State *L)
 
 	cef_frame_t *p2 = p->get_frame(p);
 
-	luacef_pushuserdata(L, p2, __frame__);
+	luacef_pushuserdata(L, p2, __CefFrame);
 	return 1;
 }
 
@@ -714,7 +714,7 @@ static int luacef_v8value_get_date_value(lua_State* L)
 
 	cef_time_t t = p->get_date_value(p);
 
-	luacef_pushuserdata(L, &t, __time__);
+	luacef_pushuserdata(L, &t, __CefTime);
 	return 1;
 }
 
@@ -957,7 +957,7 @@ static int luacef_v8value_get_keys(lua_State* L)
 static int luacef_v8value_set_user_data(lua_State* L)
 {
 	cef_v8value_t *p = luacef_touserdata(L, 1);
-	cef_base_ref_counted_t *u = luacef_checkudata(L, 2, __base__);
+	cef_base_ref_counted_t *u = luacef_checkudata(L, 2, __CefBase);
 
 	int ret = p->set_user_data(p, u);
 
@@ -974,7 +974,7 @@ static int luacef_v8value_get_user_data(lua_State* L)
 
 	cef_base_ref_counted_t *r = p->get_user_data(p);
 
-	luacef_pushuserdata(L, r, __base__);
+	luacef_pushuserdata(L, r, __CefBase);
 	return 1;
 }
 
@@ -1173,7 +1173,7 @@ static int luacef_v8value_create_double(lua_State *L)
 */
 static int luacef_v8value_create_date(lua_State *L)
 {
-	const cef_time_t *t = luacef_checkudata(L, 1, __time__);
+	const cef_time_t *t = luacef_checkudata(L, 1, __CefTime);
 
 	cef_v8value_t *p = cef_v8value_create_date(t);
 

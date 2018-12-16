@@ -289,7 +289,7 @@ IMG(GetAsBitmap)
 		pixel_heigh
 	);
 
-	luacef_pushudata(L, ret, __binary_value__);
+	luacef_pushudata(L, ret, __CefBinaryValue);
 	return 1;
 }
 
@@ -309,7 +309,7 @@ IMG(GetAsPNG)
 		pixel_heigh
 	);
 
-	luacef_pushudata(L, ret, __binary_value__);
+	luacef_pushudata(L, ret, __CefBinaryValue);
 	return 1;
 }
 
@@ -329,7 +329,7 @@ IMG(GetAsJPEG)
 		pixel_heigh
 	);
 
-	luacef_pushudata(L, ret, __binary_value__);
+	luacef_pushudata(L, ret, __CefBinaryValue);
 	return 1;
 }
 
@@ -339,7 +339,7 @@ IMG(Create)
 {
 	SELF *p = cef_image_create();
 
-	luacef_pushudata(L, p, __binary_value__);
+	luacef_pushudata(L, p, __CefBinaryValue);
 	return 1;
 }
 
@@ -396,7 +396,7 @@ IMG_M(meta_static)
 
 void IMG_N(reg)(lua_State *L)
 {
-	luaL_newmetatable(L, __image__);
+	luaL_newmetatable(L, __CefImage);
 	luaL_setfuncs(L, IMG_N(meta), 0);
 	lua_setfield(L, -1, __index__);
 

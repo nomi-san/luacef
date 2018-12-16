@@ -2,13 +2,13 @@
 #include "include/capi/cef_ssl_info_capi.h"
 
 #define API(fn) \
-	LCEF_API(FindHandler, fn)
+	LCEF_API(SSLInfo, fn)
 
 #define API_N(fn) \
-	LCEF_API_N(FindHandler, fn)
+	LCEF_API_N(SSLInfo, fn)
 
 #define API_M(mname) \
-	LCEF_M(FindHandler, mname)
+	LCEF_M(SSLInfo, mname)
 
 #define SELF luacef_SSLInfo
 
@@ -31,7 +31,7 @@ API(GetX509Certificate)
 
 	cef_x509certificate_t *ret = p->get_x509certificate(p);
 
-	luacef_pushudata(L, ret, __x509certificate__);
+	luacef_pushudata(L, ret, __CefX509Certificate);
 	return 1;
 }
 
@@ -94,7 +94,7 @@ static int luacef_IsCertStatusMinorError(lua_State* L)
 
 // ==================================================
 
-void luacef_SSLInfo_reg(lua_State *L)
+void API_N(reg)(lua_State *L)
 {
 	luaL_newmetatable(L, "CefSSLInfo");
 	luaL_setfuncs(L, API_N(meta), 0);

@@ -131,7 +131,7 @@ static int luacef_request_get_post_data(lua_State* L)
 
 	cef_post_data_t *p2 = p->get_post_data(p);
 
-	luacef_pushuserdata(L, p2, __post_data__);
+	luacef_pushuserdata(L, p2, __CefPostData);
 	return 1;
 }
 
@@ -143,7 +143,7 @@ static int luacef_request_get_post_data(lua_State* L)
 static int luacef_request_set_post_data(lua_State* L)
 {
 	cef_request_t *p = luacef_touserdata(L, 1);
-	cef_post_data_t *p2 = luacef_checkudata(L, 2, __post_data__);
+	cef_post_data_t *p2 = luacef_checkudata(L, 2, __CefPostData);
 
 	p->set_post_data(p, p2);
 
@@ -342,7 +342,7 @@ static int luacef_post_data_get_elements(lua_State* L)
 {
 	cef_post_data_t *p = luacef_touserdata(L, 1);
 	size_t sz = lua_tointeger(L, 2);
-	cef_post_data_element_t *e = luacef_checkudata(L, 3, __post_data_element__);
+	cef_post_data_element_t *e = luacef_checkudata(L, 3, __CefPostDataElement);
 
 	p->get_elements(p, &sz, &e);
 
@@ -357,7 +357,7 @@ static int luacef_post_data_get_elements(lua_State* L)
 static int luacef_post_data_remove_element(lua_State* L)
 {
 	cef_post_data_t *p = luacef_touserdata(L, 1);
-	cef_post_data_element_t *p2 = luacef_checkudata(L, 2, __post_data_element__);
+	cef_post_data_element_t *p2 = luacef_checkudata(L, 2, __CefPostDataElement);
 
 	int r = p->remove_element(p, p2);
 	
@@ -373,7 +373,7 @@ static int luacef_post_data_remove_element(lua_State* L)
 static int luacef_post_data_add_element(lua_State* L)
 {
 	cef_post_data_t *p = luacef_touserdata(L, 1);
-	cef_post_data_element_t *p2 = luacef_checkudata(L, 2, __post_data_element__);
+	cef_post_data_element_t *p2 = luacef_checkudata(L, 2, __CefPostDataElement);
 
 	int r = p->add_element(p, p2);
 	

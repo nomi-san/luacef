@@ -95,7 +95,7 @@ void CEF_CALLBACK rph_on_render_thread_created(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, extra_info, __list_value__); // 2
+		luacef_pushuserdata(self->L, extra_info, __CefListValue); // 2
 
 		lua_pcall(self->L, 2, 0, -8);
 	}
@@ -132,7 +132,7 @@ void CEF_CALLBACK rph_on_browser_created(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
 		lua_pcall(self->L, 2, 0, -8);
 	}
@@ -153,7 +153,7 @@ void CEF_CALLBACK rph_on_browser_destroyed(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
 		lua_pcall(self->L, 2, 0, -8);
 	}
@@ -194,9 +194,9 @@ int CEF_CALLBACK rph_on_before_navigation(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
-		luacef_pushuserdata(self->L, frame, __frame__);		// 3
-		luacef_pushuserdata(self->L, request, __request__);	// 4
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
+		luacef_pushuserdata(self->L, frame, __CefFrame);		// 3
+		luacef_pushuserdata(self->L, request, __CefRequest);	// 4
 		lua_pushinteger(self->L, navigation_type);			// 5
 		lua_pushinteger(self->L, is_redirect);				// 6
 
@@ -226,8 +226,8 @@ void CEF_CALLBACK rph_on_context_created(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 		luacef_pushuserdata(self->L, context, __v8context__);
 
 		lua_pcall(self->L, 4, 0, -8);
@@ -253,8 +253,8 @@ void CEF_CALLBACK rph_on_context_released(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 		luacef_pushuserdata(self->L, context, __v8context__);
 
 		lua_pcall(self->L, 4, 0, -8);
@@ -284,8 +284,8 @@ void CEF_CALLBACK rph_on_uncaught_exception(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
 		luacef_pushuserdata(self->L, context, __v8context__);
 		luacef_pushuserdata(self->L, exception, __v8exception__);
 		luacef_pushuserdata(self->L, stackTrace, __v8stack_trace__);
@@ -313,9 +313,9 @@ void CEF_CALLBACK rph_on_focused_node_changed(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
-		luacef_pushuserdata(self->L, frame, __frame__);
-		luacef_pushuserdata(self->L, node, __domnode__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
+		luacef_pushuserdata(self->L, frame, __CefFrame);
+		luacef_pushuserdata(self->L, node, __CefDOMMode);
 
 		lua_pcall(self->L, 4, 0, -8);
 	}
@@ -340,9 +340,9 @@ int CEF_CALLBACK rph_on_process_message_received(
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
 		luaL_setmetatable(self->L, __render_process_handler__);
 
-		luacef_pushuserdata(self->L, browser, __browser__);
+		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushinteger(self->L, source_process);
-		luacef_pushuserdata(self->L, message, __process_message__);
+		luacef_pushuserdata(self->L, message, __CefProcessMessage);
 
 		lua_pcall(self->L, 4, 0, -8);
 		return lua_tointeger(self->L, -1);

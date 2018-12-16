@@ -47,7 +47,7 @@ void CEF_CALLBACK BPH_N(OnBeforeChildProcessLaunch)(SELF *self,
 	if (lua_getfield(self->L, -1, __OnBeforeChildProcessLaunch)) {
 
 		luacef_pushuserdata(self->L, self, __browser_process_handler__); // 1
-		luacef_pushuserdata(self->L, command_line, __command_line__); // 2
+		luacef_pushuserdata(self->L, command_line, __CefCommandLine); // 2
 		
 		lua_pcall(self->L, 2, 0, 8);
 	}
@@ -66,7 +66,7 @@ void CEF_CALLBACK BPH_N(OnRenderProcessThreadCreated)(
 	if (lua_getfield(self->L, -1, __OnRenderProcessThreadCreated)) {
 
 		luacef_pushuserdata(self->L, self, __browser_process_handler__); // 1
-		luacef_pushuserdata(self->L, self, __list_value__); // 2
+		luacef_pushuserdata(self->L, self, __CefListValue); // 2
 
 		lua_pcall(self->L, 2, 0, 8);
 	}

@@ -101,7 +101,7 @@ int CEF_CALLBACK luacef_JSDialogHandler_OnJSDialog(
 	if (lua_getfield(self->L, -1, __OnJSDialog)) {
 
 		luacef_pushuserdata(self->L, self, __jsdialog_handler__); // 1, self
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushstring(self->L, origin_url); // 3
 		lua_pushinteger(self->L, dialog_type); // 4
 		luacef_pushstring(self->L, message_text); // 5
@@ -136,7 +136,7 @@ int CEF_CALLBACK luacef_JSDialogHandler_OnBeforeUnloadDialog(
 	if (lua_getfield(self->L, -1, __OnBeforeUnloadDialog)) {
 
 		luacef_pushuserdata(self->L, self, __jsdialog_handler__); // 1, self
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushstring(self->L, message_text); // 3
 		lua_pushinteger(self->L, is_reload); // 4
 		luacef_pushuserdata(self->L, callback, __jsdialog_callback__); // 5
@@ -162,7 +162,7 @@ void CEF_CALLBACK luacef_JSDialogHandler_OnResetDialogState(
 	if (lua_getfield(self->L, -1, __OnResetDialogState)) {
 
 		luacef_pushuserdata(self->L, self, __jsdialog_handler__); // 1, self
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
 		lua_pcall(self->L, 2, 0, 0);
 		lua_pop(self->L, 1);
@@ -182,7 +182,7 @@ void CEF_CALLBACK luacef_JSDialogHandler_OnDialogClosed(
 	if (lua_getfield(self->L, -1, __OnDialogClosed)) {
 
 		luacef_pushuserdata(self->L, self, __jsdialog_handler__); // 1, self
-		luacef_pushuserdata(self->L, browser, __browser__); // 2
+		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
 		lua_pcall(self->L, 2, 0, 0);
 		lua_pop(self->L, 1);

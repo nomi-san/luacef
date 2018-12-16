@@ -101,7 +101,7 @@ static int luacef_download_item_get_start_time(lua_State *L)
 
 	cef_time_t t = p->get_start_time(p);
 
-	luacef_pushuserdata(L, &t, __time__);
+	luacef_pushuserdata(L, &t, __CefTime);
 	return 1;
 }
 
@@ -114,7 +114,7 @@ static int luacef_download_item_get_end_time(lua_State *L)
 
 	cef_time_t t = p->get_end_time(p);
 
-	luacef_pushuserdata(L, &t, __time__);
+	luacef_pushuserdata(L, &t, __CefTime);
 	return 1;
 }
 
@@ -236,7 +236,7 @@ static luaL_Reg luacef_download_item_m[] = {
 
 void luacef_download_item_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __download_item__);
+	luaL_newmetatable(L, __CefDownloadItem);
 	luaL_setfuncs(L, luacef_download_item_m, 0);
 	lua_setfield(L, -1, __index__);
 }
