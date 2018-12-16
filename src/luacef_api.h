@@ -45,6 +45,9 @@ static const char __binary_value__[] = "CefBinaryValue";
 // image
 static const char __image__[] = "CefImage";
 
+//
+static const char __x509certificate__[] = "CefX509Certificate";
+
 // app
 static const char __app__[] = "CefApp";
 static const char *__OnBeforeCommandLineProcessing = "OnBeforeCommandLineProcessing";
