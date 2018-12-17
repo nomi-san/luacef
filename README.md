@@ -16,7 +16,7 @@
 ## >> __todo__ [32%]
 
 ### Based on
-- [![image](https://img.shields.io/badge/lua-5.3.4-brightgreen.svg)](https://www.lua.org/ftp/)
+- [![image](https://img.shields.io/badge/lua->=5.1-brightgreen.svg)](https://www.lua.org/ftp/)
 - [![image](https://img.shields.io/badge/cef/chromium-3.3112/60-blue.svg)](http://opensource.spotify.com/cefbuilds/index.html)
 
 ### Platforms
