@@ -47,6 +47,7 @@ static const char __CefImage[] = "CefImage";
 
 //
 static const char __CefX509Certificate[] = "CefX509Certificate";
+static const char __CefX509CertPrincipal[] = "CefX509CertPrincipal";
 
 // app
 static const char __CefApp[] = "CefApp";
