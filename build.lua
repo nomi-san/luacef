@@ -108,13 +108,13 @@ mkdir('build/obj')
 
 print("# Generating object...")
 for m = 1, #c do
-	exec(cc .. ' -std=c99 -w -fPIC -I./deps/lua/src -I./deps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
+	exec(cc .. ' -std=c99 -w -fPIC -I./deps/lua53/src -I./deps/cef -c -o ./build/obj/' .. l[m] .. '.o '.. c[m])
 	print('    ./' .. c[m] .. ' -> ./build/obj/' .. l[m] .. '.o' )
 end
 
 print("# Linking library...")
 if win32 then
-	exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua -Ldeps/cef -llua53 -llibcef -lole32')
+	exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua53 -Ldeps/cef -llua53 -llibcef -lole32')
 	print("    -> ./build/luacef.dll")
 else
 	cef_dir = 'cef_minimal/release' -- directoty which included `libcef.so`
