@@ -9,9 +9,6 @@
 	<a href="https://travis-ci.org/wy3/luacef" target="_blank">
 		<img src="https://travis-ci.org/wy3/luacef.svg?branch=master">
 	</a>
-	<a href="https://travis-ci.org/wy3/luacef" target="_blank">
-		<img src="https://circleci.com/gh/wy3/luacef.svg?style=svg">
-	</a>
 	<br>
  	</p>
 </p>
