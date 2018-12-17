@@ -133,7 +133,7 @@ static int luacef_MenuModel_AddSubMenu(lua_State *L)
 
 	cef_menu_model_t *r = p->add_sub_menu(p, command_id, &label);
 
-	luacef_pushuserdata(L, r, __menu_model__);
+	luacef_pushuserdata(L, r, __CefMenuModel);
 	return 1;
 }
 
@@ -231,7 +231,7 @@ static int luacef_MenuModel_InsertSubMenuAt(lua_State *L)
 
 	cef_menu_model_t *r = p->insert_sub_menu_at(p, index, command_id, &label);
 
-	luacef_pushuserdata(L, r, __menu_model__);
+	luacef_pushuserdata(L, r, __CefMenuModel);
 	return 1;
 }
 
@@ -497,7 +497,7 @@ static int luacef_MenuModel_GetSubMenu(lua_State *L)
 
 	cef_menu_model_t *r = p->get_sub_menu(p, command_id);
 
-	luacef_pushuserdata(L, r, __menu_model__);
+	luacef_pushuserdata(L, r, __CefMenuModel);
 	return 1;
 }
 
@@ -513,7 +513,7 @@ static int luacef_MenuModel_GetSubMenuAt(lua_State *L)
 
 	cef_menu_model_t *r = p->get_sub_menu_at(p, index);
 
-	luacef_pushuserdata(L, r, __menu_model__);
+	luacef_pushuserdata(L, r, __CefMenuModel);
 	return 1;
 }
 
@@ -1115,11 +1115,11 @@ static const luaL_Reg luacef_MenuModel_m[] = {
 
 static int luacef_MenuModel_CreateMenuModel(lua_State *L)
 {
-	cef_menu_model_delegate_t *p = luacef_checkudata(L, 1, __menu_model_delegate__);
+	cef_menu_model_delegate_t *p = luacef_checkudata(L, 1, __CefMenuModelDelegate);
 
 	cef_menu_model_t *r = cef_menu_model_create(p);
 
-	luacef_pushuserdata(L, r, __menu_model__);
+	luacef_pushuserdata(L, r, __CefMenuModel);
 	return 1;
 }
 
@@ -1127,7 +1127,7 @@ static int luacef_MenuModel_CreateMenuModel(lua_State *L)
 
 void luacef_MenuModel_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __menu_model__);
+	luaL_newmetatable(L, __CefMenuModel);
 	luaL_setfuncs(L, luacef_MenuModel_m, 0);
 	lua_setfield(L, -1, __index__);
 
@@ -1136,5 +1136,5 @@ void luacef_MenuModel_reg(lua_State *L)
 
 	lua_newtable(L);
 	luaL_setfuncs(L, luacef_MenuModel_m, 0);
-	lua_setfield(L, -2, __menu_model__);
+	lua_setfield(L, -2, __CefMenuModel);
 }

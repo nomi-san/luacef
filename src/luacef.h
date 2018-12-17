@@ -106,6 +106,18 @@ void luacef_error_index(lua_State* L, const char* index);
 #define LUAREGEND \
 	{ NULL, NULL }
 
+
+#if LUA_VERSION_NUM == 501
+int _lua_getfield(lua_State *L, int i, const char *k);
+#define lua_getfield _lua_getfield
+
+#define lua_rawlen(L, i) lua_objlen(L, i)
+#define lua_getuservalue lua_getfenv
+lua_isinteger(lua_State *L, int i);
+void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup);
+void luaL_setmetatable(lua_State *L, const char *tname);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

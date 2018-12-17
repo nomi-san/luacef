@@ -117,6 +117,7 @@ API(GetDomainComponents)
 API(len)
 {
 	lua_pushinteger(L, sizeof(SELF));
+	return 1;
 }
 
 API(unm)
@@ -295,6 +296,7 @@ API(GetPemencodedIssuerChain)
 API(len)
 {
 	lua_pushinteger(L, sizeof(SELF));
+	return 1;
 }
 
 API(unm)

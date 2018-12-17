@@ -187,7 +187,7 @@ static int luacef_drag_data_create(lua_State *L)
 {
 	cef_drag_data_t *p = cef_drag_data_create();
 
-	luacef_pushuserdata(L, p, __drag_data__);
+	luacef_pushuserdata(L, p, __CefDragData);
 	return 1;
 }
 

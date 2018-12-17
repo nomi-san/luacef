@@ -79,7 +79,7 @@ void CEF_CALLBACK lh_on_loading_state_change(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __on_loading_state_change)) {
 
-		luacef_pushuserdata(self->L, self, __load_handler__);
+		luacef_pushuserdata(self->L, self, __CefLoadHandler);
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushboolean(self->L, isLoading);
 		lua_pushboolean(self->L, canGoBack);
@@ -98,7 +98,7 @@ void CEF_CALLBACK lh_on_load_start(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __on_load_start)) {
 
-		luacef_pushuserdata(self->L, self, __load_handler__);
+		luacef_pushuserdata(self->L, self, __CefLoadHandler);
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
 		lua_pushinteger(self->L, transition_type);
@@ -116,7 +116,7 @@ void CEF_CALLBACK lh_on_load_end(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __on_load_end)) {
 
-		luacef_pushuserdata(self->L, self, __load_handler__);
+		luacef_pushuserdata(self->L, self, __CefLoadHandler);
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
 		lua_pushinteger(self->L, httpStatusCode);
@@ -136,7 +136,7 @@ void CEF_CALLBACK lh_on_load_error(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __on_load_error)) {
 
-		luacef_pushuserdata(self->L, self, __load_handler__);
+		luacef_pushuserdata(self->L, self, __CefLoadHandler);
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
 		lua_pushinteger(self->L, errorCode);
@@ -175,7 +175,7 @@ static int luacef_LoadHandler_new(lua_State *L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, p, __load_handler__);
+	luacef_pushuserdata(L, p, __CefLoadHandler);
 	return 1;
 }
 
@@ -264,7 +264,7 @@ static const luaL_Reg luacef_LoadHandler_m[] = {
 
 void luacef_LoadHandler_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __load_handler__);
+	luaL_newmetatable(L, __CefLoadHandler);
 	luaL_setfuncs(L, luacef_LoadHandler_m, 0);
 	lua_pop(L, 1);
 

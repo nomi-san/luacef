@@ -81,7 +81,7 @@ int CEF_CALLBACK API_N(OnBeforePopup)(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnBeforePopup)) {
 
-		luacef_pushuserdata(self->L, self, __life_span_handler__); // self, first arg
+		luacef_pushuserdata(self->L, self, __CefLifeSpanHandler); // self, first arg
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
@@ -128,7 +128,7 @@ int CEF_CALLBACK API_N(DoClose)(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __DoClose)) {
 			
-		luacef_pushuserdata(self->L, self, __life_span_handler__);
+		luacef_pushuserdata(self->L, self, __CefLifeSpanHandler);
 
 		lua_pushlightuserdata(self->L, browser);
 		luaL_setmetatable(self->L, __CefBrowser);
@@ -151,7 +151,7 @@ void CEF_CALLBACK API_N(OnAfterCreated)(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnAfterCreated)) {
 
-		luacef_pushuserdata(self->L, self, __life_span_handler__);
+		luacef_pushuserdata(self->L, self, __CefLifeSpanHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 
@@ -171,7 +171,7 @@ void CEF_CALLBACK API_N(OnBeforeClose)(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnBeforeClose)) {
 
-		luacef_pushuserdata(self->L, self, __life_span_handler__);
+		luacef_pushuserdata(self->L, self, __CefLifeSpanHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 
@@ -209,7 +209,7 @@ API(new)
 		lsh->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, lsh, __life_span_handler__);
+	luacef_pushuserdata(L, lsh, __CefLifeSpanHandler);
 	return 1;
 }
 
@@ -299,7 +299,7 @@ API_M(meta)
 
 void API_N(reg)(lua_State *L)
 {
-	luaL_newmetatable(L, __life_span_handler__);
+	luaL_newmetatable(L, __CefLifeSpanHandler);
 	luaL_setfuncs(L, API_N(meta), 0);
 	lua_pop(L, 1);
 

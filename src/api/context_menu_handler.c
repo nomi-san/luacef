@@ -99,7 +99,7 @@ void CEF_CALLBACK luacef_ContextMenuHandler_OnBeforeContextMenu(
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
 		luacef_pushuserdata(self->L, params, __Continueext_menu_params__);
-		luacef_pushuserdata(self->L, model, __menu_model__);
+		luacef_pushuserdata(self->L, model, __CefMenuModel);
 
 		lua_pcall(self->L, 5, 0, 8);
 	}
@@ -120,7 +120,7 @@ int CEF_CALLBACK luacef_ContextMenuHandler_RunContextMenu(
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
 		luacef_pushuserdata(self->L, params, __Continueext_menu_params__);
-		luacef_pushuserdata(self->L, model, __menu_model__);
+		luacef_pushuserdata(self->L, model, __CefMenuModel);
 		luacef_pushuserdata(self->L, callback, __run_context_menu_callback__);
 
 		lua_pcall(self->L, 6, 1, 8);

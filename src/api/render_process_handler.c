@@ -93,7 +93,7 @@ void CEF_CALLBACK rph_on_render_thread_created(
 	if (lua_getfield(self->L, -1, _rph_on_browser_created)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, extra_info, __CefListValue); // 2
 
@@ -111,7 +111,7 @@ void CEF_CALLBACK rph_on_web_kit_initialized(
 	if (lua_getfield(self->L, -1, _rph_on_browser_created)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		lua_pcall(self->L, 1, 0, -8);
 	}
@@ -130,7 +130,7 @@ void CEF_CALLBACK rph_on_browser_created(
 	if (lua_getfield(self->L, -1, _rph_on_browser_created)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
@@ -151,7 +151,7 @@ void CEF_CALLBACK rph_on_browser_destroyed(
 	if (lua_getfield(self->L, -1, _rph_on_browser_destroyed)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 
@@ -192,7 +192,7 @@ int CEF_CALLBACK rph_on_before_navigation(
 	if (lua_getfield(self->L, -1, _rph_on_before_navigation)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushuserdata(self->L, frame, __CefFrame);		// 3
@@ -224,7 +224,7 @@ void CEF_CALLBACK rph_on_context_created(
 	if (lua_getfield(self->L, -1, _rph_on_context_created)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
@@ -251,7 +251,7 @@ void CEF_CALLBACK rph_on_context_released(
 	if (lua_getfield(self->L, -1, _rph_on_context_released)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
@@ -282,7 +282,7 @@ void CEF_CALLBACK rph_on_uncaught_exception(
 	if (lua_getfield(self->L, -1, _rph_on_uncaught_exception)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
@@ -311,7 +311,7 @@ void CEF_CALLBACK rph_on_focused_node_changed(
 	if (lua_getfield(self->L, -1, _rph_on_focused_node_changed)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		luacef_pushuserdata(self->L, frame, __CefFrame);
@@ -338,7 +338,7 @@ int CEF_CALLBACK rph_on_process_message_received(
 	if (lua_getfield(self->L, -1, _rph_on_process_message_received)) {
 
 		lua_pushlightuserdata(self->L, self->self); // self, first arg
-		luaL_setmetatable(self->L, __render_process_handler__);
+		luaL_setmetatable(self->L, __CefRenderProcessHandler);
 
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushinteger(self->L, source_process);

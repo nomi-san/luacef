@@ -50,9 +50,9 @@ int CEF_CALLBACK luacef_DragHandler_OnDragEnter(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnDragEnter)) {
 
-		luacef_pushuserdata(self->L, self, __drag_handler__);
+		luacef_pushuserdata(self->L, self, __CefDragHandler);
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
-		luacef_pushuserdata(self->L, dragData, __drag_data__);
+		luacef_pushuserdata(self->L, dragData, __CefDragData);
 		lua_pushinteger(self->L, mask);
 
 		lua_pcall(self->L, 4, 1, 0);
@@ -79,7 +79,7 @@ void CEF_CALLBACK luacef_DragHandler_OnDraggableRegionsChanged(
 	lua_rawgeti(self->L, LUA_REGISTRYINDEX, self->ref);
 	if (lua_getfield(self->L, -1, __OnDraggableRegionsChanged)) {
 
-		luacef_pushuserdata(self->L, self, __drag_handler__);
+		luacef_pushuserdata(self->L, self, __CefDragHandler);
 		luacef_pushuserdata(self->L, browser, __CefBrowser);
 		lua_pushinteger(self->L, regionsCount);
 
@@ -117,7 +117,7 @@ static int luacef_DragHandler_new(lua_State *L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, p, __drag_handler__);
+	luacef_pushuserdata(L, p, __CefDragHandler);
 	return 1;
 }
 
@@ -198,7 +198,7 @@ static const luaL_Reg luacef_DragHandler_m[] = {
 
 void luacef_DragHandler_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __drag_handler__);
+	luaL_newmetatable(L, __CefDragHandler);
 	luaL_setfuncs(L, luacef_DragHandler_m, 0);
 	lua_pop(L, 1);
 

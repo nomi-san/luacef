@@ -108,7 +108,7 @@ int luacef_StringList_print(lua_State *L);
 int luacef_StringList_index(lua_State *L)
 {
 	cef_string_list_t sl = luacef_toudata(L, 1);
-
+	
 	if (lua_isinteger(L, 2)) {
 		int idx = lua_tointeger(L, 2);
 

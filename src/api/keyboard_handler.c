@@ -68,7 +68,7 @@ int CEF_CALLBACK kh_on_pre_key_event(struct luacef_keyboard_handler* self,
 
 	if (lua_getfield(self->L, -1, __on_pre_key_event)) {
 
-		luacef_pushuserdata(self->L, self, __keyboard_handler__); // self, 1
+		luacef_pushuserdata(self->L, self, __CefKeyboardHandler); // self, 1
 		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
 		luacef_pushuserdata(self->L, os_event, __CefEventHandle); // 4
@@ -91,7 +91,7 @@ int CEF_CALLBACK kh_on_key_event(struct luacef_keyboard_handler* self,
 
 	if (lua_getfield(self->L, -1, __on_pre_key_event)) {
 
-		luacef_pushuserdata(self->L, self, __keyboard_handler__); // self, 1
+		luacef_pushuserdata(self->L, self, __CefKeyboardHandler); // self, 1
 		luacef_pushuserdata(self->L, browser, __CefBrowser); // 2
 		luacef_pushuserdata(self->L, event, __key_event__); // 3
 		luacef_pushuserdata(self->L, os_event, __CefEventHandle); // 4
@@ -126,7 +126,7 @@ static int luacef_keyboard_handler_new(lua_State *L)
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
 	}
 
-	luacef_pushuserdata(L, p, __keyboard_handler__);
+	luacef_pushuserdata(L, p, __CefKeyboardHandler);
 	return 1;
 }
 
@@ -209,7 +209,7 @@ static const luaL_Reg luacef_keyboard_handler_m[] = {
 
 void luacef_keyboard_handler_reg(lua_State *L)
 {
-	luaL_newmetatable(L, __keyboard_handler__);
+	luaL_newmetatable(L, __CefKeyboardHandler);
 	luaL_setfuncs(L, luacef_keyboard_handler_m, 0);
 	lua_pop(L, 1);
 

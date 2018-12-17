@@ -1,5 +1,57 @@
 #include "luacef.h"
 
+static int luacef_bmp(lua_State *L)
+{
+	unsigned char *p = lua_touserdata(L, 1);
+	int i = lua_tointeger(L, 2);
+
+	lua_pushnumber(L, (double)(p[i]/255));
+	lua_pushnumber(L, (double)(p[i+1]/255));
+	lua_pushnumber(L, (double)(p[i+2]/255));
+	lua_pushnumber(L, (double)(p[i+3]/255));
+
+	return 4;
+}
+
+#if LUA_VERSION_NUM == 501
+lua_isinteger(lua_State *L, int i)
+{
+	double n = lua_tonumber(L, i);
+	return n == (int)n;
+}
+
+void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup) {
+	luaL_checkstack(L, nup + 1, "too many upvalues");
+	for (; l->name != NULL; l++) {  /* fill the table with given functions */
+		int i;
+		lua_pushstring(L, l->name);
+		for (i = 0; i < nup; i++)  /* copy upvalues to the top */
+			lua_pushvalue(L, -(nup + 1));
+		lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
+		lua_settable(L, -(nup + 3)); /* table must be below the upvalues, the name and the closure */
+	}
+	lua_pop(L, nup);  /* remove upvalues */
+}
+
+void luaL_setmetatable(lua_State *L, const char *tname) {
+	luaL_checkstack(L, 1, "not enough stack slots");
+	luaL_getmetatable(L, tname);
+	lua_setmetatable(L, -2);
+}
+
+#undef lua_getfield
+int _lua_getfield(lua_State *L, int i, const char *k)
+{
+#if LUA_VERSION_NUM > 501
+	return lua_getfield(L, i, k);
+#else
+	lua_getfield(L, i, k);
+	return !lua_isnil(L, -1);
+#endif
+}
+#define lua_getfield _lua_getfield
+#endif
+
 typedef struct luacef_base {
 
 	cef_base_ref_counted_t base;
@@ -219,11 +271,21 @@ static int luacef_printv(lua_State* L)
 	fflush(stdout);
 	return 0;
 }
+
+static int luacef_print(lua_State *L)
+{
+	const char *s = lua_tostring(L, 1);
+	puts(s);
+	fflush(stdout);
+	return 0;
+}
+
 // ==============================
 
 static void luacef_handler_reg(lua_State* L)
 {
 	LCEF_API_N(LifeSpanHandler, reg)(L);
+	LCEF_API_N(RenderHandler, reg)(L);
 	luacef_keyboard_handler_reg(L);
 	luacef_LoadHandler_reg(L);
 	luacef_ContextMenuHandler_reg(L);
@@ -251,6 +313,9 @@ EXPORT(int) luaopen_luacef(lua_State* L)
 
 	lua_newtable(L); // return of require('luacef');
 
+	lua_pushcfunction(L, luacef_bmp);
+	lua_setfield(L, -2, "bmp");
+
 	lua_pushcfunction(L, luacef_bool);
 	lua_setfield(L, -2, "bool");
 
@@ -259,6 +324,9 @@ EXPORT(int) luaopen_luacef(lua_State* L)
 
 	lua_pushcfunction(L, luacef_printv);
 	lua_setfield(L, -2, "printv");
+	
+	lua_pushcfunction(L, luacef_print);
+	lua_setfield(L, -2, "print");
 		
 	luacef_Client_reg(L);
 	luacef_app_reg(L);
