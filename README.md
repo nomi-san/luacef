@@ -40,9 +40,9 @@ Standard dist | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.
 Minimal dist | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_minimal.tar.bz2) | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux32_minimal.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux64_minimal.tar.bz2)
 Sample app | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_client.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_client.tar.bz2) | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux32_client.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux64_client.tar.bz2)
 
-#### Windows (x86)
-- Copy `libcef.lib` from `Cef_Distribution/release/` to `luacef/deps/cef/`
-- BUild `Lua`, rename static library (`.lib -> lua53.lib`, `.a -> liblua53.a`) and put it to `luacef/deps/lua/`
+#### Windows
+- Copy `libcef.lib` from `$(cef_dist)/release/` to `$(project)/deps/cef/`
+- Build `Lua` (you can build from `$(project)/deps/lua/src/` with `make mingw`), rename static library (`.lib -> lua53.lib`, `.a -> liblua53.a`) and put it to `$(project)/deps/lua/`
 - Run `$ lua build.lua`
 
 #### Linux (x64)
