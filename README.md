@@ -87,10 +87,6 @@ cef = require("luacef")
 -- new main args, app
 local args, app = cef.newMainArgs(), cef.newApp() 
 
--- execute process and check, not necessary
-local code = cef.ExecuteProcess(args, app)
-if (code >= 0) then os.exit() end
-
 -- print version
 cef.printv()
 
@@ -101,7 +97,7 @@ local settings = cef.newSettings {
     single_process = 1; -- must set single-process for Lua command line 
 }
 
--- enable high DPI support, for windows 7 or newer
+-- enable high DPI support
 cef.EnableHighDPISupport()
 
 -- initialize application
@@ -113,6 +109,7 @@ local window_info = cef.newWindowInfo {
 
     -- set window name
     window_name = "Hello World!"; -- Lua string be convert to cef string, accept unicode
+    style = 0x10cf0000
 }
 
 -- create browser settings for create browser
@@ -126,9 +123,6 @@ local life_span = cef.newLifeSpanHandler {
         print("-- on after created --")
         print(self, browser) --> LifeSpanHandler: <address>, Browser: <address>
         print('Window handle: ', browser:GetHost():GetWindowHandle())
-
-        -- show browser window
-        cef.ShowBrowser(browser, 10)
     end;
 }
 
@@ -172,7 +166,7 @@ local client = cef.newClient {
     end;
 }
 
--- url string
+-- url, native lua string
 local url = 'https://www.google.com/'
 
 -- create browser window
