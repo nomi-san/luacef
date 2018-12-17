@@ -117,7 +117,7 @@ if win32 then
 	exec(cc .. ' -shared -o ./build/luacef.dll ./build/obj/*.o -Ldeps/lua53 -Ldeps/cef -llua53 -llibcef -lole32')
 	print("    -> ./build/luacef.dll")
 else
-	cef_dir = 'cef_minimal/release' -- directoty which included `libcef.so`
+	cef_dir = 'cef_minimal/Release' -- directoty which included `libcef.so`
 	exec(cc .. ' -std=c99 -shared -o ./build/luacef.so ./build/obj/*.o -Wl,-rpath,. -L./ -L./'..cef_dir..' -lcef')
 	print("    -> ./build/luacef.so")
 end
