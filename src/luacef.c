@@ -14,7 +14,7 @@ static int luacef_bmp(lua_State *L)
 }
 
 #if LUA_VERSION_NUM == 501
-lua_isinteger(lua_State *L, int i)
+int lua_isinteger(lua_State *L, int i)
 {
 	double n = lua_tonumber(L, i);
 	return n == (int)n;
