@@ -3,12 +3,14 @@
 	<p align="center">
     	<strong> Lua bindings to Chromium Embedded Framework </strong>
 		<br>
-		<i>(reborn)</i>
+		<i>(reborn version, written in <strong>C++</strong>)</i>
 		<br><br>
  	</p>
 </p>
 
-### Based on
+### Todo...
+
+### Deps
 - [![image](https://img.shields.io/badge/lua->=5.1-brightgreen.svg)](https://www.lua.org/ftp/)
 - [![image](https://img.shields.io/badge/cef-73.1.13-blue.svg)](http://opensource.spotify.com/cefbuilds/index.html)
 
