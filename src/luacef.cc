@@ -1,10 +1,23 @@
 #include "luacef.h"
+#include "app.h"
+#include "client.h"
+#include "life_span_hadler.h"
+#include "types_os.h"
 
-using namespace luacef;
+using namespace LUACEF;
 
-LUACEF_API int luaopen_luacef(lua_State *L)
+LUACEF_API int luaopen_luacef(State& L)
 {
-	lState = L;
+	g_state = &L;
 
-	return 0;
+	L.newTable();
+
+	App::__reg(L);
+	//Client::__reg(L);
+	//LifeSpanHandler::__reg(L);
+	//MainArgs::__reg(L);
+
+	
+
+	return 1;
 }

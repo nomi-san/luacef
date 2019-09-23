@@ -3,30 +3,34 @@
 #include "luacef.h"
 #include "include/cef_app.h"
 
-LUACEF_SCOPE
+namespace LUACEF
 {
 	class App : public CefApp
 	{
 	public:
-		App();
-		App(lua_State *L);
+		App(State& L);
 		virtual ~App();
 
 		virtual void OnBeforeCommandLineProcessing(
 			const CefString& process_type,
 			CefRefPtr<CefCommandLine> command_line) override;
-
 		virtual void OnRegisterCustomSchemes(
 			CefRawPtr<CefSchemeRegistrar> registrar) override;
-
 		virtual CefRefPtr<CefResourceBundleHandler> GetResourceBundleHandler() override;
-
 		virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler() override;
-
 		virtual CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
 
+		static int __new(State& L);
+		static int __index(State& L);
+		static int __newindex(State& L);
+		static int __gc(State& L);
+		static void __reg(State& L);
+
+		static const char *__name;
+
 	private:
-		lua_State *L;
+		int m_ref;
+		State *m_state;
 		IMPLEMENT_REFCOUNTING(App);
 	};
 
@@ -43,6 +47,7 @@ LUACEF_SCOPE
 		//
 		int ret = CefExecuteProcess(args, application, windows_sandbox_info);
 		//
+		
 		lua_pushinteger(L, ret);
 		return 1;
 	}

@@ -1,63 +1,69 @@
 #pragma once
 
-#include "compat-5.3.h"
-#include "include/cef_base.h"
+#ifdef _MSC_VER
+#pragma warning(disable: 4307)
+#pragma warning(disable: 4996)
+#endif
+
+#include "ilua.h"
+using namespace ILua;
 
 #define LUACEF          luacef
 #define LUACEF_API      extern "C" __declspec(dllexport)
-#define LUACEF_SCOPE    namespace LUACEF
-#define LUACEF_USING    using namespace LUACEF
 
-LUACEF_SCOPE
+#define LUACEF_CAST_PTR(dest, src) \
+	dest = reinterpret_cast<decltype(dest)>(static_cast<void*>(src))
+
+namespace LUACEF
 {
-	static lua_State *lState;
-
-	static void* newUPtr(lua_State* L, size_t sz)
-	{
-		void **ud = (void**)lua_newuserdata(L, sizeof(void*));
-		*ud = calloc(1, sz);
-		return *ud;
-	}
-
-	static void* checkUPtr(lua_State* L, int i, const char* s)
-	{
-		if (lua_isnoneornil(L, i)) return NULL;
-		void **ud = (void**)luaL_checkudata(L, i, s);
-		if (!ud || !*ud) return NULL;
-		return *ud;
-	}
-
-	static void* toUPtr(lua_State* L, int i)
-	{
-		if (lua_isnoneornil(L, i)) return NULL;
-		void **ud = (void**)lua_touserdata(L, i);
-		if (!ud || !*ud) return NULL;
-		return *ud;
-	}
-
-	static void pushUPtr(lua_State* L, void* udata, const char* meta)
-	{
-		if (!udata) return;
-		void** ud = (void**)lua_newuserdata(L, 4u);
-		*ud = udata;
-		luaL_setmetatable(L, meta);
+	template <typename T>
+	void pushUPtr(State& L, T uptr) {
+		lua_State *state; T *p_uptr;
+		if (uptr) {
+			state = reinterpret_cast<lua_State*>(&L);
+			p_uptr = reinterpret_cast<T*>(lua_newuserdata(state, sizeof(void*)));
+			(*p_uptr) = uptr;
+			luaL_setmetatable(state, uptr->__name);
+		}
 	}
 
 	template <typename T>
-	void pushUPtr_(lua_State* L, T* uptr, const char* meta)
-	{
-		if (!uptr) return;
-		T** puptr = reinterpret_cast<T**>(lua_newuserdata(L, sizeof(void*)));
-		(*puptr) = uptr;
-		luaL_setmetatable(L, meta);
+	void pushUPtr(State& L, T uptr, const char *tname) {
+		lua_State *state; T *p_uptr;
+		if (uptr) {
+			state = reinterpret_cast<lua_State*>(&L);
+			p_uptr = reinterpret_cast<T*>(lua_newuserdata(state, sizeof(void*)));
+			(*p_uptr) = uptr;
+			luaL_setmetatable(state, tname);
+		}
 	}
 
 	template <typename T>
-	void pushUPtr_(lua_State* L, CefRefPtr<T*> uptr, const char* meta)
-	{
-		if (!uptr) return;
-		CefRefPtr<T*> *puptr = reinterpret_cast<CefRefPtr<T*>*>(lua_newuserdata(L, sizeof(void*)));
-		(*puptr) = uptr;
-		luaL_setmetatable(L, meta);
+	bool toUPtr(State& L, T& ref, int idx = 1) {
+		lua_State *state; T *p_uptr;
+		state = reinterpret_cast<lua_State*>(&L);
+		if (!lua_isnoneornil(state, idx)) {
+			p_uptr = reinterpret_cast<T*>(lua_touserdata(state, idx));
+			if (p_uptr) {
+				ref = *p_uptr;
+				return true;
+			}
+		}
+		return false;
 	}
+
+	template <typename T>
+	void checkUPtr(State& L, T& ref, int idx) {
+		lua_State *state; T *p_uptr;
+		state = reinterpret_cast<lua_State*>(&L);
+		p_uptr = reinterpret_cast<T*>(luaL_checkudata(state, idx, ref->__name));
+		if (p_uptr) {
+			ref = *p_uptr;
+		}
+	}
+
+
+
+
+	static State *g_state;
 }

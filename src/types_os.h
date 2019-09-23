@@ -3,18 +3,34 @@
 #include "luacef.h"
 #include "include/internal/cef_win.h"
 
-LUACEF_SCOPE
+namespace LUACEF
 {
-	struct MainArgs : public CefMainArgs
+	class MainArgs : public CefMainArgs
 	{
 	public:
-		MainArgs();
-		MainArgs(HINSTANCE instance);
-		~MainArgs();
+		MainArgs() {}
+		virtual ~MainArgs() {}
 
-	private:
-		static int __index(lua_State *L);
-		static int __newindex(lua_State *L);
-		static int __gc(lua_State *L);
+		static int __new(State& L);
+		static int __index(State& L);
+		static int __newindex(State& L);
+		static int __gc(State& L);
+		static void __reg(State& L);
+	};
+
+	class WindowInfo : public CefWindowInfo
+	{
+	public:
+		WindowInfo() : CefWindowInfo() {}
+
+		static int __new(State& L);
+		static int __index(State& L);
+		static int __newindex(State& L);
+		static int __gc(State& L);
+		static void __reg(State& L);
+
+		static int __SetAsChild(State& L);
+		static int __SetAsPopup(State& L);
+		static int __SetAsWindowless(State& L);
 	};
 }
