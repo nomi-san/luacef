@@ -9,13 +9,11 @@
 	<a href="https://travis-ci.org/wy3/luacef" target="_blank">
 		<img src="https://travis-ci.org/wy3/luacef.svg?branch=master">
 	</a>
+	<img src="https://img.shields.io/badge/lua-5.1+-brightgreen.svg">
+	<img src="https://img.shields.io/badge/cef-3.3112/chr60-blue.svg">
 	<br>
  	</p>
 </p>
-
-### Based on
-- [![image](https://img.shields.io/badge/lua->=5.1-brightgreen.svg)](https://www.lua.org/ftp/)
-- [![image](https://img.shields.io/badge/cef/chromium-3.3112/60-blue.svg)](http://opensource.spotify.com/cefbuilds/index.html)
 
 ### Platforms
 - [x] Windows
@@ -28,7 +26,7 @@
 - Easy to use
 - High performance
 
-### Build
+### Builds
 
 #### CEF pre-built 3.3112
 
@@ -38,12 +36,12 @@ Standard dist | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.
 Minimal dist | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_minimal.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_minimal.tar.bz2) | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux32_minimal.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux64_minimal.tar.bz2)
 Sample app | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows32_client.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_windows64_client.tar.bz2) | [x86](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux32_client.tar.bz2) / [x64](http://opensource.spotify.com/cefbuilds/cef_binary_3.3112.1659.gfef43e0_linux64_client.tar.bz2)
 
-#### Windows
+#### Windows (gcc)
 - Copy `libcef.lib` from `$(cef_dist)/release/` to `$(project)/deps/cef/`
-- Build `Lua` (you can build from `$(project)/deps/lua/src/` with `make mingw`), rename static library (`.lib -> lua53.lib`, `.a -> liblua53.a`) and put it to `$(project)/deps/lua/`
+- Build `Lua` (you can build from `$(project)/deps/lua/src/` with `make mingw`), rename static library (`.lib -> lua53.lib`, `.a -> liblua53.a`) and put it into `$(project)/deps/lua/`
 - Run `$ lua build.lua`
 
-#### Linux (x64)
+#### Linux (gcc x64)
 
 ```bash
 git clone https://github.com/wy3/luacef.git
@@ -54,9 +52,7 @@ mv cef_binary_3.3112.1659.gfef43e0_linux64_minimal cef_minimal
 lua build.lua
 ```
 
-....
-
-### My technology for pointer :)
+### CEF's udata wrapper
 
 ```
 ----- C ----------------
