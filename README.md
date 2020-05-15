@@ -8,7 +8,6 @@
 </p>
 
 <br>
-<br>
 
 ### Platforms
 - [x] Windows
@@ -70,7 +69,7 @@ lua:newuserdata  <- alloc
 
 ### Simple Google example
 
-Noice: this example must be run via terminal, do not press Ctrl+B on Sublime Text.
+Notes: this example must be run via terminal, do not press Ctrl+B on Sublime Text.
 ```
 $ lua example.lua
 ```
@@ -169,5 +168,5 @@ cef.Shutdown()
 ```
 
 <p align="center">
-<img src="https://i.imgur.com/8mmTqjW.png" width="600">
+<img src="https://i.imgur.com/GAro1wL.png">
 </p>
