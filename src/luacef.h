@@ -48,9 +48,6 @@ extern "C" {
 #include "lapi.h"
 #include "lauxlib.h"
 
-//////////////////////////////////////
-#define	CEF_STRING_TYPE_UTF16 1 // cannot use utf8
-
 #include "include/cef_version.h"
 #include "include/capi/cef_app_capi.h"
 #include "include/capi/cef_base_capi.h"
