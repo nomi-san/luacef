@@ -350,3 +350,225 @@ int CEF_CALLBACK rph_on_process_message_received(
 	
 	return 0;
 }
+
+static int luacef_RenderProcessHandler_new(lua_State* L) {
+    size_t sz = sizeof(luacef_render_process_handler);
+    luacef_render_process_handler* p = luacef_alloc(sz);
+    p->base.size = sz;
+    p->L = L;
+
+    if (lua_istable(L, 1)) {
+        lua_pushvalue(L, 1);
+        p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+        if (lua_getfield(L, 1, _rph_on_render_thread_created))
+            p->on_render_thread_created =
+                !lua_isfunction(L, -1) ? NULL : rph_on_render_thread_created;
+
+        if (lua_getfield(L, 1, _rph_on_web_kit_initialized))
+            p->on_web_kit_initialized =
+                !lua_isfunction(L, -1) ? NULL : rph_on_web_kit_initialized;
+
+        if (lua_getfield(L, 1, _rph_on_browser_created))
+            p->on_browser_created =
+                !lua_isfunction(L, -1) ? NULL : rph_on_browser_created;
+
+        if (lua_getfield(L, 1, _rph_on_browser_destroyed))
+            p->on_browser_destroyed =
+                !lua_isfunction(L, -1) ? NULL : rph_on_browser_destroyed;
+
+        if (lua_getfield(L, 1, _rph_get_load_handler))
+            p->get_load_handler =
+                !lua_isfunction(L, -1) ? NULL : rph_get_load_handler;
+
+        if (lua_getfield(L, 1, _rph_on_before_navigation))
+            p->on_before_navigation =
+                !lua_isfunction(L, -1) ? NULL : rph_on_before_navigation;
+
+        if (lua_getfield(L, 1, _rph_on_context_created))
+            p->on_context_created =
+                !lua_isfunction(L, -1) ? NULL : rph_on_context_created;
+
+        if (lua_getfield(L, 1, _rph_on_context_released))
+            p->on_context_released =
+                !lua_isfunction(L, -1) ? NULL : rph_on_context_released;
+
+        if (lua_getfield(L, 1, _rph_on_uncaught_exception))
+            p->on_uncaught_exception =
+                !lua_isfunction(L, -1) ? NULL : rph_on_uncaught_exception;
+
+        if (lua_getfield(L, 1, _rph_on_focused_node_changed))
+            p->on_focused_node_changed =
+                !lua_isfunction(L, -1) ? NULL : rph_on_focused_node_changed;
+
+        if (lua_getfield(L, 1, _rph_on_process_message_received))
+            p->on_process_message_received =
+                !lua_isfunction(L, -1) ? NULL : rph_on_process_message_received;
+
+    } else {
+        lua_newtable(L);
+        p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    }
+
+    luacef_pushuserdata(L, p, __CefRenderProcessHandler);
+    return 1;
+}
+
+static int luacef_RenderProcessHandler_release(lua_State* L) {
+    if (lua_isnoneornil(L, 1))
+        return 0;
+    void** ud = (void**)lua_touserdata(L, 1);
+    if (ud && *ud) {
+        luaL_unref(L, LUA_REGISTRYINDEX,
+                   ((luacef_render_process_handler*)*ud)->ref);  //
+        free(*ud);
+        *ud = NULL;
+    }
+    return 0;
+}
+
+static int luacef_RenderProcessHandler_index(lua_State* L) {
+    luacef_render_process_handler* p = luacef_touserdata(L, 1);
+    if (!p)
+        return 0;
+
+    const char* i = lua_tostring(L, 2);
+
+    lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
+
+    if (!strcmp(i, __release__))
+        lua_pushcfunction(L, luacef_RenderProcessHandler_release);
+
+    else if (!strcmp(i, _rph_on_render_thread_created))
+        lua_getfield(L, -1, _rph_on_render_thread_created);
+
+    else if (!strcmp(i, _rph_on_web_kit_initialized))
+        lua_getfield(L, -1, _rph_on_web_kit_initialized);
+
+    else if (!strcmp(i, _rph_on_browser_created))
+        lua_getfield(L, -1, _rph_on_browser_created);
+
+    else if (!strcmp(i, _rph_on_browser_destroyed))
+        lua_getfield(L, -1, _rph_on_browser_destroyed);
+
+    else if (!strcmp(i, _rph_get_load_handler))
+        lua_getfield(L, -1, _rph_get_load_handler);
+
+    else if (!strcmp(i, _rph_on_before_navigation))
+        lua_getfield(L, -1, _rph_on_before_navigation);
+
+    else if (!strcmp(i, _rph_on_context_created))
+        lua_getfield(L, -1, _rph_on_context_created);
+
+    else if (!strcmp(i, _rph_on_context_released))
+        lua_getfield(L, -1, _rph_on_context_released);
+
+    else if (!strcmp(i, _rph_on_uncaught_exception))
+        lua_getfield(L, -1, _rph_on_uncaught_exception);
+
+    else if (!strcmp(i, _rph_on_focused_node_changed))
+        lua_getfield(L, -1, _rph_on_focused_node_changed);
+
+    else if (!strcmp(i, _rph_on_process_message_received))
+        lua_getfield(L, -1, _rph_on_process_message_received);
+
+    else
+        return 0;
+
+    return 1;
+}
+
+static int luacef_RenderProcessHandler_newindex(lua_State* L) {
+    luacef_render_process_handler* p = luacef_touserdata(L, 1);
+    if (!p)
+        return 0;
+
+    const char* i = lua_tostring(L, 2);
+
+    lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
+    lua_pushvalue(L, 3);
+
+    if (!strcmp(i, _rph_on_render_thread_created)) {
+        lua_setfield(L, -2, _rph_on_render_thread_created);
+        p->on_render_thread_created =
+            !lua_isfunction(L, 3) ? NULL : rph_on_render_thread_created;
+    }
+
+    else if (!strcmp(i, _rph_on_web_kit_initialized)) {
+        lua_setfield(L, -2, _rph_on_web_kit_initialized);
+        p->on_web_kit_initialized =
+            !lua_isfunction(L, 3) ? NULL : rph_on_web_kit_initialized;
+    }
+
+    else if (!strcmp(i, _rph_on_browser_created)) {
+        lua_setfield(L, -2, _rph_on_browser_created);
+        p->on_browser_created =
+            !lua_isfunction(L, 3) ? NULL : rph_on_browser_created;
+    }
+
+    else if (!strcmp(i, _rph_on_browser_destroyed)) {
+        lua_setfield(L, -2, _rph_on_browser_destroyed);
+        p->on_browser_destroyed =
+            !lua_isfunction(L, 3) ? NULL : rph_on_browser_destroyed;
+    }
+
+    else if (!strcmp(i, _rph_get_load_handler)) {
+        lua_setfield(L, -2, _rph_get_load_handler);
+        p->get_load_handler =
+            !lua_isfunction(L, 3) ? NULL : rph_get_load_handler;
+    }
+
+    else if (!strcmp(i, _rph_on_before_navigation)) {
+        lua_setfield(L, -2, _rph_on_before_navigation);
+        p->on_before_navigation =
+            !lua_isfunction(L, 3) ? NULL : rph_on_before_navigation;
+    }
+
+    else if (!strcmp(i, _rph_on_context_created)) {
+        lua_setfield(L, -2, _rph_on_context_created);
+        p->on_context_created =
+            !lua_isfunction(L, 3) ? NULL : rph_on_context_created;
+    }
+
+    else if (!strcmp(i, _rph_on_context_released)) {
+        lua_setfield(L, -2, _rph_on_context_released);
+        p->on_context_released =
+            !lua_isfunction(L, 3) ? NULL : rph_on_context_released;
+    }
+
+    else if (!strcmp(i, _rph_on_uncaught_exception)) {
+        lua_setfield(L, -2, _rph_on_uncaught_exception);
+        p->on_uncaught_exception =
+            !lua_isfunction(L, 3) ? NULL : rph_on_uncaught_exception;
+    }
+
+    else if (!strcmp(i, _rph_on_focused_node_changed)) {
+        lua_setfield(L, -2, _rph_on_focused_node_changed);
+        p->on_focused_node_changed =
+            !lua_isfunction(L, 3) ? NULL : rph_on_focused_node_changed;
+    }
+
+    else if (!strcmp(i, _rph_on_process_message_received)) {
+        lua_setfield(L, -2, _rph_on_process_message_received);
+        p->on_process_message_received =
+            !lua_isfunction(L, 3) ? NULL : rph_on_process_message_received;
+    }
+
+    return 0;
+}
+
+static const luaL_Reg luacef_RenderProcessHandler_m[] = {
+    {"__index", luacef_RenderProcessHandler_index},
+    {"__newindex", luacef_RenderProcessHandler_newindex},
+    {NULL, NULL}};
+
+// ===================================================
+
+void luacef_RenderProcessHandler_reg(lua_State* L) {
+    luaL_newmetatable(L, __CefRenderProcessHandler);
+    luaL_setfuncs(L, luacef_RenderProcessHandler_m, 0);
+    lua_pop(L, 1);
+
+    lua_pushcfunction(L, luacef_RenderProcessHandler_new);
+    lua_setfield(L, -2, "newRenderProcessHandler");
+}

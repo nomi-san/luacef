@@ -1113,7 +1113,7 @@ static int luacef_v8value_create_null(lua_State *L)
 */
 static int luacef_v8value_create_bool(lua_State *L)
 {
-	int i = lua_tointeger(L, 1);
+	int i = lua_toboolean(L, 1);
 
 	cef_v8value_t *p = cef_v8value_create_bool(i);
 
