@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{62041778-6a48-40f9-bba7-0b194d68b57b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utils">
+      <UniqueIdentifier>{38206cde-45cb-4d6f-ab3b-faa0ac1a0e1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\api">
+      <UniqueIdentifier>{24c14bac-032a-4f14-bea9-cabb30ed2839}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\base">
+      <UniqueIdentifier>{17e3e845-3785-46ed-afb3-9af06f5e2574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\types">
+      <UniqueIdentifier>{8ff50400-c07e-4578-a1ca-f2b82a4258a4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\luacef.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ultils\string.c">
+      <Filter>src\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\browser_process_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\callback.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\command_line.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\context_menu_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\cookie.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\dialog_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\display_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\dom.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\download_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\download_item.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\drag_data.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\drag_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\find_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\geolocation_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\image.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\jsdialog_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\keyboard_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\life_span_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\load_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\menu_model.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\render_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\render_process_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\request.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\request_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\resource_bunble_handler.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\ssl_info.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\string_list.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\string_map.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\task.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\time.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\v8.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\values.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\web_plugin.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\api\x509_certificate.c">
+      <Filter>src\api</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\base\app.c">
+      <Filter>src\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\base\base.c">
+      <Filter>src\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\base\client.c">
+      <Filter>src\base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\browser.c">
+      <Filter>src\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\frame.c">
+      <Filter>src\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\funcs.c">
+      <Filter>src\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\ptr.c">
+      <Filter>src\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\types.c">
+      <Filter>src\types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\types\types_os.c">
+      <Filter>src\types</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\luacef.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\luacef_api.h">
+      <Filter>src</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
