@@ -444,5 +444,6 @@ MigrationBackup/
 # My local project
 .vs/
 bin/
+pro/.vs/
 *.lastbuildstate
 *.tlog
