@@ -1,15 +1,10 @@
-<p align="center">
-	<a href="https://github.com/wy3/luacef">
-		<img src="https://github.com/wy3/luacef/raw/master/lcf.png" alt="" width="215px">
-	</a>
-	<h1 align="center"> LuaCEF </h1>
-	<p align="center">
-    	<strong>Lua bindings to Chromium Embedded Framework</strong>
-	<br><br>
-	<img src="https://img.shields.io/badge/lua-5.1+-brightgreen.svg">
-	<img src="https://img.shields.io/badge/cef-3.3112/chr60-blue.svg">
-	<br>
- 	</p>
+<img align="left" src="https://github.com/wy3/luacef/raw/master/lcf.png?raw=true" width="150px">
+<h1>LuaCEF</h1>
+<p>
+    Lua bindings to Chromium Embedded Framework
+    <br>
+    <img src="https://img.shields.io/badge/lua-5.1+-brightgreen.svg">
+    <img src="https://img.shields.io/badge/cef-3.3112/chr60-blue.svg">
 </p>
 
 ### Platforms
