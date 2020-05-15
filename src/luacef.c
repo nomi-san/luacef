@@ -291,6 +291,7 @@ static void luacef_handler_reg(lua_State* L)
 	luacef_ContextMenuHandler_reg(L);
 	luacef_JSDialogHandler_reg(L);
 	luacef_DragHandler_reg(L);
+	luacef_RenderProcessHandler_reg(L);
 }
 
 static void luacef_api_reg(lua_State *L)
