@@ -7,13 +7,16 @@
     <img src="https://img.shields.io/badge/cef-3.3112/chr60-blue.svg">
 </p>
 
+<br>
+<br>
+
 ### Platforms
 - [x] Windows
 - [x] Linux
 - [ ] Mac OS
 
 ### Features
-- Use native code like C
+- Use native code like C (CEF APIs)
 - Support object oriented like C++
 - Easy to use
 - High performance
