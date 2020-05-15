@@ -307,7 +307,7 @@ static void luacef_api_reg(lua_State *L)
 /*
 	<table> require "luacef"
 */
-EXPORT(int) luaopen_luacef(lua_State* L)
+int DLL_PUBLIC luaopen_luacef(lua_State* L)
 {
 	//__mainState = L;
 

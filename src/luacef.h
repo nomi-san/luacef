@@ -2,23 +2,28 @@
 #define LUACEF_INCLUDE_H_
 #pragma once
 
-#ifndef EXPORT
-#if defined(_MSC_VER)
-#pragma warning( disable : 4273)
-#pragma warning( disable : 4090)
-#pragma warning( disable : 6011)
-#pragma warning( disable : 6001)
-#pragma warning( disable : 26451)
-#pragma warning( disable : 28251)
-#define EXPORT(t) __declspec(dllexport) t
-#define IMPORT(t) __declspec(dllimport) t
-#elif defined(__GNUC__)
-#define EXPORT(t) __attribute__((visibility("default"))) t
-#define IMPORT(t) t
+#ifdef _MSC_VER
+#pragma warning(disable: 4273)
+#pragma warning(disable: 4090)
+#pragma warning(disable: 6011)
+#pragma warning(disable: 6001)
+#pragma warning(disable: 26451)
+#pragma warning(disable: 28251)
+#endif
+
+#ifndef DLL_PUBLIC
+#if defined _WIN32 || defined __CYGWIN__
+#ifdef __GNUC__
+#define DLL_PUBLIC __attribute__ ((dllexport))
 #else
-#define EXPORT(t) t
-#define IMPORT(t) t
-#pragma warning Unknown dynamic link import/export semantics.
+#define DLL_PUBLIC __declspec(dllexport)
+#endif
+#else
+#if __GNUC__ >= 4
+#define DLL_PUBLIC __attribute__ ((visibility ("default")))
+#else
+#define DLL_PUBLIC
+#endif
 #endif
 #endif
 
@@ -27,7 +32,7 @@
 	|  |   _ _ ___|   __|   __|   __|
 	|  |__| | | .'|  |__|   __|   __|
 	|_____|___|__,|_____|_____|__|  
-	< Chromium Embedded Framework for Lua >
+	<Lua bindings to Chromium Embedded Framework>
 
 */
 
