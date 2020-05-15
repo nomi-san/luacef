@@ -4,11 +4,8 @@
 	</a>
 	<h1 align="center"> LuaCEF </h1>
 	<p align="center">
-    	<strong> Chromium Embedded Framework for Lua. </strong>
+    	<strong>Lua bindings to Chromium Embedded Framework</strong>
 	<br><br>
-	<a href="https://travis-ci.org/wy3/luacef" target="_blank">
-		<img src="https://travis-ci.org/wy3/luacef.svg?branch=master">
-	</a>
 	<img src="https://img.shields.io/badge/lua-5.1+-brightgreen.svg">
 	<img src="https://img.shields.io/badge/cef-3.3112/chr60-blue.svg">
 	<br>
@@ -177,19 +174,3 @@ cef.Shutdown()
 <p align="center">
 <img src="https://i.imgur.com/8mmTqjW.png" width="600">
 </p>
-
-<br>
-
-### License [Apache 2.0](https://github.com/wy3/luacef/blob/master/LICENSE)
-
-Copyright © 2018 by [__me__](https://github.com/wy3).
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at [here](http://www.apache.org/licenses/LICENSE-2.0).
-   
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
