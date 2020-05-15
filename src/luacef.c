@@ -333,9 +333,9 @@ EXPORT(int) luaopen_luacef(lua_State* L)
 	luacef_handler_reg(L);
 	luacef_types_reg(L);
 	luacef_funcs_reg(L);
-	luacef_frame_reg(L);
-
+	
 	luacef_Browser_reg(L);
+	luacef_Frame_reg(L);
 
 	luacef_api_reg(L);
 
