@@ -70,18 +70,22 @@ lua:newuserdata  <- alloc
 
 ### Simple Google example
 
-```lua
-cef = require("luacef")
+Noice: this example must be run via terminal, do not press Ctrl+B on Sublime Text.
+```
+$ lua example.lua
+```
 
--- new main args, app
+```lua
+local cef = require("luacef")
+
+-- new CefMainArgs, CefApp
 local args, app = cef.newMainArgs(), cef.newApp() 
 
 -- print version
 cef.printv()
 
--- new cef settings
+-- new CefSettings
 local settings = cef.newSettings {
-
     log_severity = 99;  -- disable debug log and log file       
     single_process = 1; -- must set single-process for Lua command line 
 }
@@ -90,27 +94,25 @@ local settings = cef.newSettings {
 cef.EnableHighDPISupport()
 
 -- initialize application
-code = cef.Initialize(args, settings, app)
+local code = cef.Initialize(args, settings, app)
 if (code == 0) then os.exit() end
 
--- create window info
+-- create CefWindowInfo
 local window_info = cef.newWindowInfo {
-
     -- set window name
-    window_name = "Hello World!"; -- Lua string be convert to cef string, accept unicode
+    window_name = "Hello - LuaCEF"; -- Lua string be convert to cef string, accept unicode
     style = 0x10cf0000
 }
 
--- create browser settings for create browser
+-- create CefBrowserSettings for creating browser
 local browser_settings = cef.newBrowserSettings()
 
--- create life span handler
+-- create CefLifeSpanHandler
 local life_span = cef.newLifeSpanHandler {
-
     -- implement OnAfterCreated callback function
     OnAfterCreated = function(self, browser) -- event
         print("-- on after created --")
-        print(self, browser) --> LifeSpanHandler: <address>, Browser: <address>
+        print(self, browser) --> CefLifeSpanHandler: <addr>, Browser: <addr>
         print('Window handle: ', browser:GetHost():GetWindowHandle())
     end;
 }
@@ -118,20 +120,17 @@ local life_span = cef.newLifeSpanHandler {
 -- implement OnBeforeClose with other way
 function life_span:OnBeforeClose(browser)
     print("-- on before close --")
-
     -- test browser's method
     print('can go back:', browser:CanGoBack())
     print('can go forward:', browser:CanGoForward())
-
     -- quit cef messgae loop
     cef.QuitMessageLoop()
 end;
 
--- keyboard handler
+-- CefKeyboardHandler
 keyboard = cef.newKeyboardHandler {
     -- pre-key event
     OnPreKeyEvent = function(self, browser, event, os_event, is_keyboard_shortcut)
-
         if event.type == 2 then -- test release key
             if event.windows_key_code == 0xd then
                 print('Enter key released')
@@ -143,13 +142,13 @@ keyboard = cef.newKeyboardHandler {
     end;
 }
 
--- new client
+-- new CefClient
 local client = cef.newClient {
-    -- set life span handler by return it
+    -- register CefLifeSpanHandler
     GetLifeSpanHandler = function(self) 
         return life_span
     end;
-    -- set keyboard handler
+    -- register CefKeyboardHandler
     GetKeyboardHandler = function(self)
         return keyboard
     end;
