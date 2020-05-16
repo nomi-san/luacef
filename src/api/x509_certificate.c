@@ -143,7 +143,7 @@ API_M(meta)
 	{ "__unm", API_N(unm) },
 	{ "__len", API_N(len) },
 
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 #undef SELF
@@ -323,7 +323,7 @@ API_M(meta)
 	{ "__unm", API_N(unm) },
 	{ "__len", API_N(len) },
 
-		LUAREGEND
+		{ NULL, NULL }
 };
 
 

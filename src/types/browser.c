@@ -1122,7 +1122,7 @@ static const luaL_Reg luacef_Browser_Host_m[] = {
 	{ "WasHidden",					API_N(WasHidden) },
 	{ "WasResized",					API_N(WasResized) },
 	
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 // static vfunctions ================================================

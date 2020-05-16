@@ -57,7 +57,7 @@ API_M(meta)
 	{ "__len", API_N(len) },
 	{ "__unm", API_N(unm) },
 
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 // static functions ==========================================

@@ -106,7 +106,7 @@ API(unm)
 API_M(meta)
 {
 
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 void API_N(reg)()

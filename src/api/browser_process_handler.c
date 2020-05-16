@@ -233,7 +233,7 @@ BPH_M(meta)
 	{ "__index", BPH_N(index) },
 	{ "__newindex", BPH_N(newindex) },
 
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 void BPH_N(reg)(lua_State* L)

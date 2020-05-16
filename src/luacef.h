@@ -105,10 +105,6 @@ void luacef_error_index(lua_State* L, const char* index);
 #define LCEF_M(type, mname) \
 	static const luaL_Reg luacef_##type##_##mname[] =
 
-#define LUAREGEND \
-	{ NULL, NULL }
-
-
 #if LUA_VERSION_NUM == 501
 int _lua_getfield(lua_State *L, int i, const char *k);
 #define lua_getfield _lua_getfield

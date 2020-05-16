@@ -145,7 +145,7 @@ API_M(meta)
 	{ "__unm", API_N(unm) },
 	{ "__index", API_N(index) },
 	{ "__newindex", API_N(newindex) },
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 void API_N(reg)(lua_State *L)

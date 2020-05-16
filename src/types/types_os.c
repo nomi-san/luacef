@@ -141,7 +141,7 @@ API_M(meta)
 	{ "__index" , API_N(index) },
 	{ "__newindex" , API_N(newindex) },
 
-	LUAREGEND
+    { NULL, NULL }
 };
 
 #undef SELF
@@ -379,7 +379,7 @@ API_M(meta)
 	{ "__index" , API_N(index) },
 	{ "__newindex" , API_N(newindex) },
 
-	LUAREGEND
+    { NULL, NULL }
 };
 
 

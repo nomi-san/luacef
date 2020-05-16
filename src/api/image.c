@@ -382,14 +382,14 @@ IMG_M(meta)
 
 	{ "Create", IMG_N(Create) },
 
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 IMG_M(meta_static)
 {
 	{ "Create", IMG_N(Create) },
 
-	LUAREGEND
+	{ NULL, NULL }
 };
 
 // =========================

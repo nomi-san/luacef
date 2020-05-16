@@ -80,7 +80,7 @@ IP_M(meta)
 	{ "__call", IP_N(call) },
 	{ "__unm", IP_N(unm) },
 
-	LUAREGEND
+    { NULL, NULL }
 };
 
 // NumPtr
@@ -145,7 +145,7 @@ NP_M(meta)
 	{ "__call", NP_N(call) },
 	{ "__unm", NP_N(unm) },
 
-	LUAREGEND
+    { NULL, NULL }
 };
 // =================================
 
