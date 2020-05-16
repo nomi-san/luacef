@@ -104,8 +104,12 @@ typedef struct luacef_Client {
 
 	lua_State *L;
 	int	ref;
+    
+    IMPL_REFCOUNT_MEMBER();
 
 } luacef_Client;
+
+IMPL_REFCOUNT_METHODS(luacef_Client);
 
 /*
 	<ContextMenuHandler> Client:GetContextMenuHandler()
@@ -394,6 +398,8 @@ int luacef_Client_new(lua_State* L)
 	client->base.size = sz;
 	client->L = L;
 
+    IMPL_REFCOUNT_INIT(luacef_Client, client);
+
 	if (lua_istable(L, 1)) {
 		lua_pushvalue(L, 1);
 		client->ref = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -452,31 +458,18 @@ int luacef_Client_new(lua_State* L)
 	return 1;
 }
 
-static int luacef_Client_release(lua_State* L)
-{
-	if (lua_isnoneornil(L, 1)) return 0;
-	void **ud = (void**)lua_touserdata(L, 1);
-	if (ud && *ud) {
-		luaL_unref(L, LUA_REGISTRYINDEX, ((luacef_Client*)*ud)->ref); //
-		free(*ud);
-		*ud = NULL;
-	}
-	return 0;
-}
-
-static int luacef_Client_index(lua_State* L)
+static int Client__index(lua_State* L)
 {
 	luacef_Client *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
+
+   
 
 	const char* i = lua_tostring(L, 2);
 
 	lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
 
-	if (!strcmp(i, __release__))
-		lua_pushcfunction(L, luacef_Client_release);
-
-	else if (!strcmp(i, __GetContextMenuHandler))
+	if (!strcmp(i, __GetContextMenuHandler))
 		lua_getfield(L, -1, __GetContextMenuHandler);
 
 	else if (!strcmp(i, __GetDialogHandler))
@@ -526,7 +519,7 @@ static int luacef_Client_index(lua_State* L)
 	return 1;
 }
 
-static int luacef_Client_newindex(lua_State* L)
+static int Client__newindex(lua_State* L)
 {
 	luacef_Client *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
@@ -615,24 +608,32 @@ static int luacef_Client_newindex(lua_State* L)
 	return 0;
 }
 
-static int luacef_Client_len(lua_State *L)
-{
-	lua_pushinteger(L, sizeof(luacef_Client));
-	return 1;
+static int Client__gc(lua_State* L)
+{ 
+    if (lua_isnoneornil(L, 1)) return 0;
+    void **ud = (void**)lua_touserdata(L, 1);
+
+    if (ud && *ud) {
+        luacef_Client *p = *ud;
+        p->base.release((void*)p);
+    }
+
+    return 0;
 }
 
-static const luaL_Reg luacef_Client_m[] = {
-	{ "__index", luacef_Client_index },
-	{ "__newindex", luacef_Client_newindex },
-	{ "__len", luacef_len },
-	{ "__eq", luacef_eq},
-	{ NULL, NULL}
+static const luaL_Reg Client_m[] = {
+    { "__index",    Client__index },
+    { "__newindex", Client__newindex },
+    { "__gc",       Client__gc},
+    { "__len", luacef_len },
+    { "__eq", luacef_eq},
+    { NULL, NULL}
 };
 
 void luacef_Client_reg(lua_State* L)
 {
 	luaL_newmetatable(L, __CefClient);
-	luaL_setfuncs(L, luacef_Client_m, 0);
+	luaL_setfuncs(L, Client_m, 0);
 	lua_pop(L, 1);
 
 	lua_pushcfunction(L, luacef_Client_new);

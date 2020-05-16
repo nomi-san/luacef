@@ -120,16 +120,39 @@ void luaL_setfuncs(lua_State *L, const luaL_Reg *l, int nup);
 void luaL_setmetatable(lua_State *L, const char *tname);
 #endif
 
+#define IMPL_REFCOUNT_MEMBER()      int _rc
+#define IMPL_REFCOUNT_METHODS(T)                        \
+    static void                                         \
+    CEF_CALLBACK T##_base_add_ref(T* self)              \
+    {                                                   \
+        self->_rc++;                                    \
+    }                                                   \
+    static int                                          \
+    CEF_CALLBACK T##_base_release(T* self)              \
+    {                                                   \
+        if (!--self->_rc) {                             \
+            luaL_unref(self->L,                         \
+                LUA_REGISTRYINDEX, self->ref);          \
+            free(self);                                 \
+            return 1;                                   \
+        }                                               \
+        return 0;                                       \
+    }                                                   \
+    static int                                          \
+    CEF_CALLBACK T##_base_has_one_ref(T* self)          \
+    {                                                   \
+        return self->_rc == 1;                          \
+    }
+
+#define IMPL_REFCOUNT_INIT(T, ptr)                      \
+    do {                                                \
+        ptr->_rc = 1;                                   \
+        ptr->base.add_ref = &T##_base_add_ref;          \
+        ptr->base.release = &T##_base_release;          \
+        ptr->base.has_one_ref = &T##_base_has_one_ref;  \
+    } while (0)
+
 #ifdef __cplusplus
 }
 #endif
 #endif
-
-/*/
-/*      __         __  __     ______        ______     ______     ______
-/*  __ /\ \ _____ /\ \/\ \ _ /\  __ \ ____ /\  ___\ _ /\  ___\ _ /\  ___\_
-/*   __\ \ \___  _\ \ \_\ \ _\ \ \_\ \ ____\ \ \__/___\ \  __\ __\ \  __\__
-/*    __\ \_____\ _\ \_____\ _\ \_\ \_\ ____\ \_____\ _\ \_____\ _\ \_\ ____
-/*     __\/_____/___\/_____/___\/_/\/_/______\/_____/___\/_____/___\/_/______
-/*
-/*/
