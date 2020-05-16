@@ -5,6 +5,7 @@
     <br>
     <img src="https://img.shields.io/badge/lua-5.1+-brightgreen.svg">
     <img src="https://img.shields.io/badge/cef-3.3112/chr60-blue.svg">
+    <img src="https://img.shields.io/badge/pull%20requests-are%20welcome-lightgray.svg">
 </p>
 
 <br>
