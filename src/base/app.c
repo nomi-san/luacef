@@ -1,15 +1,6 @@
 #include "../luacef.h"
 #include "include/capi/cef_app_capi.h"
 
-//              
-//  ___ ___ ___ 
-// | .'| . | . |
-// |__,|  _|  _|
-//=====|_|=|_|===
-
-
-// App //======================================
-
 typedef struct luacef_App {
 
 	cef_base_t base;
@@ -35,7 +26,11 @@ typedef struct luacef_App {
 	lua_State *L;
 	int ref;
 
+    IMPL_REFCOUNT_MEMBER();
+
 } luacef_App;
+
+IMPL_REFCOUNT_METHODS(luacef_App);
 
 /*
 	<void> App:OnBeforeCommandLineProcessing(
@@ -159,6 +154,8 @@ static int luacef_App_new(lua_State* L)
 	p->base.size = sz;
 	p->L = L;
 
+    IMPL_REFCOUNT_INIT(luacef_App, p);
+
 	if (lua_istable(L, 1)) {
 		lua_pushvalue(L, 1);
 		p->ref = luaL_ref(L, LUA_REGISTRYINDEX);
@@ -188,19 +185,19 @@ static int luacef_App_new(lua_State* L)
 	return 1;
 }
 
-static int luacef_App_release(lua_State* L)
+static int App__gc(lua_State* L)
 {
 	if (lua_isnoneornil(L, 1)) return 0;
 	void **ud = (void**)lua_touserdata(L, 1);
 	if (ud && *ud) {
-		luaL_unref(L, LUA_REGISTRYINDEX, ((luacef_App*)*ud)->ref); //
-		free(*ud);
-		*ud = NULL;
+        luacef_App *p = *ud;
+        p->base.release((void*)p);
 	}
+
 	return 0;
 }
 
-static int luacef_App_index(lua_State* L)
+static int App__index(lua_State* L)
 {
 	luacef_App *p = luacef_touserdata(L, 1);
 	if (!p) return 0;
@@ -210,10 +207,7 @@ static int luacef_App_index(lua_State* L)
 	lua_rawgeti(L, LUA_REGISTRYINDEX, p->ref);
 	lua_pushvalue(L, -1);
 
-	if (!strcmp(i, __release__))
-		lua_pushcfunction(L, luacef_App_release);
-
-	else if (!strcmp(i, __OnBeforeCommandLineProcessing))
+	if (!strcmp(i, __OnBeforeCommandLineProcessing))
 		lua_getfield(L, -1, __OnBeforeCommandLineProcessing);
 
 	else if (!strcmp(i, __OnRegisterCustomSchemes))
@@ -233,7 +227,7 @@ static int luacef_App_index(lua_State* L)
 	return 1;
 }
 
-static int luacef_App_newindex(lua_State* L)
+static int App__newindex(lua_State* L)
 {
 	luacef_App *app = luacef_touserdata(L, 1);
 	if (!app) return 0;
@@ -280,8 +274,9 @@ static int luacef_App_len(lua_State *L)
 }
 
 static const luaL_Reg luacef_App_m[] = {
-	{ "__index", luacef_App_index },
-	{ "__newindex", luacef_App_newindex },
+	{ "__index",    App__index },
+	{ "__newindex", App__newindex },
+	{ "__gc",       App__gc },
 	{ "__len", luacef_App_len },
 	{ "__eq", luacef_eq },
 	{ NULL, NULL}
