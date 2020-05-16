@@ -208,30 +208,34 @@ static int luacef_bool(lua_State *L) {
 		catch = func(<str> err)
 	}
 */
-static int luacef_trycatch(lua_State *L)
+static int luacef_try(lua_State *L)
 {
 	if (!lua_istable(L, 1)) return 0;
 
+    // Get function expr
 	lua_rawgeti(L, 1, 1);
 	if (!lua_isfunction(L, -1)) return 0;
 
+    // Call
 	int err = lua_pcall(L, 0, 1, 0);
-	lua_pushvalue(L, -1);
-	int ref = luaL_ref(L, LUA_REGISTRYINDEX);
+    const char *msg = lua_tostring(L, -1);
 
-	if (!err) {
+    // Check result
+	if (err != LUA_OK) {
+        // Get catch
 		if (!lua_getfield(L, 1, "catch"))
 			lua_rawgeti(L, -1, 2);
 		if (!lua_isfunction(L, -1))
 			return 0;
 
-		lua_call(L, 0, 0);
-	}
+        // Push err message
+        lua_pushstring(L, msg);
+		lua_call(L, 1, 0);
 
-	lua_rawgeti(L, LUA_REGISTRYINDEX, ref);
-	lua_pushvalue(L, -1);
-	luaL_unref(L, LUA_REGISTRYINDEX, ref);
-	return 1;
+        return 1;
+    }
+
+    return 0;
 }
 
 // ==============================
@@ -328,6 +332,9 @@ int DLL_PUBLIC luaopen_luacef(lua_State* L)
 	
 	lua_pushcfunction(L, luacef_print);
 	lua_setfield(L, -2, "print");
+
+    lua_pushcfunction(L, luacef_try);
+    lua_setfield(L, -2, "try");
 		
 	luacef_Client_reg(L);
 	luacef_app_reg(L);
