@@ -85,7 +85,7 @@ void* luacef_touserdata(lua_State* L, int i)
 void luacef_pushuserdata(lua_State* L, void* udata, const char* meta)
 {
 	if (!udata) return;
-	void** ud = (void**)lua_newuserdata(L, 4u);
+	void** ud = (void**)lua_newuserdata(L, sizeof(void*));
 	*ud = udata;
 	luaL_setmetatable(L, meta);
 }
